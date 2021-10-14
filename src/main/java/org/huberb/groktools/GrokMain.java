@@ -16,8 +16,6 @@
 package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
-import io.krakens.grok.api.GrokCompiler;
-import io.krakens.grok.api.Match;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,11 +24,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import org.huberb.groktools.GrokMain.GrokIt.GrokResult;
+import org.huberb.groktools.GrokIt.GrokMatchResult;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -51,6 +47,9 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"-p", "--pattern"},
             description = "grok pattern")
     private String pattern;
+    @Option(names = {"--show-default-patterns"},
+            description = "show grok default patterns")
+    private boolean showDefaultPatterns;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new GrokMain()).execute(args);
@@ -59,71 +58,34 @@ public class GrokMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        GrokIt grokIt = new GrokIt();
-        Grok grok = grokIt.setUp(this.pattern);
-        try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
-                BufferedReader br = new BufferedReader(logReader)) {
-            for (String line; (line = br.readLine()) != null;) {
-                GrokResult grokResult = grokIt.match(grok, line);
-                post_process(grokResult);
+        final GrokIt grokIt = new GrokIt();
+
+        if (showDefaultPatterns) {
+            showDefaultPatterns(grokIt.defaultPatterns());
+        } else {
+            Grok grok = grokIt.setUp(this.pattern);
+            try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
+                    BufferedReader br = new BufferedReader(logReader)) {
+                for (String line; (line = br.readLine()) != null;) {
+                    GrokMatchResult grokResult = grokIt.match(grok, line);
+                    post_process(grokResult);
+                }
             }
         }
         return 0;
     }
 
-    void post_process(GrokResult grokResult) {
-        System.out.println(grokResult);
+    void showDefaultPatterns(Map<String, String> defaultPatterns) {
+        System.out.format("grok default patterns:%n");
+        defaultPatterns.entrySet().stream()
+                .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
+                .forEach((e) -> {
+                    System.out.format("%s: %s%n", e.getKey(), e.getValue());
+                });
     }
 
-    static class GrokIt {
-
-        public GrokIt() {
-        }
-
-        Grok setUp(String pattern) {
-            final ZoneId defaultTimeZone = ZoneOffset.systemDefault();
-            final boolean namedOnly = true;
-            final GrokCompiler grokCompiler = GrokCompiler.newInstance();
-            grokCompiler.registerDefaultPatterns();
-            final Grok grok = grokCompiler.compile(pattern, defaultTimeZone, namedOnly);
-
-            return grok;
-        }
-
-        GrokResult match(Grok grok, String line) {
-            final Match match = grok.match(line);
-            final Map<String, Object> mc = match.capture();
-            //Map<String, Object> cf = match.captureFlattened();
-            final GrokResult grokResult = new GrokResult(
-                    match.getSubject(),
-                    match.getStart(),
-                    match.getEnd(),
-                    mc
-            );
-
-            return grokResult;
-        }
-
-        static class GrokResult {
-
-            CharSequence subject;
-            int start;
-            int end;
-            Map<String, Object> m;
-
-            public GrokResult(CharSequence subject, int start, int end, Map<String, Object> m) {
-                this.subject = subject;
-                this.start = start;
-                this.end = end;
-                this.m = m;
-            }
-
-            @Override
-            public String toString() {
-                return "GrokResult{" + "subject=" + subject + ", start=" + start + ", end=" + end + ", m=" + m + '}';
-            }
-
-        }
+    void post_process(GrokMatchResult grokResult) {
+        System.out.println(grokResult);
     }
 
     /**
