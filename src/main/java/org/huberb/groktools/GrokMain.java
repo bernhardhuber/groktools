@@ -20,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -38,7 +39,7 @@ import picocli.CommandLine.Option;
 @Command(name = "grokMain",
         mixinStandardHelpOptions = true,
         version = "grokMain 1.0-SNAPSHOT",
-        description = "parse log files")
+        description = "parse unstructured  files")
 public class GrokMain implements Callable<Integer> {
 
     @Option(names = {"-f", "--file"},
@@ -58,34 +59,41 @@ public class GrokMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        final GrokIt grokIt = new GrokIt();
 
         if (showDefaultPatterns) {
-            showDefaultPatterns(grokIt.defaultPatterns());
+            executeShowDefaultPatterns();
         } else {
-            Grok grok = grokIt.setUp(this.pattern);
-            try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
-                    BufferedReader br = new BufferedReader(logReader)) {
-                for (String line; (line = br.readLine()) != null;) {
-                    GrokMatchResult grokResult = grokIt.match(grok, line);
-                    post_process(grokResult);
-                }
-            }
+            executeMatching();
         }
         return 0;
     }
 
-    void showDefaultPatterns(Map<String, String> defaultPatterns) {
-        System.out.format("grok default patterns:%n");
+    //
+    void executeShowDefaultPatterns() {
+        final GrokIt grokIt = new GrokIt();
+        final Map<String, String> defaultPatterns = grokIt.defaultPatterns();
+        System_out_format("grok default patterns:%n");
         defaultPatterns.entrySet().stream()
                 .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                 .forEach((e) -> {
-                    System.out.format("%s: %s%n", e.getKey(), e.getValue());
+                    System_out_format("%s: %s%n", e.getKey(), e.getValue());
                 });
     }
 
-    void post_process(GrokMatchResult grokResult) {
-        System.out.println(grokResult);
+    void executeMatching() throws IOException {
+        final GrokIt grokIt = new GrokIt();
+        Grok grok = grokIt.setUp(this.pattern);
+        try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
+                BufferedReader br = new BufferedReader(logReader)) {
+            for (String line; (line = br.readLine()) != null;) {
+                GrokMatchResult grokResult = grokIt.match(grok, line);
+                executePostMatching(grokResult);
+            }
+        }
+    }
+
+    void executePostMatching(GrokMatchResult grokResult) {
+        System_out_format("%s%n", grokResult);
     }
 
     /**
@@ -115,5 +123,9 @@ public class GrokMain implements Callable<Integer> {
             }
             return r;
         }
+    }
+
+    void System_out_format(String format, Object... args) {
+        System.out.format(format, args);
     }
 }

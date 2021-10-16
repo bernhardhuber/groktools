@@ -31,9 +31,6 @@ import org.junit.jupiter.params.provider.CsvSource;
  */
 public class GrokItTest {
 
-    public GrokItTest() {
-    }
-
     @Test
     public void testMatch_ServerLog_line1() {
         final GrokIt grokit = new GrokIt();
