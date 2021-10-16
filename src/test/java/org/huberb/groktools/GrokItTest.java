@@ -16,6 +16,10 @@
 package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
+import io.krakens.grok.api.Match;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,9 +39,9 @@ public class GrokItTest {
     public void testMatch_ServerLog_line1() {
         final GrokIt grokit = new GrokIt();
         final String pattern = "%{TIMESTAMP_ISO8601:datetime} "
-                + "%{LOGLEVEL:level}%{SPACE}"
-                + "\\[%{DATA:category}\\]%{SPACE}"
-                + "\\(%{DATA:thread}\\)%{SPACE}"
+                + "%{LOGLEVEL:level}%{SPACE:UNWANTED}"
+                + "\\[%{DATA:category}\\]%{SPACE:UNWANTED}"
+                + "\\(%{DATA:thread}\\)%{SPACE:UNWANTED}"
                 + "%{GREEDYDATA:message}";
         final Grok grok = grokit.setUp(pattern);
         final String line = "2019-03-04 22:30:16,563 "
@@ -53,11 +57,17 @@ public class GrokItTest {
                 + "end=106, "
                 + "m={"
                 + "datetime=2019-03-04 22:30:16,563, "
+                + "YEAR=2019, "
+                + "MONTHNUM=03, "
+                + "HOUR=[22, null], "
                 + "level=DEBUG, "
+                + "MINUTE=[30, null], "
+                + "SECOND=16,563, "
                 + "thread=MSC service thread 1-2, "
                 + "category=org.jboss.as.config, "
-                + "message=Configured system properties:}"
-                + "}", grokResult.toString());
+                + "message=Configured system properties:, "
+                + "ISO8601_TIMEZONE=null, "
+                + "MONTHDAY=04}}", grokResult.toString());
         assertEquals(0, grokResult.start);
         assertEquals(106, grokResult.end);
         assertEquals("2019-03-04 22:30:16,563", grokResult.m.get("datetime"));
@@ -70,13 +80,13 @@ public class GrokItTest {
     @Test
     public void testMatch_ServerLog_line2() {
         final String pattern = "%{TIMESTAMP_ISO8601:datetime} "
-                + "%{LOGLEVEL:level}%{SPACE}"
-                + "\\[%{DATA:category}\\]%{SPACE}"
-                + "\\(%{DATA:thread}\\)%{SPACE}"
+                + "%{LOGLEVEL:level}%{SPACE:UNWANTED}"
+                + "\\[%{DATA:category}\\]%{SPACE:UNWANTED}"
+                + "\\(%{DATA:thread}\\)%{SPACE:UNWANTED}"
                 + "%{GREEDYDATA:message}";
         final GrokIt grokit = new GrokIt();
         final Grok grok = grokit.setUp(pattern);
-        String line = "2019-03-04 22:30:17,879 "
+        final String line = "2019-03-04 22:30:17,879 "
                 + "INFO  "
                 + "[org.wildfly.security] "
                 + "(ServerService Thread Pool -- 27) "
@@ -90,12 +100,14 @@ public class GrokItTest {
                 + "end=132, "
                 + "m={"
                 + "datetime=2019-03-04 22:30:17,879, "
-                + "level=INFO, "
+                + "YEAR=2019, MONTHNUM=03, HOUR=[22, null], "
+                + "level=INFO, MINUTE=[30, null], "
+                + "SECOND=17,879, "
                 + "thread=ServerService Thread Pool -- 27, "
                 + "category=org.wildfly.security, "
-                + "message=ELY00001: WildFly Elytron version 1.8.0.Final"
-                + "}"
-                + "}", grokResult.toString());
+                + "message=ELY00001: WildFly Elytron version 1.8.0.Final, "
+                + "ISO8601_TIMEZONE=null, "
+                + "MONTHDAY=04}}", grokResult.toString());
         assertEquals(0, grokResult.start);
         assertEquals(132, grokResult.end);
         assertEquals("2019-03-04 22:30:17,879", grokResult.m.get("datetime"));
@@ -115,7 +127,7 @@ public class GrokItTest {
         "2019-03-04 22:30:19,056 INFO  [org.jboss.as.jsf] (ServerService Thread Pool -- 56) WFLYJSF0007: Activated the following JSF Implementations: [main], true",
         "2019-03-04 22:30:19,056 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 49) WFLYCLINF0001: Activating Infinispan subsystem., true",
         "2019-03-04 22:30:19,041 INFO  [org.wildfly.extension.microprofile.opentracing] (ServerService Thread Pool -- 61) WFLYTRACEXT0001: Activating MicroProfile OpenTracing Subsystem, true"})
-    public void hello(String line, boolean matches) {
+    public void testMatching_VaryLines(String line, boolean matches) {
         final String pattern = "%{TIMESTAMP_ISO8601:datetime} "
                 + "%{LOGLEVEL:level}%{SPACE}"
                 + "\\[%{DATA:category}\\]%{SPACE}"
@@ -125,7 +137,7 @@ public class GrokItTest {
         final Grok grok = grokit.setUp(pattern);
         final GrokMatchResult grokResult = grokit.match(grok, line);
         assertNotNull(grokResult);
-        String m = grokResult.toString();
+        final String m = grokResult.toString();
         if (matches) {
             assertFalse(grokResult.m.isEmpty(), m);
             assertTrue(grokResult.start == 0 && grokResult.end > 0, m);
@@ -135,5 +147,58 @@ public class GrokItTest {
             assertTrue(grokResult.start == 0 && grokResult.end == 0, m);
             assertEquals(0, grokResult.m.entrySet().size(), m);
         }
+    }
+
+    @Test
+    public void testParseCombinedAccessLog() {
+        final String line = "112.169.19.192 "
+                + "- "
+                + "- "
+                + "[06/Mar/2013:01:36:30 +0900] "
+                + "\"GET / HTTP/1.1\" "
+                + "200 "
+                + "44346 "
+                + "\"-\" "
+                + "\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.152 Safari/537.22\"";
+        final GrokIt grokit = new GrokIt();
+        final Grok grok = grokit.setUp("%{COMBINEDAPACHELOG}");
+
+        final Match match = grok.match(line);
+        final Map<String, Object> map = match.capture();
+
+        assertEquals("GET", map.get("verb"));
+        assertEquals("06/Mar/2013:01:36:30 +0900", map.get("timestamp"));
+        assertEquals("44346", map.get("bytes"));
+        assertEquals("/", map.get("request"));
+        assertEquals("1.1", map.get("httpversion"));
+    }
+
+    @Test
+    public void testParseServerLogWithCustomPatternDefinitions() {
+        final String line = "2019-05-17 "
+                + "20:00:32,140 "
+                + "INFO  "
+                + "[xx.yyy.zzzz] "
+                + "(Thread-99) "
+                + "message response handled in: 62 ms; message counter: 2048; total message counter: 7094";
+        final Map<String, String> patternDefinitions = Stream.of(new String[][]{
+            {"MY_DATE", "%{YEAR}-%{MONTHNUM}-%{MONTHDAY}"},
+            {"MY_TIMESTAMP", "%{MY_DATE:date} %{TIME:time},%{INT:millis}"},
+            {"MY_MODULE", "\\[%{NOTSPACE}\\]"},
+            {"MY_THREAD", "\\(%{NOTSPACE}\\)"},
+            {"MY_SERVERLOG", "%{MY_TIMESTAMP} %{LOGLEVEL}%{SPACE:UNWANTED}%{MY_MODULE} %{MY_THREAD} "
+                + "message response handled "
+                + "in: %{INT:response_time} ms; "
+                + "%{GREEDYDATA:UNWANTED}"},}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
+
+        final GrokIt grokit = new GrokIt();
+        final Grok grok = grokit.setUp("%{MY_SERVERLOG}", patternDefinitions);
+        final Map<String, Object> map = grok.match(line).capture();
+        final String m = String.format("map %s", map.toString());
+        assertEquals(16, map.size(), m);
+        assertEquals("2019-05-17", map.get("date"), m);
+        assertEquals("20:00:32", map.get("time"), m);
+        assertEquals("140", map.get("millis"), m);
+        assertEquals("62", map.get("response_time"), m);
     }
 }

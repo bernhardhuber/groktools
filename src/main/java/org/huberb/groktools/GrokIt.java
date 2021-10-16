@@ -20,7 +20,9 @@ import io.krakens.grok.api.GrokCompiler;
 import io.krakens.grok.api.Match;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -31,16 +33,41 @@ class GrokIt {
     public GrokIt() {
     }
 
+    /**
+     * Get a default Grok instance using the default pattern files loaded from
+     * the classpath.
+     *
+     * @param pattern Grok pattern to compile
+     * @return Grok object
+     */
     Grok setUp(String pattern) {
+        return setUp(pattern, Collections.emptyMap());
+    }
+
+    /**
+     * Get a default Grok instance using the default pattern files loaded from
+     * the classpath.
+     *
+     * @param pattern Grok pattern to compile
+     * @param patternDefinitions custom patterns to be registered
+     * @return Grok object
+     */
+    public Grok setUp(String pattern, Map<String, String> patternDefinitions) {
+        Objects.requireNonNull(pattern, "Grok pattern to compile is null");
         final ZoneId defaultTimeZone = ZoneOffset.systemDefault();
-        final boolean namedOnly = true;
+        final boolean namedOnly = false;
         final GrokCompiler grokCompiler = GrokCompiler.newInstance();
         grokCompiler.registerDefaultPatterns();
+        if (patternDefinitions != null && !patternDefinitions.isEmpty()) {
+            grokCompiler.register(patternDefinitions);
+        }
         final Grok grok = grokCompiler.compile(pattern, defaultTimeZone, namedOnly);
         return grok;
     }
 
     GrokMatchResult match(Grok grok, String line) {
+        Objects.requireNonNull(grok, "Grok is null");
+        Objects.requireNonNull(line, "Line is null");
         final Match match = grok.match(line);
         final Map<String, Object> mc = match.capture();
         //Map<String, Object> cf = match.captureFlattened();
@@ -57,10 +84,10 @@ class GrokIt {
 
     static class GrokMatchResult {
 
-        CharSequence subject;
-        int start;
-        int end;
-        Map<String, Object> m;
+        final CharSequence subject;
+        final int start;
+        final int end;
+        final Map<String, Object> m;
 
         public GrokMatchResult(CharSequence subject, int start, int end, Map<String, Object> m) {
             this.subject = subject;
