@@ -82,7 +82,9 @@ public class GrokMain implements Callable<Integer> {
 
     void executeMatching() throws IOException {
         final GrokIt grokIt = new GrokIt();
-        Grok grok = grokIt.setUp(this.pattern);
+        final Grok grok = new GrokBuilder()
+                .pattern(this.pattern)
+                .build();
         try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
                 BufferedReader br = new BufferedReader(logReader)) {
             for (String line; (line = br.readLine()) != null;) {

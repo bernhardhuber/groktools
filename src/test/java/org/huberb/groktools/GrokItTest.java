@@ -16,7 +16,6 @@
 package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
-import io.krakens.grok.api.Match;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -43,7 +42,7 @@ public class GrokItTest {
                 + "\\[%{DATA:category}\\]%{SPACE:UNWANTED}"
                 + "\\(%{DATA:thread}\\)%{SPACE:UNWANTED}"
                 + "%{GREEDYDATA:message}";
-        final Grok grok = grokit.setUp(pattern);
+        final Grok grok = grok_setUp(pattern);
         final String line = "2019-03-04 22:30:16,563 "
                 + "DEBUG "
                 + "[org.jboss.as.config] "
@@ -85,7 +84,7 @@ public class GrokItTest {
                 + "\\(%{DATA:thread}\\)%{SPACE:UNWANTED}"
                 + "%{GREEDYDATA:message}";
         final GrokIt grokit = new GrokIt();
-        final Grok grok = grokit.setUp(pattern);
+        final Grok grok = grok_setUp(pattern);
         final String line = "2019-03-04 22:30:17,879 "
                 + "INFO  "
                 + "[org.wildfly.security] "
@@ -129,12 +128,12 @@ public class GrokItTest {
         "2019-03-04 22:30:19,041 INFO  [org.wildfly.extension.microprofile.opentracing] (ServerService Thread Pool -- 61) WFLYTRACEXT0001: Activating MicroProfile OpenTracing Subsystem, true"})
     public void testMatching_VaryLines(String line, boolean matches) {
         final String pattern = "%{TIMESTAMP_ISO8601:datetime} "
-                + "%{LOGLEVEL:level}%{SPACE}"
-                + "\\[%{DATA:category}\\]%{SPACE}"
-                + "\\(%{DATA:thread}\\)%{SPACE}"
+                + "%{LOGLEVEL:level}%{SPACE:UNWANTED}"
+                + "\\[%{DATA:category}\\]%{SPACE:UNWANTED}"
+                + "\\(%{DATA:thread}\\)%{SPACE:UNWANTED}"
                 + "%{GREEDYDATA:message}";
         final GrokIt grokit = new GrokIt();
-        final Grok grok = grokit.setUp(pattern);
+        final Grok grok = grok_setUp(pattern);
         final GrokMatchResult grokResult = grokit.match(grok, line);
         assertNotNull(grokResult);
         final String m = grokResult.toString();
@@ -159,12 +158,12 @@ public class GrokItTest {
                 + "200 "
                 + "44346 "
                 + "\"-\" "
-                + "\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.152 Safari/537.22\"";
+                + "\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) "
+                + "AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.152 Safari/537.22\"";
         final GrokIt grokit = new GrokIt();
-        final Grok grok = grokit.setUp("%{COMBINEDAPACHELOG}");
-
-        final Match match = grok.match(line);
-        final Map<String, Object> map = match.capture();
+        final Grok grok = grok_setUp("%{COMBINEDAPACHELOG}");
+        final GrokMatchResult matchResult = grokit.match(grok, line);
+        final Map<String, Object> map = matchResult.m;
 
         assertEquals("GET", map.get("verb"));
         assertEquals("06/Mar/2013:01:36:30 +0900", map.get("timestamp"));
@@ -191,8 +190,7 @@ public class GrokItTest {
                 + "in: %{INT:response_time} ms; "
                 + "%{GREEDYDATA:UNWANTED}"},}).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
-        final GrokIt grokit = new GrokIt();
-        final Grok grok = grokit.setUp("%{MY_SERVERLOG}", patternDefinitions);
+        final Grok grok = grok_setUp("%{MY_SERVERLOG}", patternDefinitions);
         final Map<String, Object> map = grok.match(line).capture();
         final String m = String.format("map %s", map.toString());
         assertEquals(16, map.size(), m);
@@ -200,5 +198,19 @@ public class GrokItTest {
         assertEquals("20:00:32", map.get("time"), m);
         assertEquals("140", map.get("millis"), m);
         assertEquals("62", map.get("response_time"), m);
+    }
+
+    private Grok grok_setUp(String my_serverlog, Map<String, String> patternDefinitions) {
+        final Grok grok = new GrokBuilder()
+                .patternDefinitions(my_serverlog, patternDefinitions)
+                .build();
+        return grok;
+    }
+
+    private Grok grok_setUp(String combinedapachelog) {
+        final Grok grok = new GrokBuilder()
+                .pattern(combinedapachelog)
+                .build();
+        return grok;
     }
 }

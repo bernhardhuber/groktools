@@ -18,13 +18,11 @@ package org.huberb.groktools;
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
 import io.krakens.grok.api.Match;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 
 /**
+ * Mediator for setting up {@link GrokCompiler}, and {@link Grok}.
  *
  * @author berni3
  */
@@ -33,39 +31,8 @@ class GrokIt {
     public GrokIt() {
     }
 
-    /**
-     * Get a default Grok instance using the default pattern files loaded from
-     * the classpath.
-     *
-     * @param pattern Grok pattern to compile
-     * @return Grok object
-     */
-    Grok setUp(String pattern) {
-        return setUp(pattern, Collections.emptyMap());
-    }
-
-    /**
-     * Get a default Grok instance using the default pattern files loaded from
-     * the classpath.
-     *
-     * @param pattern Grok pattern to compile
-     * @param patternDefinitions custom patterns to be registered
-     * @return Grok object
-     */
-    public Grok setUp(String pattern, Map<String, String> patternDefinitions) {
-        Objects.requireNonNull(pattern, "Grok pattern to compile is null");
-        final ZoneId defaultTimeZone = ZoneOffset.systemDefault();
-        final boolean namedOnly = false;
-        final GrokCompiler grokCompiler = GrokCompiler.newInstance();
-        grokCompiler.registerDefaultPatterns();
-        if (patternDefinitions != null && !patternDefinitions.isEmpty()) {
-            grokCompiler.register(patternDefinitions);
-        }
-        final Grok grok = grokCompiler.compile(pattern, defaultTimeZone, namedOnly);
-        return grok;
-    }
-
-    GrokMatchResult match(Grok grok, String line) {
+    //----
+    public GrokMatchResult match(Grok grok, String line) {
         Objects.requireNonNull(grok, "Grok is null");
         Objects.requireNonNull(line, "Line is null");
         final Match match = grok.match(line);
@@ -75,10 +42,10 @@ class GrokIt {
         return grokResult;
     }
 
-    Map<String, String> defaultPatterns() {
+    public Map<String, String> defaultPatterns() {
         final GrokCompiler grokCompiler = GrokCompiler.newInstance();
         grokCompiler.registerDefaultPatterns();
-        Map<String, String> registeredDefaultPatterns = grokCompiler.getPatternDefinitions();
+        final Map<String, String> registeredDefaultPatterns = grokCompiler.getPatternDefinitions();
         return registeredDefaultPatterns;
     }
 
