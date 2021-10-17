@@ -200,16 +200,17 @@ public class GrokItTest {
         assertEquals("62", map.get("response_time"), m);
     }
 
-    private Grok grok_setUp(String my_serverlog, Map<String, String> patternDefinitions) {
+    private Grok grok_setUp(String pattern, Map<String, String> patternDefinitions) {
         final Grok grok = new GrokBuilder()
-                .patternDefinitions(my_serverlog, patternDefinitions)
+                .pattern(pattern)
+                .patternDefinitions(patternDefinitions)
                 .build();
         return grok;
     }
 
-    private Grok grok_setUp(String combinedapachelog) {
+    private Grok grok_setUp(String pattern) {
         final Grok grok = new GrokBuilder()
-                .pattern(combinedapachelog)
+                .pattern(pattern)
                 .build();
         return grok;
     }
