@@ -16,6 +16,7 @@
 package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
+import java.io.IOException;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -201,17 +202,25 @@ public class GrokItTest {
     }
 
     private Grok grok_setUp(String pattern, Map<String, String> patternDefinitions) {
-        final Grok grok = new GrokBuilder()
-                .pattern(pattern)
-                .patternDefinitions(patternDefinitions)
-                .build();
-        return grok;
+        try {
+            final Grok grok = new GrokBuilder()
+                    .pattern(pattern)
+                    .patternDefinitions(patternDefinitions)
+                    .build();
+            return grok;
+        } catch (IOException ioex) {
+            throw new AssertionError("Unexpected exception", ioex);
+        }
     }
 
     private Grok grok_setUp(String pattern) {
-        final Grok grok = new GrokBuilder()
-                .pattern(pattern)
-                .build();
-        return grok;
+        try {
+            final Grok grok = new GrokBuilder()
+                    .pattern(pattern)
+                    .build();
+            return grok;
+        } catch (IOException ioex) {
+            throw new AssertionError("Unexpected exception", ioex);
+        }
     }
 }

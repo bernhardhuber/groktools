@@ -16,6 +16,7 @@
 package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
+import java.io.IOException;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -50,12 +51,11 @@ public class GrokItServerLogTest {
         + "WFLYSRV0039: Creating http management service using socket-binding (management-http)"
 
     })
-    public void testWildflyServerlog(String line) {
+    public void testWildflyServerlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{WILDFLY_SERVERLOG}")
                 .patternDefinitionsFromClasspath("/server_log")
                 .namedOnly(true);
-
         final Grok grok = grokBuilder.build();
         final GrokIt grokIt = new GrokIt();
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
@@ -80,7 +80,7 @@ public class GrokItServerLogTest {
         // four spaces before | except for field message
         "2020-05-02 07:26:24,895    | INFO    | Connector amqp started | org.apache.activemq.broker.TransportConnector    | main    "
     })
-    public void testActiveMqActiveMqlog(String line) {
+    public void testActiveMqActiveMqlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{ACTIVEMQ_ACTIVEMQLOG}")
                 .patternDefinitionsFromClasspath("/server_log")
@@ -108,7 +108,7 @@ public class GrokItServerLogTest {
         // one spaces after INFO
         "[2020-01-30T22:27:01,337][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=>9600}"
     })
-    public void testElkstackLogstashlog(String line) {
+    public void testElkstackLogstashlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{ELKSTACK_LOGSTASHLOG}")
                 .patternDefinitionsFromClasspath("/server_log")

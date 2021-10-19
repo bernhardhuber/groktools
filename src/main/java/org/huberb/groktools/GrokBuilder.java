@@ -17,6 +17,10 @@ package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
 import io.krakens.grok.api.GrokCompiler;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -35,7 +39,8 @@ public class GrokBuilder {
     private ZoneId defaultTimeZone = ZoneOffset.systemDefault();
     private boolean namedOnly = false;
     private boolean registerDefaultPatterns = true;
-    private String patternDefinitionFromClasspath;
+    private String patternDefinitionsFromClasspath;
+    private File patternDefinitionsFromFile;
 
     /**
      * GrokBuilder shall use this pattern.
@@ -66,7 +71,12 @@ public class GrokBuilder {
     }
 
     public GrokBuilder patternDefinitionsFromClasspath(String resource) {
-        this.patternDefinitionFromClasspath = resource;
+        this.patternDefinitionsFromClasspath = resource;
+        return this;
+    }
+
+    public GrokBuilder patternDefinitionsFromFile(File file) {
+        this.patternDefinitionsFromFile = file;
         return this;
     }
 
@@ -92,7 +102,7 @@ public class GrokBuilder {
         return this;
     }
 
-    public Grok build() {
+    public Grok build() throws IOException {
         //---        
         final GrokCompiler grokCompiler = GrokCompiler.newInstance();
         if (registerDefaultPatterns) {
@@ -101,8 +111,13 @@ public class GrokBuilder {
         if (patternDefinitions != null && !patternDefinitions.isEmpty()) {
             grokCompiler.register(patternDefinitions);
         }
-        if (patternDefinitionFromClasspath != null) {
-            grokCompiler.registerPatternFromClasspath(patternDefinitionFromClasspath);
+        if (patternDefinitionsFromClasspath != null) {
+            grokCompiler.registerPatternFromClasspath(patternDefinitionsFromClasspath);
+        }
+        if (patternDefinitionsFromFile != null) {
+            try (Reader reader = new FileReader(patternDefinitionsFromFile)) {
+                grokCompiler.register(reader);
+            }
         }
 
         final Grok grok = grokCompiler.compile(pattern, defaultTimeZone, namedOnly);

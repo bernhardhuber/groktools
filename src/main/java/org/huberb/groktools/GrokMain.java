@@ -25,8 +25,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -45,12 +47,24 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"-f", "--file"},
             description = "read from log file, if not specified read log from stdin")
     private File logFile;
+    @Option(names = {"--max-read-lines"},
+            description = "maximum number of read lines")
+    private int maxReadLineCount = -1;
     @Option(names = {"-p", "--pattern"},
             description = "grok pattern")
     private String pattern;
+
+    private File pattendefinitionsFile;
+    private String pattendefinitionsFromClasspath;
+    private String patterndefinitions;
+
     @Option(names = {"--show-default-patterns"},
             description = "show grok default patterns")
     private boolean showDefaultPatterns;
+
+    @Option(names = {"--output-matchresult-as-csv"},
+            description = "output match results as csv")
+    private boolean outputMatchResultAsCsv;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new GrokMain()).execute(args);
@@ -59,7 +73,6 @@ public class GrokMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-
         if (showDefaultPatterns) {
             executeShowDefaultPatterns();
         } else {
@@ -84,18 +97,95 @@ public class GrokMain implements Callable<Integer> {
         final GrokIt grokIt = new GrokIt();
         final Grok grok = new GrokBuilder()
                 .pattern(this.pattern)
+                .namedOnly(true)
                 .build();
         try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
-                BufferedReader br = new BufferedReader(logReader)) {
+                final BufferedReader br = new BufferedReader(logReader)) {
+            int readLineCount = 0;
             for (String line; (line = br.readLine()) != null;) {
-                GrokMatchResult grokResult = grokIt.match(grok, line);
-                executePostMatching(grokResult);
+                readLineCount += 1;
+                if (maxReadLineCount >= 0 && readLineCount > maxReadLineCount) {
+                    break;
+                }
+                final GrokMatchResult grokResult = grokIt.match(grok, line);
+                executePostMatching(readLineCount, grokResult);
             }
         }
     }
 
-    void executePostMatching(GrokMatchResult grokResult) {
-        System_out_format("%s%n", grokResult);
+    void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
+        boolean skip = false;
+        skip = skip || grokResult == null;
+        skip = skip || (grokResult.start == 0 && grokResult.end == 0);
+        skip = skip || grokResult.m == null;
+        skip = skip || grokResult.m.isEmpty();
+        if (skip) {
+            return;
+        }
+        if (outputMatchResultAsCsv) {
+            new OutputGrokResult()
+                    .outputGrokResultAsCsv(readLineCount, grokResult);
+        } else {
+            new OutputGrokResult()
+                    .outputGrokResultAsIs(readLineCount, grokResult);
+        }
+    }
+
+    static class OutputGrokResult {
+
+        void outputGrokResultAsIs(int readLineCount, GrokMatchResult grokResult) {
+            System_out_format("%d %s%n", readLineCount, grokResult);
+        }
+
+        void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
+            final List<String> keysSortedList = grokResult.m.keySet().stream()
+                    .sorted()
+                    .collect(Collectors.toList());
+            if (readLineCount == 1) {
+                final StringBuilder sb = new StringBuilder();
+                int cols = 0;
+                for (String k : keysSortedList) {
+                    final Object o = k;
+                    final String v = convertObjectToString(o);
+                    if (cols > 0) {
+                        sb.append(",");
+                    }
+                    sb.append(String.format("\"%s\"", v));
+                    cols += 1;
+                }
+                System_out_format("%s%n", sb.toString());
+            }
+            {
+                final StringBuilder sb = new StringBuilder();
+                int cols = 0;
+                for (String k : keysSortedList) {
+                    final Object o = grokResult.m.getOrDefault(k, "");
+                    final String v = convertObjectToString(o);
+                    if (cols > 0) {
+                        sb.append(",");
+                    }
+                    sb.append(String.format("\"%s\"", v));
+                    cols += 1;
+                }
+                System_out_format("%s%n", sb.toString());
+            }
+        }
+
+        String convertObjectToString(Object o) {
+            final String v;
+            if (o == null) {
+                v = "";
+            } else if (o instanceof String) {
+                v = (String) o;
+            } else {
+                v = String.valueOf(o);
+            }
+            return v;
+        }
+
+        void System_out_format(String format, Object... args) {
+            System.out.format(format, args);
+        }
     }
 
     /**
