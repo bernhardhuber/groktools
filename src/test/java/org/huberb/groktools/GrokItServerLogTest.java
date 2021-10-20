@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class GrokItServerLogTest {
 
-    final String serverlogPatterndefinitions = "/server_log";
+    final String serverlogPatterndefinitions = "/patterns/server_log";
 
     @ParameterizedTest
     @MethodSource(value = "wildflyserverlog")
@@ -77,7 +77,7 @@ public class GrokItServerLogTest {
     }
 
     static Stream<String> wildflyserverlog() {
-        List<String> l = Arrays.asList(
+        final List<String> l = Arrays.asList(
                 // example 1
                 // all fields separated by single space
                 "2019-03-04 22:30:18,900 INFO [org.jboss.as.server] (Controller Boot Thread) "
@@ -95,7 +95,7 @@ public class GrokItServerLogTest {
                 + "(Controller Boot Thread)    "
                 + "WFLYSRV0039: Creating http management service using socket-binding (management-http)"
         );
-        Stream<String> result = l.stream();
+        final Stream<String> result = l.stream();
         return result;
     }
 }

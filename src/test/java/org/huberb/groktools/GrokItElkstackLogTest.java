@@ -34,14 +34,14 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class GrokItElkstackLogTest {
 
-    final String serverlogPatterndefinitions = "/server_log";
+    final String serverlogPatterndefinitions = "/patterns/server_log";
 
     @ParameterizedTest
     @MethodSource(value = "logstashlog")
     public void testElkstackLogstashlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{ELKSTACK_LOGSTASHLOG}")
-                .patternDefinitionsFromClasspath("/server_log")
+                .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(false);
 
         final Grok grok = grokBuilder.build();
@@ -58,7 +58,7 @@ public class GrokItElkstackLogTest {
     }
 
     static Stream<String> logstashlog() {
-        List<String> l = Arrays.asList(
+        final List<String> l = Arrays.asList(
                 // example 1 
                 // as is from a log file
                 // one spaces after INFO
@@ -67,7 +67,7 @@ public class GrokItElkstackLogTest {
                 // no padding space
                 "[2020-01-30T22:27:01,337][INFO][logstash.agent] Successfully started Logstash API endpoint {:port=>9600}"
         );
-        Stream<String> result = l.stream();
+        final Stream<String> result = l.stream();
         return result;
     }
 }

@@ -34,7 +34,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class GrokItActivemqLogTest {
 
-    final String serverlogPatterndefinitions = "/server_log";
+    final String serverlogPatterndefinitions = "/patterns/server_log";
 
     @ParameterizedTest
     @MethodSource(value = "activmqlog")
@@ -82,16 +82,19 @@ public class GrokItActivemqLogTest {
     }
 
     static Stream<String> activmqlog() {
-        List<String> l = Arrays.asList(
+        final List<String> l = Arrays.asList(
                 // example 1 
                 // as is from a log file
                 // two spaces after INFO
                 "2020-05-02 07:26:24,895 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main",
-                // example 1 
+                // example 2 
                 // four spaces before | except for field message
-                "2020-05-02 07:26:24,895    | INFO    | Connector amqp started | org.apache.activemq.broker.TransportConnector    | main    "
+                "2020-05-02 07:26:24,895    | INFO    | Connector amqp started | org.apache.activemq.broker.TransportConnector    | main    ",
+                // example 3 
+                // no spaces
+                "2020-05-02 07:26:24,895|INFO| Connector amqp started | org.apache.activemq.broker.TransportConnector| main"
         );
-        Stream<String> result = l.stream();
+        final Stream<String> result = l.stream();
         return result;
     }
 }
