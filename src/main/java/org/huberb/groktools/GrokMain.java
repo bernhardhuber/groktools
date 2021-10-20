@@ -47,25 +47,25 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"-f", "--file"},
             description = "read from log file, if not specified read log from stdin")
     private File logFile;
-    @Option(names = {"--max-read-lines"},
-            description = "maximum number of read lines")
-    private int maxReadLineCount = -1;
+    @Option(names = {"--read-max-lines-count"},
+            description = "read maximum number lines")
+    private int readMaxLinesCount = -1;
     @Option(names = {"-p", "--pattern"},
             description = "grok pattern")
     private String pattern;
 
-    @Option(names = {"--patterndefinitions-file"},
+    @Option(names = {"--pattern-definitions-file"},
             description = "read pattern definition from a file")
-    private File patterndefinitionsFile;
-    @Option(names = {"--patterndefinitions-classpath"},
+    private File patternDefinitionsFile;
+    @Option(names = {"--pattern-definitions-classpath"},
             description = "read pattern definition from classpath")
-    private String patterndefinitionsClasspath;
+    private String patternDefinitionsClasspath;
 
-    private String patterndefinitions;
+    private String patternDefinitions;
 
-    @Option(names = {"--show-default-patterns"},
-            description = "show grok default patterns")
-    private boolean showDefaultPatterns;
+    @Option(names = {"--show-patterns-definitions"},
+            description = "show grok pattern definitions")
+    private boolean showPatternDefinitions;
 
     @Option(names = {"--output-matchresult-as-csv"},
             description = "output match results as csv")
@@ -86,18 +86,18 @@ public class GrokMain implements Callable<Integer> {
             // Hack: GrokCompiler wants a pattern anyway
             grokBuilder.pattern("%{SPACE:UNWANTED}");
         }
-        if (patterndefinitionsClasspath != null) {
-            System_out_format("register pattern definitions from classpath: %s%n", patterndefinitionsClasspath);
-            grokBuilder.patternDefinitionsFromClasspath(patterndefinitionsClasspath);
+        if (patternDefinitionsClasspath != null) {
+            System_out_format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath);
+            grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);
         }
-        if (patterndefinitionsFile != null) {
-            System_out_format("register pattern definitions from file: %s%n", patterndefinitionsFile);
-            grokBuilder.patternDefinitionsFromFile(patterndefinitionsFile);
+        if (patternDefinitionsFile != null) {
+            System_out_format("register pattern definitions from file: %s%n", patternDefinitionsFile);
+            grokBuilder.patternDefinitionsFromFile(patternDefinitionsFile);
 
         }
         final Grok grok = grokBuilder.build();
 
-        if (showDefaultPatterns) {
+        if (showPatternDefinitions) {
             executeShowPatterndefinitions(grok);
         } else {
             executeMatching(grok);
@@ -125,7 +125,7 @@ public class GrokMain implements Callable<Integer> {
             int readLineCount = 0;
             for (String line; (line = br.readLine()) != null;) {
                 readLineCount += 1;
-                if (maxReadLineCount >= 0 && readLineCount > maxReadLineCount) {
+                if (readMaxLinesCount >= 0 && readLineCount > readMaxLinesCount) {
                     break;
                 }
                 final GrokMatchResult grokResult = grokIt.match(grok, line);
