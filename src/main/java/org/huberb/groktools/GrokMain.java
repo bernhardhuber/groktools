@@ -63,7 +63,7 @@ public class GrokMain implements Callable<Integer> {
 
     private String patternDefinitions;
 
-    @Option(names = {"--show-patterns-definitions"},
+    @Option(names = {"--show-pattern-definitions"},
             description = "show grok pattern definitions")
     private boolean showPatternDefinitions;
 
