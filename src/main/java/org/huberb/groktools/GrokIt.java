@@ -42,10 +42,8 @@ class GrokIt {
         return grokResult;
     }
 
-    public Map<String, String> defaultPatterns() {
-        final GrokCompiler grokCompiler = GrokCompiler.newInstance();
-        grokCompiler.registerDefaultPatterns();
-        final Map<String, String> registeredDefaultPatterns = grokCompiler.getPatternDefinitions();
+    public Map<String, String> retrievePatterndefinitions(Grok grok) {
+        final Map<String, String> registeredDefaultPatterns = grok.getPatterns();
         return registeredDefaultPatterns;
     }
 

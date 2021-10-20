@@ -33,7 +33,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 public class GrokItServerLogTest {
 
-    final String serverlogPatterndefinitions = "/patterns/server_log";
+    final String serverlogPatterndefinitions = "/groktoolspatterns/server_log";
 
     @ParameterizedTest
     @MethodSource(value = "wildflyserverlog")

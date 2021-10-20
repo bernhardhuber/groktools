@@ -54,8 +54,13 @@ public class GrokMain implements Callable<Integer> {
             description = "grok pattern")
     private String pattern;
 
-    private File pattendefinitionsFile;
-    private String pattendefinitionsFromClasspath;
+    @Option(names = {"--patterndefinitions-file"},
+            description = "read pattern definition from a file")
+    private File patterndefinitionsFile;
+    @Option(names = {"--patterndefinitions-classpath"},
+            description = "read pattern definition from classpath")
+    private String patterndefinitionsClasspath;
+
     private String patterndefinitions;
 
     @Option(names = {"--show-default-patterns"},
@@ -73,19 +78,39 @@ public class GrokMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        if (showDefaultPatterns) {
-            executeShowDefaultPatterns();
+        final GrokBuilder grokBuilder = new GrokBuilder()
+                .namedOnly(true);
+        if (pattern != null) {
+            grokBuilder.pattern(pattern);
         } else {
-            executeMatching();
+            // Hack: GrokCompiler wants a pattern anyway
+            grokBuilder.pattern("%{SPACE:UNWANTED}");
+        }
+        if (patterndefinitionsClasspath != null) {
+            System_out_format("register pattern definitions from classpath: %s%n", patterndefinitionsClasspath);
+            grokBuilder.patternDefinitionsFromClasspath(patterndefinitionsClasspath);
+        }
+        if (patterndefinitionsFile != null) {
+            System_out_format("register pattern definitions from file: %s%n", patterndefinitionsFile);
+            grokBuilder.patternDefinitionsFromFile(patterndefinitionsFile);
+
+        }
+        final Grok grok = grokBuilder.build();
+
+        if (showDefaultPatterns) {
+            executeShowPatterndefinitions(grok);
+        } else {
+            executeMatching(grok);
         }
         return 0;
     }
 
     //
-    void executeShowDefaultPatterns() {
+    void executeShowPatterndefinitions(Grok grok
+    ) {
         final GrokIt grokIt = new GrokIt();
-        final Map<String, String> defaultPatterns = grokIt.defaultPatterns();
-        System_out_format("grok default patterns:%n");
+        final Map<String, String> defaultPatterns = grokIt.retrievePatterndefinitions(grok);
+        System_out_format("grok pattern definitions:%n");
         defaultPatterns.entrySet().stream()
                 .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                 .forEach((e) -> {
@@ -93,12 +118,8 @@ public class GrokMain implements Callable<Integer> {
                 });
     }
 
-    void executeMatching() throws IOException {
+    void executeMatching(Grok grok) throws IOException {
         final GrokIt grokIt = new GrokIt();
-        final Grok grok = new GrokBuilder()
-                .pattern(this.pattern)
-                .namedOnly(true)
-                .build();
         try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
             int readLineCount = 0;
@@ -113,7 +134,8 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
+    void executePostMatching(int readLineCount, GrokMatchResult grokResult
+    ) {
         boolean skip = false;
         skip = skip || grokResult == null;
         skip = skip || (grokResult.start == 0 && grokResult.end == 0);
