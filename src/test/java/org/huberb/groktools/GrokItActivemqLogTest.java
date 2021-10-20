@@ -24,6 +24,7 @@ import org.huberb.groktools.GrokIt.GrokMatchResult;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -31,69 +32,64 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author berni3
  */
-public class GrokItServerLogTest {
+public class GrokItActivemqLogTest {
 
     final String serverlogPatterndefinitions = "/server_log";
 
     @ParameterizedTest
-    @MethodSource(value = "wildflyserverlog")
-    public void testWildflyServerlog(String line) throws IOException {
+    @MethodSource(value = "activmqlog")
+    public void testActiveMqActiveMqlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{WILDFLY_SERVERLOG}")
+                .pattern("%{ACTIVEMQ_ACTIVEMQLOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(true);
+
         final Grok grok = grokBuilder.build();
         final GrokIt grokIt = new GrokIt();
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
         assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertEquals("2019-03-04", grokMatchResult.m.get("date"), m);
-        assertEquals("22:30:18", grokMatchResult.m.get("time"), m);
+        assertTrue(grokMatchResult.m.size() >= 6, m);
+        assertEquals("2020-05-02", grokMatchResult.m.get("date"), m);
+        assertEquals("07:26:24", grokMatchResult.m.get("time"), m);
         assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m);
-        assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m);
-        assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m);
+        assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m);
+        assertEquals("main", grokMatchResult.m.get("thread"), m);
+        assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m);
     }
 
     @ParameterizedTest
-    @MethodSource(value = "wildflyserverlog")
-    public void testWildflyServerlog_2(String line) throws IOException {
+    @MethodSource(value = "activmqlog")
+    public void testActiveMqActiveMqlog_2(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{WILDFLY_SERVERLOG_2}")
+                .pattern("%{ACTIVEMQ_ACTIVEMQLOG_2}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(true);
+
         final Grok grok = grokBuilder.build();
         final GrokIt grokIt = new GrokIt();
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
         assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertEquals("2019-03-04 22:30:18,900", grokMatchResult.m.get("timestampIso8601"), m);
+        assertTrue(grokMatchResult.m.size() >= 5, m);
+        assertEquals("2020-05-02 07:26:24,895", grokMatchResult.m.get("timestampIso8601"), m);
         assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m);
-        assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m);
-        assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m);
+        assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m);
+        assertEquals("main", grokMatchResult.m.get("thread"), m);
+        assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m);
     }
 
-    static Stream<String> wildflyserverlog() {
+    static Stream<String> activmqlog() {
         List<String> l = Arrays.asList(
-                // example 1
-                // all fields separated by single space
-                "2019-03-04 22:30:18,900 INFO [org.jboss.as.server] (Controller Boot Thread) "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)",
-                // example 2
-                // as-is from a log file 
+                // example 1 
+                // as is from a log file
                 // two spaces after INFO
-                "2019-03-04 22:30:18,900 INFO  [org.jboss.as.server] (Controller Boot Thread) "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)",
-                // example 3
-                // all fields separate by 4 spaces
-                "2019-03-04 22:30:18,900    "
-                + "INFO    "
-                + "[org.jboss.as.server]    "
-                + "(Controller Boot Thread)    "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)"
+                "2020-05-02 07:26:24,895 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main",
+                // example 1 
+                // four spaces before | except for field message
+                "2020-05-02 07:26:24,895    | INFO    | Connector amqp started | org.apache.activemq.broker.TransportConnector    | main    "
         );
         Stream<String> result = l.stream();
         return result;
