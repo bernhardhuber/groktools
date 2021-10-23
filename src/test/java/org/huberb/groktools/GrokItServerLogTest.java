@@ -17,6 +17,9 @@ package org.huberb.groktools;
 
 import io.krakens.grok.api.Grok;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -70,6 +73,12 @@ public class GrokItServerLogTest {
         final String m = String.format("grokMatchResult %s", grokMatchResult);
         assertFalse(grokMatchResult.m.isEmpty(), m);
         assertEquals("2019-03-04 22:30:18,900", grokMatchResult.m.get("timestampIso8601"), m);
+        // TODO find a better parser for that data-time-format
+        LocalDateTime ldt = LocalDateTime.parse("2019-03-04T22:30:18", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        assertEquals(2019, ldt.getYear());
+        assertEquals(Month.MARCH, ldt.getMonth());
+        assertEquals(4, ldt.getDayOfMonth());
+
         assertEquals("INFO", grokMatchResult.m.get("level"), m);
         assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m);
         assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m);
