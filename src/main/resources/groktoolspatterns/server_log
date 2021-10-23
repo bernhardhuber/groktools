@@ -1,4 +1,7 @@
 # Pattern for wildfly server logs
+#
+# usage: 
+#   register this file as pattern definitions
 
 _DATE %{YEAR}-%{MONTHNUM}-%{MONTHDAY}
 _DATEANDTIME %{_DATE:date} %{TIME:time},%{INT:millis}
@@ -11,12 +14,22 @@ _DATA_MESSAGE %{DATA:message}
 #---
 # WILDFLY
 # 2019-03-04 22:30:18,900 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0039: Creating http management service using socket-binding (management-http)
+#
+# usage: 
+#   grokcompiler.compile: "%{WILDFLY_SERVERLOG}"
+#   grokcompiler.compile: "%{WILDFLY_SERVERLOG_2}"
+#   
 WILDFLY_SERVERLOG %{_DATEANDTIME}%{SPACE:UNWANTED}%{_LOGLEVEL}%{SPACE:UNWANTED}\[%{_CATEGORY}\]%{SPACE:UNWANTED}\(%{_THREAD}\)%{SPACE:UNWANTED}%{_GREEDYDATA_MESSAGE}$
 WILDFLY_SERVERLOG_2 %{TIMESTAMP_ISO8601:timestampIso8601}%{SPACE:UNWANTED}%{_LOGLEVEL}%{SPACE:UNWANTED}\[%{_CATEGORY}\]%{SPACE:UNWANTED}\(%{_THREAD}\)%{SPACE:UNWANTED}%{_GREEDYDATA_MESSAGE}$
 
 #---
 # ACTIVEMQ
 # 2020-05-02 07:26:24,895 | INFO  | Connector amqp started | org.apache.activemq.broker.TransportConnector | main
+#
+# usage: 
+#   grokcompiler.compile: "%{ACTIVEMQ_ACTIVEMQLOG}"
+#   grokcompiler.compile: "%{ACTIVEMQ_ACTIVEMQLOG_2}"
+#   
 ACTIVEMQ_ACTIVEMQLOG %{_DATEANDTIME}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_LOGLEVEL}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_DATA_MESSAGE}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_CATEGORY}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_THREAD}%{SPACE:UNWANTED}$
 
 ACTIVEMQ_ACTIVEMQLOG_2 %{TIMESTAMP_ISO8601:timestampIso8601}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_LOGLEVEL}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_DATA_MESSAGE}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_CATEGORY}%{SPACE:UNWANTED}\|%{SPACE:UNWANTED}%{_THREAD}%{SPACE:UNWANTED}$
@@ -24,4 +37,8 @@ ACTIVEMQ_ACTIVEMQLOG_2 %{TIMESTAMP_ISO8601:timestampIso8601}%{SPACE:UNWANTED}\|%
 #---
 # ELKSTACK
 #[2020-01-30T22:27:01,337][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=>9600}
+#
+# usage: 
+#   grokcompiler.compile: "%{ELKSTACK_LOGSTASHLOG}"
+#   
 ELKSTACK_LOGSTASHLOG \[%{TIMESTAMP_ISO8601:timestampIso8601}\]\[%{_LOGLEVEL}%{SPACE:UNWANTED}\]\[%{_CATEGORY}%{SPACE:UNWANTED}\] %{_GREEDYDATA_MESSAGE}$
