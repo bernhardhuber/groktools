@@ -31,7 +31,13 @@ class GrokIt {
     public GrokIt() {
     }
 
-    //----
+    /**
+     * Match a line.
+     *
+     * @param grok
+     * @param line
+     * @return GrokMatchResult
+     */
     public GrokMatchResult match(Grok grok, String line) {
         Objects.requireNonNull(grok, "Grok is null");
         Objects.requireNonNull(line, "Line is null");
@@ -42,11 +48,20 @@ class GrokIt {
         return grokResult;
     }
 
+    /**
+     * Retrieve pattern definitions.
+     *
+     * @param grok
+     * @return
+     */
     public Map<String, String> retrievePatterndefinitions(Grok grok) {
         final Map<String, String> registeredDefaultPatterns = grok.getPatterns();
         return registeredDefaultPatterns;
     }
 
+    /**
+     * Encapsulate results of a match call.
+     */
     static class GrokMatchResult {
 
         final CharSequence subject;
