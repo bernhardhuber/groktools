@@ -23,16 +23,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Spec;
 
 /**
  *
@@ -43,6 +44,11 @@ import picocli.CommandLine.Option;
         version = "grokMain 1.0-SNAPSHOT",
         description = "parse unstructured  files")
 public class GrokMain implements Callable<Integer> {
+
+    @Spec
+    CommandSpec spec;
+
+    SystemErrOutPrinter systemErrOutPrinter;
 
     @Option(names = {"-f", "--file"},
             description = "read from log file, if not specified read log from stdin")
@@ -78,43 +84,51 @@ public class GrokMain implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        final GrokBuilder grokBuilder = new GrokBuilder()
-                .namedOnly(true);
-        if (pattern != null) {
-            grokBuilder.pattern(pattern);
-        } else {
-            // Hack: GrokCompiler wants a pattern anyway
-            grokBuilder.pattern("%{SPACE:UNWANTED}");
-        }
-        if (patternDefinitionsClasspath != null) {
-            System_out_format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath);
-            grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);
-        }
-        if (patternDefinitionsFile != null) {
-            System_out_format("register pattern definitions from file: %s%n", patternDefinitionsFile);
-            grokBuilder.patternDefinitionsFromFile(patternDefinitionsFile);
+        try {
+            this.systemErrOutPrinter = new SystemErrOutPrinter(
+                    this.spec.commandLine().getErr(),
+                    this.spec.commandLine().getOut()
+            );
 
-        }
-        final Grok grok = grokBuilder.build();
+            final GrokBuilder grokBuilder = new GrokBuilder()
+                    .namedOnly(true);
+            if (pattern != null) {
+                grokBuilder.pattern(pattern);
+            } else {
+                // Hack: GrokCompiler wants a pattern anyway
+                grokBuilder.pattern("%{SPACE:UNWANTED}");
+            }
+            if (patternDefinitionsClasspath != null) {
+                systemErrOutPrinter.printErr(String.format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath));
+                grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);
+            }
+            if (patternDefinitionsFile != null) {
+                systemErrOutPrinter.printErr(String.format("register pattern definitions from file: %s%n", patternDefinitionsFile));
+                grokBuilder.patternDefinitionsFromFile(patternDefinitionsFile);
 
-        if (showPatternDefinitions) {
-            executeShowPatterndefinitions(grok);
-        } else {
-            executeMatching(grok);
+            }
+            final Grok grok = grokBuilder.build();
+            if (showPatternDefinitions) {
+                executeShowPatterndefinitions(grok);
+            } else {
+                executeMatching(grok);
+            }
+            return 0;
+        } finally {
+            this.spec.commandLine().getOut().flush();
+            this.spec.commandLine().getErr().flush();
         }
-        return 0;
     }
 
     //
-    void executeShowPatterndefinitions(Grok grok
-    ) {
+    void executeShowPatterndefinitions(Grok grok) {
         final GrokIt grokIt = new GrokIt();
         final Map<String, String> defaultPatterns = grokIt.retrievePatterndefinitions(grok);
-        System_out_format("grok pattern definitions:%n");
+        systemErrOutPrinter.printOut("grok pattern definitions:%n");
         defaultPatterns.entrySet().stream()
                 .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                 .forEach((e) -> {
-                    System_out_format("%s: %s%n", e.getKey(), e.getValue());
+                    systemErrOutPrinter.printOut(String.format("%s: %s%n", e.getKey(), e.getValue()));
                 });
     }
 
@@ -134,8 +148,7 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    void executePostMatching(int readLineCount, GrokMatchResult grokResult
-    ) {
+    void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
         boolean skip = false;
         skip = skip || grokResult == null;
         skip = skip || (grokResult.start == 0 && grokResult.end == 0);
@@ -145,68 +158,11 @@ public class GrokMain implements Callable<Integer> {
             return;
         }
         if (outputMatchResultAsCsv) {
-            new OutputGrokResult()
+            new OutputGrokResult(this.spec.commandLine().getOut())
                     .outputGrokResultAsCsv(readLineCount, grokResult);
         } else {
-            new OutputGrokResult()
+            new OutputGrokResult(this.spec.commandLine().getOut())
                     .outputGrokResultAsIs(readLineCount, grokResult);
-        }
-    }
-
-    static class OutputGrokResult {
-
-        void outputGrokResultAsIs(int readLineCount, GrokMatchResult grokResult) {
-            System_out_format("%d %s%n", readLineCount, grokResult);
-        }
-
-        void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
-            final List<String> keysSortedList = grokResult.m.keySet().stream()
-                    .sorted()
-                    .collect(Collectors.toList());
-            if (readLineCount == 1) {
-                final StringBuilder sb = new StringBuilder();
-                int cols = 0;
-                for (String k : keysSortedList) {
-                    final Object o = k;
-                    final String v = convertObjectToString(o);
-                    if (cols > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(String.format("\"%s\"", v));
-                    cols += 1;
-                }
-                System_out_format("%s%n", sb.toString());
-            }
-            {
-                final StringBuilder sb = new StringBuilder();
-                int cols = 0;
-                for (String k : keysSortedList) {
-                    final Object o = grokResult.m.getOrDefault(k, "");
-                    final String v = convertObjectToString(o);
-                    if (cols > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(String.format("\"%s\"", v));
-                    cols += 1;
-                }
-                System_out_format("%s%n", sb.toString());
-            }
-        }
-
-        String convertObjectToString(Object o) {
-            final String v;
-            if (o == null) {
-                v = "";
-            } else if (o instanceof String) {
-                v = (String) o;
-            } else {
-                v = String.valueOf(o);
-            }
-            return v;
-        }
-
-        void System_out_format(String format, Object... args) {
-            System.out.format(format, args);
         }
     }
 
@@ -239,7 +195,26 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    void System_out_format(String format, Object... args) {
-        System.out.format(format, args);
+    static class SystemErrOutPrinter {
+
+        private final PrintWriter pwErr;
+        private final PrintWriter pwOut;
+
+        public SystemErrOutPrinter(PrintWriter pwErr, PrintWriter pwOut) {
+            this.pwErr = pwErr;
+            this.pwOut = pwOut;
+        }
+
+        void printErr(String str) {
+            final PrintWriter pw = this.pwErr; //this.spec.commandLine().getErr();
+            //System.err.format(str);
+            pw.print(str);
+        }
+
+        void printOut(String str) {
+            final PrintWriter pw = this.pwOut; // this.spec.commandLine().getOut();
+            //System.out.format(str);
+            pw.print(str);
+        }
     }
 }
