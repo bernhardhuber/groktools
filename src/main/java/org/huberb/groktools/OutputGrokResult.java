@@ -47,18 +47,12 @@ class OutputGrokResult {
 
     static class GrokResultTransformer {
 
-        private List<String> keys = new ArrayList<>();
-        private List<String> values = new ArrayList<>();
+        private final List<String> keys = new ArrayList<>();
+        private final List<String> values = new ArrayList<>();
 
         GrokResultTransformer addKeyValue(String k, String v) {
             keys.add(k);
             values.add(v);
-            return this;
-        }
-
-        GrokResultTransformer addKeys(List<String> kl, List<String> vl) {
-            keys.addAll(kl);
-            values.addAll(vl);
             return this;
         }
 
@@ -94,16 +88,16 @@ class OutputGrokResult {
     }
 
     /**
-     * Ouput {@link GrokMatchResult} as csv.
+     * Output {@link GrokMatchResult} as csv.
      *
      * @param readLineCount
      * @param grokResult
      */
     void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer();
-        grokResultTransformer.addKeyValue("lineno", String.valueOf(readLineCount));
-        grokResultTransformer.addKeys(keysSortedList, grokResult.m);
+        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
+                .addKeyValue("lineno", String.valueOf(readLineCount))
+                .addKeys(keysSortedList, grokResult.m);
         if (readLineCount == 1) {
             final StringBuilder sb = new StringBuilder();
             for (int i = 0; i < grokResultTransformer.keys.size(); i++) {
@@ -129,16 +123,16 @@ class OutputGrokResult {
     }
 
     /**
-     * Ouput {@link GrokMatchResult} as json.
+     * Output {@link GrokMatchResult} as json.
      *
      * @param readLineCount
      * @param grokResult
      */
     void outputGrokResultAsJson(int readLineCount, GrokMatchResult grokResult) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer();
-        grokResultTransformer.addKeyValue("lineno", String.valueOf(readLineCount));
-        grokResultTransformer.addKeys(keysSortedList, grokResult.m);
+        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
+                .addKeyValue("lineno", String.valueOf(readLineCount))
+                .addKeys(keysSortedList, grokResult.m);
 
         final StringBuilder sb = new StringBuilder();
         if (readLineCount > 1) {
@@ -157,64 +151,18 @@ class OutputGrokResult {
         print(sb.toString());
     }
 
-    void _outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult
-    ) {
-        final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-        if (readLineCount == 1) {
-            final StringBuilder sb = new StringBuilder();
-            int cols = 0;
-            for (String k : keysSortedList) {
-                final Object o = k;
-                final String v = convertObjectToString(o);
-                if (cols > 0) {
-                    sb.append(",");
-                }
-                sb.append(String.format("\"%s\"", v));
-                cols += 1;
-            }
-            printOut("%s%n", sb.toString());
-        }
-        {
-            final StringBuilder sb = new StringBuilder();
-            int cols = 0;
-            for (String k : keysSortedList) {
-                final Object o = grokResult.m.getOrDefault(k, "");
-                final String v = convertObjectToString(o);
-                if (cols > 0) {
-                    sb.append(",");
-                }
-                sb.append(String.format("\"%s\"", v));
-                cols += 1;
-            }
-            printOut("%s%n", sb.toString());
-        }
-    }
-
-    String convertObjectToString(Object o
-    ) {
-        final String v;
-        if (o == null) {
-            v = "";
-        } else if (o instanceof String) {
-            v = (String) o;
-        } else {
-            v = String.valueOf(o);
-        }
-        return v;
-    }
-
-    void printOut(String format, Object... args
+    private void printOut(String format, Object... args
     ) {
         final String str = String.format(format, args);
         this.pwOut.print(str);
     }
 
-    void println(String str
+    private void println(String str
     ) {
         this.pwOut.println(str);
     }
 
-    void print(String str
+    private void print(String str
     ) {
         this.pwOut.print(str);
     }

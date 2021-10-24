@@ -73,33 +73,26 @@ public class OutputGrokResultTest {
                     "\"lineno\",\"k1\",\"k2\""
                     + "\"1\",\"v1\",\"v2\"", result);
         }
-
     }
 
     /**
-     * Test of convertObjectToString method, of class OutputGrokResult.
+     * Test of outputGrokResultAsJson method, of class OutputGrokResult.
      */
     @Test
-    public void testConvertObjectToString() {
-        final Object o = "A";
-        final OutputGrokResult instance = new OutputGrokResult(null);
-        final String expResult = "A";
-        final String result = instance.convertObjectToString(o);
-        assertEquals(expResult, result);
-    }
-
-    /**
-     * Test of printOut method, of class OutputGrokResult.
-     */
-    @Test
-    public void testPrintOut() throws IOException {
-        final String format = "A %s";
-        final Object[] args = new Object[]{"a"};
+    public void testOutputGrokResultAsJson() throws IOException {
+        final int readLineCount = 1;
+        final Map<String, Object> m = new HashMap<>();
+        m.put("k1", "v1");
+        m.put("k2", "v2");
+        final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
             final OutputGrokResult instance = new OutputGrokResult(pw);
-            instance.printOut(format, args);
-            assertEquals("A a", sw.toString());
+            instance.outputGrokResultAsJson(readLineCount, grokResult);
+
+            final String result = sw.toString().replaceAll("[\\r\\n]", "");
+            assertEquals(
+                    "\"entry\": {\"lineno\": \"1\",\"k1\": \"v1\",\"k2\": \"v2\"}", result);
         }
     }
 
