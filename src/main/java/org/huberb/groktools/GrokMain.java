@@ -112,6 +112,7 @@ public class GrokMain implements Callable<Integer> {
                 // Hack: GrokCompiler wants a pattern anyway
                 grokBuilder.pattern("%{SPACE:UNWANTED}");
             }
+            // register more pattern definitions
             if (patternDefinitionsClasspath != null) {
                 systemErrOutPrinter.printErr(String.format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath));
                 grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);

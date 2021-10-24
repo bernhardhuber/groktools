@@ -59,24 +59,43 @@ public class GrokBuilder {
     /**
      * GrokBuilder shall register additionally pattern definitions.
      *
-     * @param patternDefinitions custom patterns to be registered
+     * @param patternDefinitionsMap custom patterns to be registered
      * @return Grok object
      */
-    public GrokBuilder patternDefinitions(Map<String, String> patternDefinitions) {
+    public GrokBuilder patternDefinitions(Map<String, String> patternDefinitionsMap) {
         new Validations()
-                .isStringNullSafeEmpty(pattern)
-                .throwIllegalArgumentExceptionIf("Grok pattern to compile is null");
-        this.patternDefinitions = patternDefinitions;
+                .isNull(patternDefinitionsMap)
+                .throwIllegalArgumentExceptionIf("Grok map of pattern definitions is null");
+        if (patternDefinitionsMap != null) {
+            this.patternDefinitions = patternDefinitionsMap;
+        }
         return this;
     }
 
     public GrokBuilder patternDefinitionsFromClasspath(String resource) {
-        this.patternDefinitionsFromClasspath = resource;
+        new Validations()
+                .isNull(resource)
+                .throwIllegalArgumentExceptionIf("Grok resource of pattern definitions is null");
+        // remove leading classpath:
+        // replace leading double / (//) by single /
+        if (resource != null) {
+            String normalizedResource = resource;
+            normalizedResource = normalizedResource.replace("classpath:", "");
+            normalizedResource = normalizedResource.replace("//", "/");
+            this.patternDefinitionsFromClasspath = normalizedResource;
+        }
         return this;
     }
 
     public GrokBuilder patternDefinitionsFromFile(File file) {
-        this.patternDefinitionsFromFile = file;
+        new Validations()
+                .isNull(file)
+                .isFileNotExisting(file)
+                .isFileNotReadable(file)
+                .throwIllegalArgumentExceptionIf("Grok file of pattern definitions is not accessible");
+        if (file != null) {
+            this.patternDefinitionsFromFile = file;
+        }
         return this;
     }
 
@@ -126,45 +145,71 @@ public class GrokBuilder {
 
     static class Validations {
 
-        static class BooleanResult {
+        boolean value;
 
-            boolean value;
+        public Validations() {
+            this(false);
+        }
 
-            public BooleanResult(boolean b) {
-                this.value = b;
-            }
+        public Validations(boolean b) {
+            this.value = b;
+        }
 
-            public boolean isValue() {
-                return value;
-            }
+        public boolean isValue() {
+            return value;
+        }
 
-            void throwIllegalArgumentExceptionIf(String m) {
-                if (value) {
-                    throw new IllegalArgumentException(m);
-                }
+        void throwIllegalArgumentExceptionIf(String m) {
+            if (value) {
+                throw new IllegalArgumentException(m);
             }
         }
 
-        BooleanResult isCollectionNullSafeEmpty(Collection<?> collection) {
-            boolean isCollectionNullSafeEmpty = false;
+        //---
+        Validations isNull(Object obj) {
+            boolean isNull = this.value;
+            isNull = isNull || obj == null;
+            this.value = isNull;
+            return this;
+        }
+
+        Validations isCollectionNullSafeEmpty(Collection<?> collection) {
+            boolean isCollectionNullSafeEmpty = this.value;
             isCollectionNullSafeEmpty = isCollectionNullSafeEmpty || collection == null;
             isCollectionNullSafeEmpty = isCollectionNullSafeEmpty || collection.isEmpty();
-            return new BooleanResult(isCollectionNullSafeEmpty);
+            this.value = isCollectionNullSafeEmpty;
+            return this;
         }
 
-        BooleanResult isStringNullSafeEmpty(String s) {
-            boolean isEmpty = false;
+        Validations isStringNullSafeEmpty(String s) {
+            boolean isEmpty = this.value;
             isEmpty = isEmpty || s == null;
             isEmpty = isEmpty || s.isEmpty();
-            return new BooleanResult(isEmpty);
+            this.value = isEmpty;
+            return this;
         }
 
-        BooleanResult isStringNullSafeBlank(String s) {
-            boolean isBlank = false;
+        Validations isStringNullSafeBlank(String s) {
+            boolean isBlank = this.value;
             isBlank = isBlank || s == null;
             isBlank = isBlank || s.isEmpty();
             isBlank = isBlank || s.trim().isEmpty();
-            return new BooleanResult(isBlank);
+            this.value = isBlank;
+            return this;
+        }
+
+        Validations isFileNotExisting(File file) {
+            boolean isFileNotExisting = this.value;
+            isFileNotExisting = isFileNotExisting || !file.exists();
+            this.value = isFileNotExisting;
+            return this;
+        }
+
+        Validations isFileNotReadable(File file) {
+            boolean isFileNotReadable = this.value;
+            isFileNotReadable = isFileNotReadable || !file.canRead();
+            this.value = isFileNotReadable;
+            return this;
         }
 
     }
