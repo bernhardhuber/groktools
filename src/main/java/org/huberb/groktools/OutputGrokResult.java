@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 
 /**
+ * Encapsulate outputting a {@link GrokMatchResult}.
  *
  * @author berni3
  */
@@ -32,10 +33,22 @@ class OutputGrokResult {
         this.pwOut = pwOut;
     }
 
+    /**
+     * Output just line-number, and {@link GrokMatchResult#toString()}.
+     *
+     * @param readLineCount
+     * @param grokResult
+     */
     void outputGrokResultAsIs(int readLineCount, GrokMatchResult grokResult) {
         printOut("%d %s%n", readLineCount, grokResult);
     }
 
+    /**
+     * Ouput {@link GrokMatchResult} as csv.
+     *
+     * @param readLineCount
+     * @param grokResult
+     */
     void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
         if (readLineCount == 1) {

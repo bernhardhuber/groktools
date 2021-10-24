@@ -36,6 +36,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
 
 /**
+ * Simple app for using grok library from the command line.
  *
  * @author berni3
  */
@@ -51,8 +52,8 @@ public class GrokMain implements Callable<Integer> {
     SystemErrOutPrinter systemErrOutPrinter;
 
     @Option(names = {"-f", "--file"},
-            description = "read from log file, if not specified read log from stdin")
-    private File logFile;
+            description = "read from file, if not specified read from stdin")
+    private File inputFile;
     @Option(names = {"--read-max-lines-count"},
             description = "read maximum number lines")
     private int readMaxLinesCount = -1;
@@ -67,6 +68,7 @@ public class GrokMain implements Callable<Integer> {
             description = "read pattern definition from classpath")
     private String patternDefinitionsClasspath;
 
+    // TODO define a option
     private String patternDefinitions;
 
     @Option(names = {"--show-pattern-definitions"},
@@ -77,14 +79,26 @@ public class GrokMain implements Callable<Integer> {
             description = "output match results as csv")
     private boolean outputMatchResultAsCsv;
 
+    /**
+     * Command line entry point.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         int exitCode = new CommandLine(new GrokMain()).execute(args);
         System.exit(exitCode);
     }
 
+    /**
+     * Picocli entry point.
+     *
+     * @return exitCode
+     * @throws Exception
+     */
     @Override
     public Integer call() throws Exception {
         try {
+            // use stdout, and stderr from picocli
             this.systemErrOutPrinter = new SystemErrOutPrinter(
                     this.spec.commandLine().getErr(),
                     this.spec.commandLine().getOut()
@@ -120,11 +134,17 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    //
+    /**
+     * Execute command "show pattern definitions".
+     *
+     * @param grok
+     */
     void executeShowPatterndefinitions(Grok grok) {
         final GrokIt grokIt = new GrokIt();
         final Map<String, String> defaultPatterns = grokIt.retrievePatterndefinitions(grok);
-        systemErrOutPrinter.printOut("grok pattern definitions:%n");
+        //---
+        systemErrOutPrinter.printOut(
+                String.format("grok pattern definitions:%n"));
         defaultPatterns.entrySet().stream()
                 .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
                 .forEach((e) -> {
@@ -132,9 +152,15 @@ public class GrokMain implements Callable<Integer> {
                 });
     }
 
+    /**
+     * Execute default command: "match lines".
+     *
+     * @param grok
+     * @throws IOException
+     */
     void executeMatching(Grok grok) throws IOException {
         final GrokIt grokIt = new GrokIt();
-        try (final Reader logReader = new ReaderFactory(logFile).createUtf8Reader();
+        try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
             int readLineCount = 0;
             for (String line; (line = br.readLine()) != null;) {
@@ -148,6 +174,12 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
+    /**
+     * Handle post matching processing of {@link GrokMatchResult}.
+     *
+     * @param readLineCount
+     * @param grokResult
+     */
     void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
         boolean skip = false;
         skip = skip || grokResult == null;
@@ -195,25 +227,28 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
+    /**
+     * Wrap printing to stdout, and stderr.
+     * <p>
+     * Picocli defines the stdout, and stderr {@link PrintWriter}.
+     */
     static class SystemErrOutPrinter {
 
         private final PrintWriter pwErr;
         private final PrintWriter pwOut;
 
-        public SystemErrOutPrinter(PrintWriter pwErr, PrintWriter pwOut) {
+        SystemErrOutPrinter(PrintWriter pwErr, PrintWriter pwOut) {
             this.pwErr = pwErr;
             this.pwOut = pwOut;
         }
 
         void printErr(String str) {
-            final PrintWriter pw = this.pwErr; //this.spec.commandLine().getErr();
-            //System.err.format(str);
+            final PrintWriter pw = this.pwErr;
             pw.print(str);
         }
 
         void printOut(String str) {
-            final PrintWriter pw = this.pwOut; // this.spec.commandLine().getOut();
-            //System.out.format(str);
+            final PrintWriter pw = this.pwOut;
             pw.print(str);
         }
     }
