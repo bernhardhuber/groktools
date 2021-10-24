@@ -69,8 +69,9 @@ public class OutputGrokResultTest {
             instance.outputGrokResultAsCsv(readLineCount, grokResult);
 
             final String result = sw.toString().replaceAll("[\\r\\n]", "");
-            assertEquals("\"k1\",\"k2\""
-                    + "\"v1\",\"v2\"", result);
+            assertEquals(
+                    "\"lineno\",\"k1\",\"k2\""
+                    + "\"1\",\"v1\",\"v2\"", result);
         }
 
     }

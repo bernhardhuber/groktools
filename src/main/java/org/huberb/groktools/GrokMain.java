@@ -78,6 +78,9 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"--output-matchresult-as-csv"},
             description = "output match results as csv")
     private boolean outputMatchResultAsCsv;
+    @Option(names = {"--output-matchresult-as-json"},
+            description = "output match results as json")
+    private boolean outputMatchResultAsJson;
 
     /**
      * Command line entry point.
@@ -103,8 +106,10 @@ public class GrokMain implements Callable<Integer> {
                     this.spec.commandLine().getErr(),
                     this.spec.commandLine().getOut()
             );
-
+            //---
+            // setup Grok using a GrokBuilder
             final GrokBuilder grokBuilder = new GrokBuilder()
+                    .registerDefaultPatterns(true)
                     .namedOnly(true);
             if (pattern != null) {
                 grokBuilder.pattern(pattern);
@@ -120,8 +125,9 @@ public class GrokMain implements Callable<Integer> {
             if (patternDefinitionsFile != null) {
                 systemErrOutPrinter.printErr(String.format("register pattern definitions from file: %s%n", patternDefinitionsFile));
                 grokBuilder.patternDefinitionsFromFile(patternDefinitionsFile);
-
             }
+            //---
+            // execute commands
             final Grok grok = grokBuilder.build();
             if (showPatternDefinitions) {
                 executeShowPatterndefinitions(grok);
@@ -190,13 +196,14 @@ public class GrokMain implements Callable<Integer> {
         if (skip) {
             return;
         }
+        final OutputGrokResult outputGrokResult = new OutputGrokResult(this.spec.commandLine().getOut());
         if (outputMatchResultAsCsv) {
-            new OutputGrokResult(this.spec.commandLine().getOut())
-                    .outputGrokResultAsCsv(readLineCount, grokResult);
+            outputGrokResult.outputGrokResultAsCsv(readLineCount, grokResult);
+        } else if (outputMatchResultAsJson) {
+            outputGrokResult.outputGrokResultAsJson(readLineCount, grokResult);
         } else {
-            new OutputGrokResult(this.spec.commandLine().getOut())
-                    .outputGrokResultAsIs(readLineCount, grokResult);
-        }
+            outputGrokResult.outputGrokResultAsIs(readLineCount, grokResult);
+        };
     }
 
     /**

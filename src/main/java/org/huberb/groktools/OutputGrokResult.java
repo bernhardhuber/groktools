@@ -16,7 +16,9 @@
 package org.huberb.groktools;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 
@@ -43,6 +45,54 @@ class OutputGrokResult {
         printOut("%d %s%n", readLineCount, grokResult);
     }
 
+    static class GrokResultTransformer {
+
+        private List<String> keys = new ArrayList<>();
+        private List<String> values = new ArrayList<>();
+
+        GrokResultTransformer addKeyValue(String k, String v) {
+            keys.add(k);
+            values.add(v);
+            return this;
+        }
+
+        GrokResultTransformer addKeys(List<String> kl, List<String> vl) {
+            keys.addAll(kl);
+            values.addAll(vl);
+            return this;
+        }
+
+        GrokResultTransformer addKeys(List<String> keysAllowed, Map<String, Object> m) {
+            keys.addAll(keysAllowed);
+            for (String k : keysAllowed) {
+                final Object o = m.getOrDefault(k, "");
+                final String v = convertObjectToString(o);
+                values.add(v);
+            }
+            return this;
+        }
+
+        List<String> keys() {
+            return this.keys;
+        }
+
+        List<String> values() {
+            return this.values;
+        }
+
+        String convertObjectToString(Object o) {
+            final String v;
+            if (o == null) {
+                v = "";
+            } else if (o instanceof String) {
+                v = (String) o;
+            } else {
+                v = String.valueOf(o);
+            }
+            return v;
+        }
+    }
+
     /**
      * Ouput {@link GrokMatchResult} as csv.
      *
@@ -50,6 +100,65 @@ class OutputGrokResult {
      * @param grokResult
      */
     void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
+        final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
+        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer();
+        grokResultTransformer.addKeyValue("lineno", String.valueOf(readLineCount));
+        grokResultTransformer.addKeys(keysSortedList, grokResult.m);
+        if (readLineCount == 1) {
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < grokResultTransformer.keys.size(); i++) {
+                if (i > 0) {
+                    sb.append(",");
+                }
+                final String k = grokResultTransformer.keys.get(i);
+                sb.append(String.format("\"%s\"", k));
+            }
+            this.println(sb.toString());
+        }
+        {
+            final StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < grokResultTransformer.values.size(); i++) {
+                if (i > 0) {
+                    sb.append(",");
+                }
+                final String v = grokResultTransformer.values.get(i);
+                sb.append(String.format("\"%s\"", v));
+            }
+            this.println(sb.toString());
+        }
+    }
+
+    /**
+     * Ouput {@link GrokMatchResult} as json.
+     *
+     * @param readLineCount
+     * @param grokResult
+     */
+    void outputGrokResultAsJson(int readLineCount, GrokMatchResult grokResult) {
+        final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
+        final GrokResultTransformer grokResultTransformer = new GrokResultTransformer();
+        grokResultTransformer.addKeyValue("lineno", String.valueOf(readLineCount));
+        grokResultTransformer.addKeys(keysSortedList, grokResult.m);
+
+        final StringBuilder sb = new StringBuilder();
+        if (readLineCount > 1) {
+            sb.append(String.format(",%n"));
+        }
+        sb.append(String.format("\"entry\": {%n"));
+        for (int i = 0; i < grokResultTransformer.keys.size(); i++) {
+            if (i > 0) {
+                sb.append(String.format(",%n"));
+            }
+            String k = grokResultTransformer.keys.get(i);
+            String v = grokResultTransformer.values.get(i);
+            sb.append(String.format("\"%s\": \"%s\"", k, v));
+        }
+        sb.append(String.format("%n}"));
+        print(sb.toString());
+    }
+
+    void _outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult
+    ) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
         if (readLineCount == 1) {
             final StringBuilder sb = new StringBuilder();
@@ -81,7 +190,8 @@ class OutputGrokResult {
         }
     }
 
-    String convertObjectToString(Object o) {
+    String convertObjectToString(Object o
+    ) {
         final String v;
         if (o == null) {
             v = "";
@@ -93,8 +203,19 @@ class OutputGrokResult {
         return v;
     }
 
-    void printOut(String format, Object... args) {
+    void printOut(String format, Object... args
+    ) {
         final String str = String.format(format, args);
+        this.pwOut.print(str);
+    }
+
+    void println(String str
+    ) {
+        this.pwOut.println(str);
+    }
+
+    void print(String str
+    ) {
         this.pwOut.print(str);
     }
 
