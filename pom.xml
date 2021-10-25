@@ -130,7 +130,7 @@
 
                     <!-- (optional) name for binary executable, if not set will just -->
                     <!-- make the regular jar artifact executable -->
-                    <programFile>tgftools-executable</programFile>
+                    <programFile>groktools-executable</programFile>
 
                     <!-- (optional) support other packaging formats than jar -->
                     <!-- <allowOtherTypes>true</allowOtherTypes> -->
