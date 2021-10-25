@@ -61,16 +61,24 @@ public class GrokMain implements Callable<Integer> {
             description = "grok pattern")
     private String pattern;
 
+    @Option(names = "--no-register-default-patterns",
+            negatable = true,
+            description = "Register default patterns. True by default.")
+    private boolean registerDefaultPatterns = true;
+
+    @Option(names = "--no-named-only",
+            negatable = true,
+            description = "Provide only named matches. True by default.")
+    private boolean namedOnly = true;
+
     @Option(names = {"--pattern-definitions-file"},
             description = "read pattern definition from a file")
     private File patternDefinitionsFile;
     @Option(names = {"--pattern-definitions-classpath"},
             description = "read pattern definition from classpath")
     private String patternDefinitionsClasspath;
-
     // TODO define a option
     private String patternDefinitions;
-
     @Option(names = {"--show-pattern-definitions"},
             description = "show grok pattern definitions")
     private boolean showPatternDefinitions;
@@ -109,13 +117,13 @@ public class GrokMain implements Callable<Integer> {
             //---
             // setup Grok using a GrokBuilder
             final GrokBuilder grokBuilder = new GrokBuilder()
-                    .registerDefaultPatterns(true)
-                    .namedOnly(true);
+                    .registerDefaultPatterns(registerDefaultPatterns)
+                    .namedOnly(namedOnly);
             if (pattern != null) {
                 grokBuilder.pattern(pattern);
             } else {
                 // Hack: GrokCompiler wants a pattern anyway
-                grokBuilder.pattern("%{SPACE:UNWANTED}");
+                grokBuilder.pattern(".*");
             }
             // register more pattern definitions
             if (patternDefinitionsClasspath != null) {
