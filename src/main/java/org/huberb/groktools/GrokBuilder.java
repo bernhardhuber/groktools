@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Collection;
@@ -35,10 +36,11 @@ import java.util.Map;
 public class GrokBuilder {
 
     private String pattern;
-    private Map<String, String> patternDefinitions = Collections.emptyMap();
     private ZoneId defaultTimeZone = ZoneOffset.systemDefault();
     private boolean namedOnly = false;
     private boolean registerDefaultPatterns = true;
+    private Map<String, String> patternDefinitions = Collections.emptyMap();
+    private String patternNameAndDefinition;
     private String patternDefinitionsFromClasspath;
     private File patternDefinitionsFromFile;
 
@@ -68,6 +70,18 @@ public class GrokBuilder {
                 .throwIllegalArgumentExceptionIf("Grok map of pattern definitions is null");
         if (patternDefinitionsMap != null) {
             this.patternDefinitions = patternDefinitionsMap;
+        }
+        return this;
+    }
+
+    public GrokBuilder patternDefinitionsFromString(String patternNameAndDefinition) {
+        new Validations()
+                .isStringNullSafeBlank(patternNameAndDefinition)
+                .throwIllegalArgumentExceptionIf("Grok pattern name and definition is blank");
+        // remove leading classpath:
+        // replace leading double / (//) by single /
+        if (patternNameAndDefinition != null) {
+            this.patternNameAndDefinition = patternNameAndDefinition;
         }
         return this;
     }
@@ -126,6 +140,11 @@ public class GrokBuilder {
         final GrokCompiler grokCompiler = GrokCompiler.newInstance();
         if (registerDefaultPatterns) {
             grokCompiler.registerDefaultPatterns();
+        }
+        if (patternNameAndDefinition != null && !patternNameAndDefinition.isEmpty()) {
+            try (StringReader sr = new StringReader(this.patternNameAndDefinition)) {
+                grokCompiler.register(sr);
+            }
         }
         if (patternDefinitions != null && !patternDefinitions.isEmpty()) {
             grokCompiler.register(patternDefinitions);

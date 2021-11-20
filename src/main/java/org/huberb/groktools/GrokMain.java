@@ -78,7 +78,11 @@ public class GrokMain implements Callable<Integer> {
             description = "read pattern definition from classpath")
     private String patternDefinitionsClasspath;
     // TODO define a option
-    private String patternDefinitions;
+
+    @Option(names = {"--pattern-definition"},
+            description = "define pattern name pattern and pattern definition")
+    private String patternDefinition;
+
     @Option(names = {"--show-pattern-definitions"},
             description = "show grok pattern definitions")
     private boolean showPatternDefinitions;
@@ -126,6 +130,10 @@ public class GrokMain implements Callable<Integer> {
                 grokBuilder.pattern(".*");
             }
             // register more pattern definitions
+            if (patternDefinition != null) {
+                systemErrOutPrinter.printErr(String.format("register pattern name and definition: %s%n", patternDefinition));
+                grokBuilder.patternDefinitionsFromString(patternDefinition);
+            }
             if (patternDefinitionsClasspath != null) {
                 systemErrOutPrinter.printErr(String.format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath));
                 grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);
