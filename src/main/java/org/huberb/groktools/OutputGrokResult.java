@@ -41,6 +41,7 @@ class OutputGrokResult {
      * @param readLineCount
      * @param grokResult
      */
+    @Deprecated()
     void outputGrokResultAsIs(int readLineCount, GrokMatchResult grokResult) {
         printOut("%d %s%n", readLineCount, grokResult);
     }
@@ -93,6 +94,7 @@ class OutputGrokResult {
      * @param readLineCount
      * @param grokResult
      */
+    @Deprecated()
     void outputGrokResultAsCsv(int readLineCount, GrokMatchResult grokResult) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
         final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
@@ -128,6 +130,7 @@ class OutputGrokResult {
      * @param readLineCount
      * @param grokResult
      */
+    @Deprecated()
     void outputGrokResultAsJson(int readLineCount, GrokMatchResult grokResult) {
         final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
         final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
@@ -151,19 +154,16 @@ class OutputGrokResult {
         print(sb.toString());
     }
 
-    private void printOut(String format, Object... args
-    ) {
+    private void printOut(String format, Object... args) {
         final String str = String.format(format, args);
         this.pwOut.print(str);
     }
 
-    private void println(String str
-    ) {
+    private void println(String str) {
         this.pwOut.println(str);
     }
 
-    private void print(String str
-    ) {
+    private void print(String str) {
         this.pwOut.print(str);
     }
 

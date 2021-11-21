@@ -29,6 +29,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
+import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
+import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsCsv;
+import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
+import org.huberb.groktools.OutputGrokResultConverters.outputGrokResultAsJson;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -185,14 +189,47 @@ public class GrokMain implements Callable<Integer> {
         final GrokIt grokIt = new GrokIt();
         try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
-            int readLineCount = 0;
-            for (String line; (line = br.readLine()) != null;) {
-                readLineCount += 1;
-                if (readMaxLinesCount >= 0 && readLineCount > readMaxLinesCount) {
-                    break;
+            //---
+            final IOutputGrokResultConverter outputGrokResultConverter;
+            if (outputMatchResultAsCsv) {
+                outputGrokResultConverter = new OutputGrokResultAsCsv(this.spec.commandLine().getOut());
+            } else if (outputMatchResultAsJson) {
+                outputGrokResultConverter = new outputGrokResultAsJson(this.spec.commandLine().getOut());
+            } else {
+                outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
+            }
+
+            try {
+                outputGrokResultConverter.start();
+                //---
+                int readLineCount = 0;
+                for (String line; (line = br.readLine()) != null;) {
+                    readLineCount += 1;
+                    if (readMaxLinesCount >= 0 && readLineCount > readMaxLinesCount) {
+                        break;
+                    }
+                    final GrokMatchResult grokResult = grokIt.match(grok, line);
+                    //executePostMatching(readLineCount, grokResult);
+
+                    boolean skip = false;
+                    skip = skip || grokResult == null;
+                    skip = skip || (grokResult.start == 0 && grokResult.end == 0);
+                    skip = skip || grokResult.m == null;
+                    skip = skip || grokResult.m.isEmpty();
+                    if (skip) {
+                        continue;
+                    }
+                    outputGrokResultConverter.output(readLineCount, grokResult);
                 }
-                final GrokMatchResult grokResult = grokIt.match(grok, line);
-                executePostMatching(readLineCount, grokResult);
+                outputGrokResultConverter.end();
+            } finally {
+                try {
+                    outputGrokResultConverter.close();
+                } catch (IOException ioex) {
+                    throw ioex;
+                } catch (Exception ex) {
+                    throw new IOException(ex);
+                }
             }
         }
     }
@@ -203,7 +240,8 @@ public class GrokMain implements Callable<Integer> {
      * @param readLineCount
      * @param grokResult
      */
-    void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
+    @Deprecated
+    private void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
         boolean skip = false;
         skip = skip || grokResult == null;
         skip = skip || (grokResult.start == 0 && grokResult.end == 0);
@@ -219,7 +257,8 @@ public class GrokMain implements Callable<Integer> {
             outputGrokResult.outputGrokResultAsJson(readLineCount, grokResult);
         } else {
             outputGrokResult.outputGrokResultAsIs(readLineCount, grokResult);
-        };
+
+        }
     }
 
     /**
