@@ -31,8 +31,6 @@ import org.junit.jupiter.api.Test;
  */
 public class OutputGrokResultAsJsonTest {
 
-    OutputGrokResultAsJson instance;
-
     /**
      * Test of outputGrokResultAsJson method, of class OutputGrokResult.
      */
@@ -45,12 +43,15 @@ public class OutputGrokResultAsJsonTest {
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            final OutputGrokResultAsJson instance = new OutputGrokResultAsJson(pw);
-            instance.output(readLineCount, grokResult);
-
+            try (final OutputGrokResultAsJson instance = new OutputGrokResultAsJson(pw)) {
+                instance.start();
+                instance.output(readLineCount, grokResult);
+                instance.end();
+            }
             final String result = sw.toString().replaceAll("[\\r\\n]", "");
             assertEquals(
-                    "\"entry\": {\"lineno\": \"1\",\"k1\": \"v1\",\"k2\": \"v2\"}", result);
+                    "[\"entry\": {\"lineno\": \"1\",\"k1\": \"v1\",\"k2\": \"v2\"}]", result);
+
         }
     }
 

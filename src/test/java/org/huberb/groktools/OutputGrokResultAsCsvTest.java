@@ -31,8 +31,6 @@ import org.junit.jupiter.api.Test;
  */
 public class OutputGrokResultAsCsvTest {
 
-    OutputGrokResultAsCsv instance;
-
     /**
      * Test of outputGrokResultAsCsv method, of class OutputGrokResult.
      */
@@ -45,9 +43,11 @@ public class OutputGrokResultAsCsvTest {
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            final OutputGrokResultAsCsv instance = new OutputGrokResultAsCsv(pw);
-            instance.output(readLineCount, grokResult);
-
+            try (final OutputGrokResultAsCsv instance = new OutputGrokResultAsCsv(pw)) {
+                instance.start();
+                instance.output(readLineCount, grokResult);
+                instance.end();
+            }
             final String result = sw.toString().replaceAll("[\\r\\n]", "");
             assertEquals(
                     "\"lineno\",\"k1\",\"k2\""

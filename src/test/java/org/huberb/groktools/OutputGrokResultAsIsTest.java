@@ -31,8 +31,6 @@ import org.junit.jupiter.api.Test;
  */
 public class OutputGrokResultAsIsTest {
 
-    OutputGrokResultAsIs instance;
-
     /**
      * Test of outputGrokResultAsIs method, of class OutputGrokResult.
      */
@@ -45,9 +43,11 @@ public class OutputGrokResultAsIsTest {
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw)) {
-            final OutputGrokResultAsIs instance = new OutputGrokResultAsIs(pw);
-            instance.output(readLineCount, grokResult);
-
+            try (final OutputGrokResultAsIs instance = new OutputGrokResultAsIs(pw)) {
+                instance.start();
+                instance.output(readLineCount, grokResult);
+                instance.end();
+            }
             final String result = sw.toString().trim();
             assertEquals("1 GrokResult{subject=subject, start=0, end=5, m={k1=v1, k2=v2}}", result);
         }
