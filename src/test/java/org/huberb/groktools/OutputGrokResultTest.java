@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author berni3
  */
+@Deprecated
 public class OutputGrokResultTest {
 
     public OutputGrokResultTest() {

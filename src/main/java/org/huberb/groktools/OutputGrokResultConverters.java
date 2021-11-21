@@ -155,11 +155,11 @@ public class OutputGrokResultConverters {
     /**
      * Output {@link GrokMatchResult} as json text.
      */
-    static class outputGrokResultAsJson implements IOutputGrokResultConverter {
+    static class OutputGrokResultAsJson implements IOutputGrokResultConverter {
 
         final PrintWriter pwOut;
 
-        public outputGrokResultAsJson(PrintWriter pwOut) {
+        public OutputGrokResultAsJson(PrintWriter pwOut) {
             this.pwOut = pwOut;
         }
 

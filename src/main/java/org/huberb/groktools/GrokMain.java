@@ -32,7 +32,7 @@ import org.huberb.groktools.GrokIt.GrokMatchResult;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
 import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsCsv;
 import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
-import org.huberb.groktools.OutputGrokResultConverters.outputGrokResultAsJson;
+import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsJson;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -194,7 +194,7 @@ public class GrokMain implements Callable<Integer> {
             if (outputMatchResultAsCsv) {
                 outputGrokResultConverter = new OutputGrokResultAsCsv(this.spec.commandLine().getOut());
             } else if (outputMatchResultAsJson) {
-                outputGrokResultConverter = new outputGrokResultAsJson(this.spec.commandLine().getOut());
+                outputGrokResultConverter = new OutputGrokResultAsJson(this.spec.commandLine().getOut());
             } else {
                 outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
             }
