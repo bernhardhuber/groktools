@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
-import org.huberb.groktools.OutputGrokResult.GrokResultTransformer;
+import org.huberb.groktools.ListKeysAndValuesBuilder;
 
 /**
  *
@@ -107,8 +107,10 @@ public class OutputGrokResultConverters {
          */
         @Override
         public void output(int readLineCount, GrokMatchResult grokResult) {
-            final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-            final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
+            final List<String> keysSortedList = grokResult.m.keySet().stream()
+                    .sorted()
+                    .collect(Collectors.toList());
+            final ListKeysAndValuesBuilder grokResultTransformer = new ListKeysAndValuesBuilder()
                     .addKeyValue("lineno", String.valueOf(readLineCount))
                     .addKeys(keysSortedList, grokResult.m);
             if (readLineCount == 1) {
@@ -179,7 +181,7 @@ public class OutputGrokResultConverters {
         @Override
         public void output(int readLineCount, GrokMatchResult grokResult) {
             final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-            final GrokResultTransformer grokResultTransformer = new GrokResultTransformer()
+            final ListKeysAndValuesBuilder grokResultTransformer = new ListKeysAndValuesBuilder()
                     .addKeyValue("lineno", String.valueOf(readLineCount))
                     .addKeys(keysSortedList, grokResult.m);
 
