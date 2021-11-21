@@ -209,7 +209,6 @@ public class GrokMain implements Callable<Integer> {
                         break;
                     }
                     final GrokMatchResult grokResult = grokIt.match(grok, line);
-                    //executePostMatching(readLineCount, grokResult);
 
                     boolean skip = false;
                     skip = skip || grokResult == null;
@@ -223,41 +222,8 @@ public class GrokMain implements Callable<Integer> {
                 }
                 outputGrokResultConverter.end();
             } finally {
-                try {
-                    outputGrokResultConverter.close();
-                } catch (IOException ioex) {
-                    throw ioex;
-                } catch (Exception ex) {
-                    throw new IOException(ex);
-                }
+                outputGrokResultConverter.close();
             }
-        }
-    }
-
-    /**
-     * Handle post matching processing of {@link GrokMatchResult}.
-     *
-     * @param readLineCount
-     * @param grokResult
-     */
-    @Deprecated
-    private void executePostMatching(int readLineCount, GrokMatchResult grokResult) {
-        boolean skip = false;
-        skip = skip || grokResult == null;
-        skip = skip || (grokResult.start == 0 && grokResult.end == 0);
-        skip = skip || grokResult.m == null;
-        skip = skip || grokResult.m.isEmpty();
-        if (skip) {
-            return;
-        }
-        final OutputGrokResult outputGrokResult = new OutputGrokResult(this.spec.commandLine().getOut());
-        if (outputMatchResultAsCsv) {
-            outputGrokResult.outputGrokResultAsCsv(readLineCount, grokResult);
-        } else if (outputMatchResultAsJson) {
-            outputGrokResult.outputGrokResultAsJson(readLineCount, grokResult);
-        } else {
-            outputGrokResult.outputGrokResultAsIs(readLineCount, grokResult);
-
         }
     }
 

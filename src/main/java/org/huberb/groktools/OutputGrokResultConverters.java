@@ -15,6 +15,7 @@
  */
 package org.huberb.groktools;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +35,14 @@ public class OutputGrokResultConverters {
         void output(int readLineCount, GrokMatchResult grokResult);
 
         void end();
+
+        @Override
+        void close() throws IOException;
     }
 
+    /**
+     * Output {@link GrokMatchResult} as plain text.
+     */
     static class OutputGrokResultAsIs implements IOutputGrokResultConverter {
 
         final PrintWriter pwOut;
@@ -77,6 +84,9 @@ public class OutputGrokResultConverters {
 
     }
 
+    /**
+     * Output {@link GrokMatchResult} as csv text.
+     */
     static class OutputGrokResultAsCsv implements IOutputGrokResultConverter {
 
         final PrintWriter pwOut;
@@ -142,6 +152,9 @@ public class OutputGrokResultConverters {
 
     }
 
+    /**
+     * Output {@link GrokMatchResult} as json text.
+     */
     static class outputGrokResultAsJson implements IOutputGrokResultConverter {
 
         final PrintWriter pwOut;
