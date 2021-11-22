@@ -24,6 +24,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 /**
  *
@@ -47,6 +49,31 @@ public class ListKeysAndValuesBuilderTest {
         assertAll(
                 () -> assertEquals(1, result.values.size()),
                 () -> assertEquals("v1", result.values.get(0))
+        );
+    }
+
+    /**
+     * Test of addKeyValue method, of class ListKeysAndValuesBuilder.
+     */
+    @ParameterizedTest
+    @CsvSource(
+            value = {
+                "k1,v1",
+                "k2,v2",
+                "k3,v3"
+            })
+    public void testAddKeyValue_ParameterizedTest(String key, String value) {
+        final String k = key;
+        final String v = value;
+        final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
+        final ListKeysAndValuesBuilder result = instance.addKeyValue(k, v);
+        assertAll(
+                () -> assertEquals(1, result.keys.size()),
+                () -> assertEquals(k, result.keys.get(0))
+        );
+        assertAll(
+                () -> assertEquals(1, result.values.size()),
+                () -> assertEquals(v, result.values.get(0))
         );
     }
 

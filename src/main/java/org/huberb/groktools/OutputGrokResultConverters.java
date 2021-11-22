@@ -20,14 +20,17 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
-import org.huberb.groktools.ListKeysAndValuesBuilder;
 
 /**
+ * Define various output formatter for {@link GrokMatchResult}.
  *
  * @author berni3
  */
 public class OutputGrokResultConverters {
 
+    /**
+     * Define implementation template for an output-formatter.
+     */
     static interface IOutputGrokResultConverter extends AutoCloseable {
 
         void start();
@@ -63,7 +66,7 @@ public class OutputGrokResultConverters {
          */
         @Override
         public void output(int readLineCount, GrokMatchResult grokResult) {
-            printOut("%d %s%n", readLineCount, grokResult);
+            printFormat("%d %s%n", readLineCount, grokResult);
         }
 
         @Override
@@ -77,7 +80,7 @@ public class OutputGrokResultConverters {
             }
         }
 
-        private void printOut(String format, Object... args) {
+        private void printFormat(String format, Object... args) {
             final String str = String.format(format, args);
             this.pwOut.print(str);
         }
@@ -120,7 +123,7 @@ public class OutputGrokResultConverters {
                         sb.append(",");
                     }
                     final String k = grokResultTransformer.keys().get(i);
-                    sb.append(String.format("\"%s\"", k));
+                    sb.append(String.format("\"%s\"", escapeCsv(k)));
                 }
                 this.println(sb.toString());
             }
@@ -131,7 +134,7 @@ public class OutputGrokResultConverters {
                         sb.append(",");
                     }
                     final String v = grokResultTransformer.values().get(i);
-                    sb.append(String.format("\"%s\"", v));
+                    sb.append(String.format("\"%s\"", escapeCsv(v)));
                 }
                 this.println(sb.toString());
             }
@@ -150,6 +153,12 @@ public class OutputGrokResultConverters {
 
         private void println(String str) {
             this.pwOut.println(str);
+        }
+
+        private String escapeCsv(String s) {
+            String escapedCsv = s;
+            escapedCsv = escapedCsv.replace("\"", "\"\"");
+            return escapedCsv;
         }
 
     }
@@ -196,7 +205,7 @@ public class OutputGrokResultConverters {
                 }
                 String k = grokResultTransformer.keys().get(i);
                 String v = grokResultTransformer.values().get(i);
-                sb.append(String.format("\"%s\": \"%s\"", k, v));
+                sb.append(String.format("\"%s\": \"%s\"", k, escapeJson(v)));
             }
             sb.append(String.format("%n}"));
             this.print(sb.toString());
@@ -218,6 +227,17 @@ public class OutputGrokResultConverters {
 
         private void print(String str) {
             this.pwOut.print(str);
+        }
+
+        private String escapeJson(String s) {
+            String escapedJson = s;
+            escapedJson = escapedJson.replace("\\", "\\\\");
+            escapedJson = escapedJson.replace("\"", "\\\"");
+            escapedJson = escapedJson.replace("\n", "\\n");
+            escapedJson = escapedJson.replace("\r", "\\r");
+            escapedJson = escapedJson.replace("\t", "\\t");
+
+            return escapedJson;
         }
     }
 
