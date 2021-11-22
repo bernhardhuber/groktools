@@ -15,6 +15,8 @@
  */
 package org.huberb.groktools;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -103,11 +105,16 @@ public class ListKeysAndValuesBuilderTest {
     public void testConvertObjectToString() {
         final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
         assertEquals("", instance.convertObjectToString(null));
+        assertEquals("", instance.convertObjectToString(""));
+        //---
         assertEquals("A", instance.convertObjectToString("A"));
         final StringBuilder sb = new StringBuilder("A");
         assertEquals("A", instance.convertObjectToString(sb));
+        //---
         assertEquals("1", instance.convertObjectToString(new Integer(1)));
         assertEquals("1", instance.convertObjectToString(new Long(1)));
+        assertEquals("1", instance.convertObjectToString(BigInteger.ONE));
+        assertEquals("1", instance.convertObjectToString(BigDecimal.ONE));
     }
 
 }
