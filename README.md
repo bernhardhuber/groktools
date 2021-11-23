@@ -44,7 +44,9 @@ parse unstructured  files
 
 ## Example Wildfly
 
-Content of server.log
+Parse wildfly server.log file and convert it to csv file format.
+
+Content of server.log:
 
 ```
 2019-03-04 22:30:15,465 INFO  [org.jboss.modules] (main) JBoss Modules version 1.9.0.Final
@@ -76,6 +78,8 @@ Generated CSV:
 
 ## Example Activemq 
 
+Parse activemq.log file and convert it to csv file format.
+
 Content of activemq.log:
 
 ```
@@ -92,7 +96,7 @@ Launching grooktools:
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult-as-csv \
-  --pattern=%{WILDFLY_SERVERLOG_2} \
+  --pattern=%{ACTIVEMQ_ACTIVEMQLOG_2} \
   --file=activemq.log \
 ```
 
@@ -108,6 +112,8 @@ Generated CSV:
 ```
 
 ## Example Logstash 
+
+Parse logstash-plain.log file and convert it to csv file format.
 
 Content of logstash-plain.log:
 
@@ -125,7 +131,7 @@ Launching grooktools:
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult-as-csv \
-  --pattern=%{WILDFLY_SERVERLOG_2} \
+  --pattern=%{ELKSTACK_LOGSTASHLOG} \
   --file=logstash-plain.log \
 ```
 
