@@ -1,0 +1,6 @@
+"lineno","category","level","message","thread","timestampIso8601"
+"1","org.jboss.modules","INFO","JBoss Modules version 1.9.0.Final","main","2019-03-04 22:30:15,465"
+"2","org.jboss.msc","INFO","JBoss MSC version 1.4.5.Final","main","2019-03-04 22:30:16,324"
+"3","org.jboss.threads","INFO","JBoss Threads version 2.3.3.Final","main","2019-03-04 22:30:16,340"
+"4","org.jboss.as","INFO","WFLYSRV0049: WildFly Full 16.0.0.Final (WildFly Core 8.0.0.Final) starting","MSC service thread 1-2","2019-03-04 22:30:16,563"
+"5","org.jboss.as.config","DEBUG","Configured system properties:","MSC service thread 1-2","2019-03-04 22:30:16,563"
