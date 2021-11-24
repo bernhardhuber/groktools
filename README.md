@@ -61,7 +61,7 @@ Launching grooktools:
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult-as-csv \
-  --pattern=%{WILDFLY_SERVERLOG_2} \
+  --pattern=%{WILDFLY_SERVERLOG} \
   --file=server.log \
 ```
 
@@ -96,7 +96,7 @@ Launching grooktools:
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult-as-csv \
-  --pattern=%{ACTIVEMQ_ACTIVEMQLOG_2} \
+  --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
   --file=activemq.log \
 ```
 
