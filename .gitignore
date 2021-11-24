@@ -25,3 +25,7 @@ hs_err_pid*
 nb-configuration.xml
 /target/
 !/activemq.log
+/find_file_extension_log.txt
+!/src/main/resources/examples/server.log
+!/src/main/resources/examples/logstash-plain.log
+!/src/main/resources/examples/activemq.log

@@ -16,13 +16,19 @@ OUTPUT_MODE=--output-matchresult-as-csv
 
 #-----------------------------------------------------------------------------
 # log-files
-WILDFLY_SERVERLOG_FILE=./server.log
-ACTIVEMQ_ACTIVEMQLOG_FILE=./activemq.log
-ELKSTACK_LOGSTASHLOG=logstash-plain.log
+LOG_FILES_BASEDIR=./src/main/resources/examples
+WILDFLY_SERVERLOG_FILE=${LOG_FILES_BASEDIR}/server.log
+ACTIVEMQ_ACTIVEMQLOG_FILE=${LOG_FILES_BASEDIR}/activemq.log
+ELKSTACK_LOGSTASHLOG=${LOG_FILES_BASEDIR}/logstash-plain.log
 
 #-----------------------------------------------------------------------------
 # grok wildfly server.log
 function grok_wildfly () {
+    if [ ! -f ${WILDFLY_SERVERLOG_FILE} ]
+    then
+      echo "Missing file: ${WILDFLY_SERVERLOG_FILE}"
+    fi
+
 cat << -EOF-
 
 # Wildfly server.log
@@ -39,33 +45,46 @@ $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
 #-----------------------------------------------------------------------------
 # grok activemq activemq.log
 function grok_activemq () {
-cat << -EOF-
+    if [ ! -f ${ACTIVEMQ_ACTIVEMQLOG_FILE} ]
+    then
+      echo "Missing file: ${ACTIVEMQ_ACTIVEMQLOG_FILE}"
+    fi
+
+    cat << -EOF-
 
 # Activemq activemq.log
 
 -EOF-
-$CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-  ${OUTPUT_MODE} \
-  --pattern=%{ACTIVEMQ_ACTIVEMQLOG_2} \
-  --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
-  2>&1 
+
+    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
+      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+      ${OUTPUT_MODE} \
+      --pattern=%{ACTIVEMQ_ACTIVEMQLOG_2} \
+      --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
+      2>&1 
 }
 
 #-----------------------------------------------------------------------------
 # grok logstash logstash-plain.log
 function grok_elkstack () {
-cat << -EOF-
+
+    if [ ! -f ${ELKSTACK_LOGSTASHLOG} ]
+    then
+      echo "Missing file: ${ELKSTACK_LOGSTASHLOG}"
+    fi
+
+    cat << -EOF-
 
 # Logstash logstash-plain.log
 
 -EOF-
-$CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-  ${OUTPUT_MODE} \
-  --pattern=%{ELKSTACK_LOGSTASHLOG} \
-  --file=${ELKSTACK_LOGSTASHLOG} \
-  2>&1 
+
+    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
+      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+      ${OUTPUT_MODE} \
+      --pattern=%{ELKSTACK_LOGSTASHLOG} \
+      --file=${ELKSTACK_LOGSTASHLOG} \
+      2>&1 
 }
 
 #-----------------------------------------------------------------------------
