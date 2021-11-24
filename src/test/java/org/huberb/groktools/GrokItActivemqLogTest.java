@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,14 +50,17 @@ public class GrokItActivemqLogTest {
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
-        assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertTrue(grokMatchResult.m.size() >= 6, m);
-        assertEquals("2020-05-02", grokMatchResult.m.get("date"), m);
-        assertEquals("07:26:24", grokMatchResult.m.get("time"), m);
-        assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m);
-        assertEquals("main", grokMatchResult.m.get("thread"), m);
-        assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m);
+        assertAll(
+                () -> assertFalse(grokMatchResult.m.isEmpty(), m),
+                () -> assertTrue(grokMatchResult.m.size() >= 6, m),
+                () -> assertEquals("2020-05-02", grokMatchResult.m.get("date"), m),
+                () -> assertEquals("07:26:24", grokMatchResult.m.get("time"), m),
+                () -> assertEquals("INFO", grokMatchResult.m.get("level"), m),
+                () -> assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m),
+                () -> assertEquals("main", grokMatchResult.m.get("thread"), m),
+                () -> assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m)
+        );
+
     }
 
     @ParameterizedTest
@@ -72,13 +76,15 @@ public class GrokItActivemqLogTest {
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
-        assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertTrue(grokMatchResult.m.size() >= 5, m);
-        assertEquals("2020-05-02 07:26:24,895", grokMatchResult.m.get("timestampIso8601"), m);
-        assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m);
-        assertEquals("main", grokMatchResult.m.get("thread"), m);
-        assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m);
+        assertAll(
+                () -> assertFalse(grokMatchResult.m.isEmpty(), m),
+                () -> assertTrue(grokMatchResult.m.size() >= 5, m),
+                () -> assertEquals("2020-05-02 07:26:24,895", grokMatchResult.m.get("timestampIso8601"), m),
+                () -> assertEquals("INFO", grokMatchResult.m.get("level"), m),
+                () -> assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m),
+                () -> assertEquals("main", grokMatchResult.m.get("thread"), m),
+                () -> assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m)
+        );
     }
 
     static Stream<String> activmqlog() {

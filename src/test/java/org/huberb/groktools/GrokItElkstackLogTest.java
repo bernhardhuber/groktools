@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,12 +50,14 @@ public class GrokItElkstackLogTest {
         final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
-        assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertTrue(grokMatchResult.m.size() >= 4, m);
-        assertEquals("2020-01-30T22:27:01,337", grokMatchResult.m.get("timestampIso8601"), m);
-        assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("logstash.agent", grokMatchResult.m.get("category"), m);
-        assertEquals("Successfully started Logstash API endpoint {:port=>9600}", grokMatchResult.m.get("message"), m);
+        assertAll(
+                () -> assertFalse(grokMatchResult.m.isEmpty(), m),
+                () -> assertTrue(grokMatchResult.m.size() >= 4, m),
+                () -> assertEquals("2020-01-30T22:27:01,337", grokMatchResult.m.get("timestampIso8601"), m),
+                () -> assertEquals("INFO", grokMatchResult.m.get("level"), m),
+                () -> assertEquals("logstash.agent", grokMatchResult.m.get("category"), m),
+                () -> assertEquals("Successfully started Logstash API endpoint {:port=>9600}", grokMatchResult.m.get("message"), m)
+        );
     }
 
     static Stream<String> logstashlog() {

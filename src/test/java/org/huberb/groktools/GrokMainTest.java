@@ -17,6 +17,7 @@ package org.huberb.groktools;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -56,14 +57,16 @@ public class GrokMainTest {
         final int exitCode = cmd.execute(helpOption);
         assertEquals(0, exitCode);
         assertEquals("", swErr.toString(), "stderr");
-        final String swErrAsString = swOut.toString();
-        final String m = String.format("stdout helpOption %s, stderr: %s", helpOption, swErrAsString);
-        assertNotEquals(0, swErrAsString, m);
-        assertTrue(swErrAsString.contains("Usage:"), m);
-        assertTrue(swErrAsString.contains("--pattern"), m);
-        assertTrue(swErrAsString.contains("-h"), m);
-        assertTrue(swErrAsString.contains("--help"), m);
-        assertTrue(swErrAsString.contains("-V"), m);
-        assertTrue(swErrAsString.contains("--version"), m);
+        final String swOutAsString = swOut.toString();
+        final String m = String.format("stdout helpOption %s, stderr: %s", helpOption, swOutAsString);
+        assertAll(
+                () -> assertNotEquals(0, swOutAsString, m),
+                () -> assertTrue(swOutAsString.contains("Usage:"), m),
+                () -> assertTrue(swOutAsString.contains("--pattern"), m),
+                () -> assertTrue(swOutAsString.contains("-h"), m),
+                () -> assertTrue(swOutAsString.contains("--help"), m),
+                () -> assertTrue(swOutAsString.contains("-V"), m),
+                () -> assertTrue(swOutAsString.contains("--version"), m)
+        );
     }
 }
