@@ -11,8 +11,8 @@
 #-----------------------------------------------------------------------------
 CMD=./target/groktools-1.0-SNAPSHOT-executable 
 READ_MAX_LINES_COUNT=10
-OUTPUT_MODE=--output-matchresult-as-csv
-#OUTPUT_MODE=--output-matchresult-as-json
+#OUTPUT_MODE=--output-matchresult-as-csv
+OUTPUT_MODE=--output-matchresult-as-json
 
 #-----------------------------------------------------------------------------
 # log-files
@@ -20,6 +20,7 @@ LOG_FILES_BASEDIR=./src/main/resources/examples
 WILDFLY_SERVERLOG_FILE=${LOG_FILES_BASEDIR}/server.log
 ACTIVEMQ_ACTIVEMQLOG_FILE=${LOG_FILES_BASEDIR}/activemq.log
 ELKSTACK_LOGSTASHLOG=${LOG_FILES_BASEDIR}/logstash-plain.log
+FLUME_FLUMELOG=${LOG_FILES_BASEDIR}/flume.log
 
 #-----------------------------------------------------------------------------
 # grok wildfly server.log
@@ -37,7 +38,7 @@ cat << -EOF-
 $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=${READ_MAX_LINES_COUNT} \
   ${OUTPUT_MODE} \
-  --pattern=%{WILDFLY_SERVERLOG_2} \
+  --pattern=%{WILDFLY_SERVERLOG} \
   --file=${WILDFLY_SERVERLOG_FILE} \
   2>&1 
 }
@@ -59,7 +60,7 @@ function grok_activemq () {
     $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
       --read-max-lines-count=${READ_MAX_LINES_COUNT} \
       ${OUTPUT_MODE} \
-      --pattern=%{ACTIVEMQ_ACTIVEMQLOG_2} \
+      --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
       --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
       2>&1 
 }
@@ -88,8 +89,32 @@ function grok_elkstack () {
 }
 
 #-----------------------------------------------------------------------------
+# grok flume flume.log
+function grok_flume () {
+    if [ ! -f ${FLUME_FLUMELOG} ]
+    then
+      echo "Missing file: ${FLUME_FLUMELOG}"
+    fi
+
+    cat << -EOF-
+
+# Flume flume.log
+
+-EOF-
+
+    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
+      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+      ${OUTPUT_MODE} \
+      --pattern=%{FLUME_FLUMELOG} \
+      --file=${FLUME_FLUMELOG} \
+      2>&1 
+}
+
+
+#-----------------------------------------------------------------------------
 #
 grok_wildfly
 grok_activemq
 grok_elkstack
+grok_flume
 

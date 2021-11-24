@@ -39,35 +39,9 @@ public class GrokItActivemqLogTest {
 
     @ParameterizedTest
     @MethodSource(value = "activmqlog")
-    public void testActiveMqActiveMqlog(String line) throws IOException {
-        final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{ACTIVEMQ_ACTIVEMQLOG}")
-                .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
-                .namedOnly(true);
-
-        final Grok grok = grokBuilder.build();
-        final GrokIt grokIt = new GrokIt();
-        final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
-        assertNotNull(grokMatchResult);
-        final String m = String.format("grokMatchResult %s", grokMatchResult);
-        assertAll(
-                () -> assertFalse(grokMatchResult.m.isEmpty(), m),
-                () -> assertTrue(grokMatchResult.m.size() >= 6, m),
-                () -> assertEquals("2020-05-02", grokMatchResult.m.get("date"), m),
-                () -> assertEquals("07:26:24", grokMatchResult.m.get("time"), m),
-                () -> assertEquals("INFO", grokMatchResult.m.get("level"), m),
-                () -> assertEquals("org.apache.activemq.broker.TransportConnector", grokMatchResult.m.get("category"), m),
-                () -> assertEquals("main", grokMatchResult.m.get("thread"), m),
-                () -> assertEquals("Connector amqp started", grokMatchResult.m.get("message"), m)
-        );
-
-    }
-
-    @ParameterizedTest
-    @MethodSource(value = "activmqlog")
     public void testActiveMqActiveMqlog_2(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{ACTIVEMQ_ACTIVEMQLOG_2}")
+                .pattern("%{ACTIVEMQ_ACTIVEMQLOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(true);
 

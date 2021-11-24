@@ -29,3 +29,4 @@ nb-configuration.xml
 !/src/main/resources/examples/server.log
 !/src/main/resources/examples/logstash-plain.log
 !/src/main/resources/examples/activemq.log
+!/src/main/resources/examples/flume.log

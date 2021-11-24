@@ -48,32 +48,9 @@ public class GrokItServerLogTest {
 
     @ParameterizedTest
     @MethodSource(value = "wildflyserverlog")
-    public void testWildflyServerlog(String line) throws IOException {
-        final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{WILDFLY_SERVERLOG}")
-                .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
-                .namedOnly(true);
-        final Grok grok = grokBuilder.build();
-        final GrokIt grokIt = new GrokIt();
-        final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
-        assertNotNull(grokMatchResult);
-        final String m = String.format("grokMatchResult %s", grokMatchResult);
-        assertAll(
-                () -> assertFalse(grokMatchResult.m.isEmpty(), m),
-                () -> assertEquals("2019-03-04", grokMatchResult.m.get("date"), m),
-                () -> assertEquals("22:30:18", grokMatchResult.m.get("time"), m),
-                () -> assertEquals("INFO", grokMatchResult.m.get("level"), m),
-                () -> assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m),
-                () -> assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m),
-                () -> assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m)
-        );
-    }
-
-    @ParameterizedTest
-    @MethodSource(value = "wildflyserverlog")
     public void testWildflyServerlog_2(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{WILDFLY_SERVERLOG_2}")
+                .pattern("%{WILDFLY_SERVERLOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(true);
         final Grok grok = grokBuilder.build();
