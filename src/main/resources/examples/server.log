@@ -16,8 +16,8 @@
 	java.endorsed.dirs = c:\Program Files\Java\jdk1.8.0_152\jre\lib\endorsed
 	java.ext.dirs = c:\Program Files\Java\jdk1.8.0_152\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext
 	java.home = c:\Program Files\Java\jdk1.8.0_152\jre
-	java.io.tmpdir = C:\Users\berni3\AppData\Local\Temp\
-	java.library.path = c:\Program Files\Java\jdk1.8.0_152\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;G:\Programms\cmder_mini\bin;G:\Programms\cmder_mini\vendor\msysgit\bin;G:\Programms\cmder_mini\vendor\msysgit\mingw\bin;G:\Programms\cmder_mini\vendor\msysgit\cmd;G:\Programms\cmder_mini\vendor\msysgit\share\vim\vim74;G:\Programms\cmder_mini;G:\Programms\cmder_mini\vendor\conemu-maximus5\ConEmu;G:\Programms\cmder_mini\vendor\conemu-maximus5;C:\Program Files\ImageMagick-7.0.8-Q16;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\HashiCorp\Vagrant\bin;C:\Users\berni3\AppData\Local\Microsoft\WindowsApps;C:\Users\berni3\AppData\Local\GitHubDesktop\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;.
+	java.io.tmpdir = C:\Users\xxxx3\AppData\Local\Temp\
+	java.library.path = c:\Program Files\Java\jdk1.8.0_152\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;G:\Programms\cmder_mini\bin;G:\Programms\cmder_mini\vendor\msysgit\bin;G:\Programms\cmder_mini\vendor\msysgit\mingw\bin;G:\Programms\cmder_mini\vendor\msysgit\cmd;G:\Programms\cmder_mini\vendor\msysgit\share\vim\vim74;G:\Programms\cmder_mini;G:\Programms\cmder_mini\vendor\conemu-maximus5\ConEmu;G:\Programms\cmder_mini\vendor\conemu-maximus5;C:\Program Files\ImageMagick-7.0.8-Q16;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\HashiCorp\Vagrant\bin;C:\Users\xxxx3\AppData\Local\Microsoft\WindowsApps;C:\Users\xxxx3\AppData\Local\GitHubDesktop\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;.
 	java.net.preferIPv4Stack = true
 	java.runtime.name = Java(TM) SE Runtime Environment
 	java.runtime.version = 1.8.0_152-b16
@@ -79,9 +79,9 @@
 	user.country = US
 	user.country.format = AT
 	user.dir = D:\projects\java-projects\eebatch
-	user.home = C:\Users\berni3
+	user.home = C:\Users\xxxx3
 	user.language = en
-	user.name = berni3
+	user.name = xxxx3
 	user.script = 
 	user.timezone = Europe/Berlin
 	user.variant = 
@@ -138,10 +138,10 @@
 2019-03-04 22:30:24,527 INFO  [org.hibernate.validator.internal.util.Version] (MSC service thread 1-5) HV000001: Hibernate Validator 6.0.15.Final
 2019-03-04 22:30:24,777 INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-5) WFLYEJB0473: JNDI bindings for session bean named 'BatchRestlet' in deployment unit 'deployment "eebatch-1.0-SNAPSHOT.war"' are as follows:
 
-	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:module/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
+	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:module/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
 	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:module/BatchRestlet
@@ -152,10 +152,10 @@
 2019-03-04 22:30:25,671 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 5) WFLYCLINF0002: Started client-mappings cache from ejb container
 2019-03-04 22:30:25,686 INFO  [io.smallrye.metrics] (MSC service thread 1-3) MicroProfile: Metrics activated
 2019-03-04 22:30:26,456 INFO  [javax.enterprise.resource.webcontainer.jsf.config] (ServerService Thread Pool -- 5) Initializing Mojarra 2.3.9.SP01 for context '/eebatch-1.0-SNAPSHOT'
-2019-03-04 22:30:27,709 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 5) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.huberb.eebatch.rest.RestletApp
+2019-03-04 22:30:27,709 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 5) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.xxxx.eebatch.rest.RestletApp
 2019-03-04 22:30:27,772 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 5) WFLYUT0021: Registered web context: '/eebatch-1.0-SNAPSHOT' for server 'default-server'
 2019-03-04 22:30:27,866 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0010: Deployed "eebatch-1.0-SNAPSHOT.war" (runtime-name : "eebatch-1.0-SNAPSHOT.war")
-2019-03-04 22:38:22,632 ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component BatchRestlet for method public javax.ws.rs.core.Response org.huberb.eebatch.rest.BatchRestlet.start(java.lang.String): javax.ejb.EJBException: java.lang.NullPointerException
+2019-03-04 22:38:22,632 ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component BatchRestlet for method public javax.ws.rs.core.Response org.xxxx.eebatch.rest.BatchRestlet.start(java.lang.String): javax.ejb.EJBException: java.lang.NullPointerException
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:246)
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:362)
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:144)
@@ -188,7 +188,7 @@
 	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:198)
 	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:185)
 	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:81)
-	at org.huberb.eebatch.rest.BatchRestlet$$$view1.start(Unknown Source)
+	at org.xxxx.eebatch.rest.BatchRestlet$$$view1.start(Unknown Source)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -260,9 +260,9 @@
 Caused by: java.lang.NullPointerException
 	at org.wildfly.extension.batch.jberet.deployment.JobOperatorService.start(JobOperatorService.java:224)
 	at org.jberet.operations.DelegatingJobOperator.start(DelegatingJobOperator.java:67)
-	at org.huberb.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
-	at org.huberb.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
-	at org.huberb.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
+	at org.xxxx.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
+	at org.xxxx.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
+	at org.xxxx.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -386,7 +386,7 @@ Caused by: javax.ejb.EJBException: java.lang.NullPointerException
 	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:198)
 	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:185)
 	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:81)
-	at org.huberb.eebatch.rest.BatchRestlet$$$view1.start(Unknown Source)
+	at org.xxxx.eebatch.rest.BatchRestlet$$$view1.start(Unknown Source)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -404,9 +404,9 @@ Caused by: javax.ejb.EJBException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 	at org.wildfly.extension.batch.jberet.deployment.JobOperatorService.start(JobOperatorService.java:224)
 	at org.jberet.operations.DelegatingJobOperator.start(DelegatingJobOperator.java:67)
-	at org.huberb.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
-	at org.huberb.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
-	at org.huberb.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
+	at org.xxxx.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
+	at org.xxxx.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
+	at org.xxxx.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -471,8 +471,8 @@ Caused by: java.lang.NullPointerException
 	java.endorsed.dirs = c:\Program Files\Java\jdk1.8.0_152\jre\lib\endorsed
 	java.ext.dirs = c:\Program Files\Java\jdk1.8.0_152\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext
 	java.home = c:\Program Files\Java\jdk1.8.0_152\jre
-	java.io.tmpdir = C:\Users\berni3\AppData\Local\Temp\
-	java.library.path = c:\Program Files\Java\jdk1.8.0_152\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;G:\Programms\cmder_mini\bin;G:\Programms\cmder_mini\vendor\msysgit\bin;G:\Programms\cmder_mini\vendor\msysgit\mingw\bin;G:\Programms\cmder_mini\vendor\msysgit\cmd;G:\Programms\cmder_mini\vendor\msysgit\share\vim\vim74;G:\Programms\cmder_mini;G:\Programms\cmder_mini\vendor\conemu-maximus5\ConEmu;G:\Programms\cmder_mini\vendor\conemu-maximus5;C:\Program Files\ImageMagick-7.0.8-Q16;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\HashiCorp\Vagrant\bin;C:\Users\berni3\AppData\Local\Microsoft\WindowsApps;C:\Users\berni3\AppData\Local\GitHubDesktop\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;.
+	java.io.tmpdir = C:\Users\xxxx3\AppData\Local\Temp\
+	java.library.path = c:\Program Files\Java\jdk1.8.0_152\jre\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;G:\Programms\cmder_mini\bin;G:\Programms\cmder_mini\vendor\msysgit\bin;G:\Programms\cmder_mini\vendor\msysgit\mingw\bin;G:\Programms\cmder_mini\vendor\msysgit\cmd;G:\Programms\cmder_mini\vendor\msysgit\share\vim\vim74;G:\Programms\cmder_mini;G:\Programms\cmder_mini\vendor\conemu-maximus5\ConEmu;G:\Programms\cmder_mini\vendor\conemu-maximus5;C:\Program Files\ImageMagick-7.0.8-Q16;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\HashiCorp\Vagrant\bin;C:\Users\xxxx3\AppData\Local\Microsoft\WindowsApps;C:\Users\xxxx3\AppData\Local\GitHubDesktop\bin;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;;.
 	java.net.preferIPv4Stack = true
 	java.runtime.name = Java(TM) SE Runtime Environment
 	java.runtime.version = 1.8.0_152-b16
@@ -534,9 +534,9 @@ Caused by: java.lang.NullPointerException
 	user.country = US
 	user.country.format = AT
 	user.dir = D:\projects\java-projects\eebatch
-	user.home = C:\Users\berni3
+	user.home = C:\Users\xxxx3
 	user.language = en
-	user.name = berni3
+	user.name = xxxx3
 	user.script = 
 	user.timezone = Europe/Berlin
 	user.variant = 
@@ -589,10 +589,10 @@ Caused by: java.lang.NullPointerException
 2019-03-04 22:40:08,678 INFO  [org.hibernate.validator.internal.util.Version] (MSC service thread 1-8) HV000001: Hibernate Validator 6.0.15.Final
 2019-03-04 22:40:08,903 INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-8) WFLYEJB0473: JNDI bindings for session bean named 'BatchRestlet' in deployment unit 'deployment "eebatch-1.0-SNAPSHOT.war"' are as follows:
 
-	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:module/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
+	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:module/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
 	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:module/BatchRestlet
@@ -603,7 +603,7 @@ Caused by: java.lang.NullPointerException
 2019-03-04 22:40:09,829 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 74) WFLYCLINF0002: Started client-mappings cache from ejb container
 2019-03-04 22:40:09,844 INFO  [io.smallrye.metrics] (MSC service thread 1-1) MicroProfile: Metrics activated
 2019-03-04 22:40:10,673 INFO  [javax.enterprise.resource.webcontainer.jsf.config] (ServerService Thread Pool -- 74) Initializing Mojarra 2.3.9.SP01 for context '/eebatch-1.0-SNAPSHOT'
-2019-03-04 22:40:11,987 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 74) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.huberb.eebatch.rest.RestletApp
+2019-03-04 22:40:11,987 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 74) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.xxxx.eebatch.rest.RestletApp
 2019-03-04 22:40:12,068 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 74) WFLYUT0021: Registered web context: '/eebatch-1.0-SNAPSHOT' for server 'default-server'
 2019-03-04 22:40:12,173 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0010: Deployed "eebatch-1.0-SNAPSHOT.war" (runtime-name : "eebatch-1.0-SNAPSHOT.war")
 2019-03-04 22:40:12,236 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0212: Resuming server
@@ -617,10 +617,10 @@ Caused by: java.lang.NullPointerException
 2019-03-04 22:40:14,276 INFO  [org.jboss.weld.deployer] (MSC service thread 1-1) WFLYWELD0003: Processing weld deployment eebatch-1.0-SNAPSHOT.war
 2019-03-04 22:40:14,328 INFO  [org.jboss.as.ejb3.deployment] (MSC service thread 1-1) WFLYEJB0473: JNDI bindings for session bean named 'BatchRestlet' in deployment unit 'deployment "eebatch-1.0-SNAPSHOT.war"' are as follows:
 
-	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	java:module/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
-	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.huberb.eebatch.rest.BatchRestlet
+	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	java:module/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
+	ejb:eebatch-1.0-SNAPSHOT/BatchRestlet!org.xxxx.eebatch.rest.BatchRestlet
 	java:global/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:app/eebatch-1.0-SNAPSHOT/BatchRestlet
 	java:module/BatchRestlet
@@ -628,11 +628,11 @@ Caused by: java.lang.NullPointerException
 2019-03-04 22:40:14,468 WARN  [org.jboss.weld.Bootstrap] (MSC service thread 1-3) WELD-000146: BeforeBeanDiscovery.addAnnotatedType(AnnotatedType<?>) used for class com.sun.faces.flow.FlowDiscoveryCDIHelper is deprecated from CDI 1.1!
 2019-03-04 22:40:14,468 INFO  [io.smallrye.metrics] (MSC service thread 1-3) MicroProfile: Metrics activated
 2019-03-04 22:40:14,690 INFO  [javax.enterprise.resource.webcontainer.jsf.config] (ServerService Thread Pool -- 13) Initializing Mojarra 2.3.9.SP01 for context '/eebatch-1.0-SNAPSHOT'
-2019-03-04 22:40:14,955 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 13) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.huberb.eebatch.rest.RestletApp
+2019-03-04 22:40:14,955 INFO  [org.jboss.resteasy.resteasy_jaxrs.i18n] (ServerService Thread Pool -- 13) RESTEASY002225: Deploying javax.ws.rs.core.Application: class org.xxxx.eebatch.rest.RestletApp
 2019-03-04 22:40:14,955 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 13) WFLYUT0021: Registered web context: '/eebatch-1.0-SNAPSHOT' for server 'default-server'
 2019-03-04 22:40:15,080 INFO  [org.jboss.as.server] (management-handler-thread - 1) WFLYSRV0016: Replaced deployment "eebatch-1.0-SNAPSHOT.war" with deployment "eebatch-1.0-SNAPSHOT.war"
 2019-03-04 22:40:15,080 INFO  [org.jboss.as.repository] (management-handler-thread - 1) WFLYDR0002: Content removed from location D:\projects\java-projects\eebatch\target\wildfly-16.0.0.Final\standalone\data\content\b9\815a228420de77c2e4ef74631783f66710fb6c\content
-2019-03-04 22:40:19,688 ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component BatchRestlet for method public javax.ws.rs.core.Response org.huberb.eebatch.rest.BatchRestlet.start(java.lang.String): javax.ejb.EJBException: javax.batch.operations.JobStartException: WFLYBATCH000006: Could not find the job XML file in the deployment: x
+2019-03-04 22:40:19,688 ERROR [org.jboss.as.ejb3.invocation] (default task-1) WFLYEJB0034: EJB Invocation failed on component BatchRestlet for method public javax.ws.rs.core.Response org.xxxx.eebatch.rest.BatchRestlet.start(java.lang.String): javax.ejb.EJBException: javax.batch.operations.JobStartException: WFLYBATCH000006: Could not find the job XML file in the deployment: x
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:246)
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.required(CMTTxInterceptor.java:362)
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.processInvocation(CMTTxInterceptor.java:144)
@@ -665,7 +665,7 @@ Caused by: java.lang.NullPointerException
 	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:198)
 	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:185)
 	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:81)
-	at org.huberb.eebatch.rest.BatchRestlet$$$view2.start(Unknown Source)
+	at org.xxxx.eebatch.rest.BatchRestlet$$$view2.start(Unknown Source)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -737,9 +737,9 @@ Caused by: java.lang.NullPointerException
 Caused by: javax.batch.operations.JobStartException: WFLYBATCH000006: Could not find the job XML file in the deployment: x
 	at org.wildfly.extension.batch.jberet.deployment.JobOperatorService.start(JobOperatorService.java:232)
 	at org.jberet.operations.DelegatingJobOperator.start(DelegatingJobOperator.java:67)
-	at org.huberb.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
-	at org.huberb.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
-	at org.huberb.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
+	at org.xxxx.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
+	at org.xxxx.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
+	at org.xxxx.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -863,7 +863,7 @@ Caused by: javax.ejb.EJBException: javax.batch.operations.JobStartException: WFL
 	at org.jboss.as.ee.component.ViewService$View.invoke(ViewService.java:198)
 	at org.jboss.as.ee.component.ViewDescription$1.processInvocation(ViewDescription.java:185)
 	at org.jboss.as.ee.component.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:81)
-	at org.huberb.eebatch.rest.BatchRestlet$$$view2.start(Unknown Source)
+	at org.xxxx.eebatch.rest.BatchRestlet$$$view2.start(Unknown Source)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -881,9 +881,9 @@ Caused by: javax.ejb.EJBException: javax.batch.operations.JobStartException: WFL
 Caused by: javax.batch.operations.JobStartException: WFLYBATCH000006: Could not find the job XML file in the deployment: x
 	at org.wildfly.extension.batch.jberet.deployment.JobOperatorService.start(JobOperatorService.java:232)
 	at org.jberet.operations.DelegatingJobOperator.start(DelegatingJobOperator.java:67)
-	at org.huberb.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
-	at org.huberb.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
-	at org.huberb.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
+	at org.xxxx.eebatch.batch.support.JobOperatorDelegate.start(JobOperatorDelegate.java:39)
+	at org.xxxx.eebatch.batch.support.JobOperatorFunctions.lambda$new$0(JobOperatorFunctions.java:36)
+	at org.xxxx.eebatch.rest.BatchRestlet.start(BatchRestlet.java:44)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -914,90 +914,90 @@ Caused by: javax.batch.operations.JobStartException: WFLYBATCH000006: Could not 
 	at org.jboss.as.ejb3.tx.CMTTxInterceptor.invokeInOurTx(CMTTxInterceptor.java:237)
 	... 100 more
 
-2019-03-04 22:41:00,638 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:01,140 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:01,642 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:02,142 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:02,644 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:03,145 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:03,657 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:04,159 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:04,659 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:05,172 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:05,673 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:06,184 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:06,687 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:07,198 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:07,711 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:08,218 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:08,728 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:09,238 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:09,741 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:10,242 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:10,743 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:11,246 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:11,748 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:12,249 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:12,752 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:13,252 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:13,756 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:14,258 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:14,758 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:15,259 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:15,768 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:16,278 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:16,787 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:17,296 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:17,806 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:18,316 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:18,816 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:19,322 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:19,823 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:20,325 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:20,840 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:41:21,343 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
-2019-03-04 22:44:56,516 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:57,019 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:57,519 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:58,019 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:58,519 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:59,020 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:44:59,520 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:00,031 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:00,531 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:01,032 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:01,539 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:02,043 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:02,555 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:03,062 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:03,562 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:04,062 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:04,562 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:05,062 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:05,562 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:06,063 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:06,563 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:07,067 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:07,574 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:08,075 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:08,582 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:09,095 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:09,598 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:10,099 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:10,599 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:11,100 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:11,600 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:12,105 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:12,613 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:13,121 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:13,634 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:14,136 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:14,644 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:15,147 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:15,649 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:16,165 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:16,665 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
-2019-03-04 22:45:17,168 INFO  [org.huberb.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:41:00,638 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:01,140 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:01,642 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:02,142 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:02,644 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:03,145 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:03,657 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:04,159 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:04,659 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:05,172 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:05,673 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:06,184 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:06,687 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:07,198 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:07,711 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:08,218 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:08,728 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:09,238 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:09,741 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:10,242 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:10,743 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:11,246 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:11,748 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:12,249 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:12,752 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:13,252 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:13,756 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:14,258 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:14,758 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:15,259 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:15,768 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:16,278 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:16,787 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:17,296 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:17,806 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:18,316 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:18,816 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:19,322 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:19,823 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:20,325 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:20,840 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:41:21,343 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 1) doProcess sleep
+2019-03-04 22:44:56,516 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:57,019 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:57,519 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:58,019 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:58,519 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:59,020 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:44:59,520 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:00,031 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:00,531 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:01,032 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:01,539 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:02,043 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:02,555 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:03,062 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:03,562 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:04,062 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:04,562 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:05,062 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:05,562 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:06,063 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:06,563 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:07,067 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:07,574 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:08,075 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:08,582 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:09,095 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:09,598 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:10,099 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:10,599 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:11,100 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:11,600 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:12,105 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:12,613 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:13,121 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:13,634 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:14,136 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:14,644 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:15,147 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:15,649 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:16,165 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:16,665 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
+2019-03-04 22:45:17,168 INFO  [org.xxxx.eebatch.batch.Tasks] (Batch Thread - 2) doProcess sleep
 2019-03-04 22:56:32,451 INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0272: Suspending server
 2019-03-04 22:56:32,453 INFO  [org.jboss.as.ejb3] (Thread-2) WFLYEJB0493: EJB subsystem suspension complete
 2019-03-04 22:56:32,454 INFO  [org.jboss.as.server] (Thread-2) WFLYSRV0220: Server shutdown has been requested via an OS signal

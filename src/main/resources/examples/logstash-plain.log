@@ -10,8 +10,8 @@
 [2020-01-30T22:27:52,279][INFO ][logstash.modules.scaffold] Initializing module {:module_name=>"netflow", :directory=>"D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration"}
 [2020-01-30T22:27:52,279][DEBUG][logstash.plugins.registry] Adding plugin to the registry {:name=>"netflow", :type=>:modules, :class=>#<LogStash::Modules::Scaffold:0x7d97f04b @kibana_version_parts=["5", "6", "0"], @module_name="netflow", @directory="D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration">}
 [2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] -------- Logstash Settings (* means modified) ---------
-[2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] node.name: "DESKTOP-GHTTUME"
-[2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] *path.config: "confs\\_berni2-lo4j.conf"
+[2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] node.name: "xxxx"
+[2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] *path.config: "confs\\_xxxx2-lo4j.conf"
 [2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] path.data: "D:/projects/elkstack/logstash-5.6.4/data"
 [2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] modules.cli: []
 [2020-01-30T22:27:52,294][DEBUG][logstash.runner          ] modules: []
@@ -61,7 +61,7 @@
 [2020-01-30T22:27:52,341][DEBUG][logstash.instrument.periodicpoller.jvm] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:27:52,372][DEBUG][logstash.instrument.periodicpoller.persistentqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:27:52,372][DEBUG][logstash.instrument.periodicpoller.deadletterqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
-[2020-01-30T22:27:52,372][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_berni2-lo4j.conf"}
+[2020-01-30T22:27:52,372][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_xxxx2-lo4j.conf"}
 [2020-01-30T22:27:52,482][DEBUG][logstash.plugins.registry] On demand adding plugin to the registry {:name=>"multiline", :type=>"codec", :class=>LogStash::Codecs::Multiline}
 [2020-01-30T22:27:52,482][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@pattern = "^%{TIMESTAMP_ISO8601}"
 [2020-01-30T22:27:52,482][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@negate = true
@@ -555,8 +555,8 @@
 [2020-01-30T22:29:07,089][INFO ][logstash.modules.scaffold] Initializing module {:module_name=>"netflow", :directory=>"D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration"}
 [2020-01-30T22:29:07,089][DEBUG][logstash.plugins.registry] Adding plugin to the registry {:name=>"netflow", :type=>:modules, :class=>#<LogStash::Modules::Scaffold:0x420c68fa @kibana_version_parts=["5", "6", "0"], @module_name="netflow", @directory="D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration">}
 [2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] -------- Logstash Settings (* means modified) ---------
-[2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] node.name: "DESKTOP-GHTTUME"
-[2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] *path.config: "confs\\_berni2-lo4j.conf"
+[2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] node.name: "xxxx"
+[2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] *path.config: "confs\\_xxxx2-lo4j.conf"
 [2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] path.data: "D:/projects/elkstack/logstash-5.6.4/data"
 [2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] modules.cli: []
 [2020-01-30T22:29:07,104][DEBUG][logstash.runner          ] modules: []
@@ -606,7 +606,7 @@
 [2020-01-30T22:29:07,167][DEBUG][logstash.instrument.periodicpoller.jvm] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:29:07,198][DEBUG][logstash.instrument.periodicpoller.persistentqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:29:07,198][DEBUG][logstash.instrument.periodicpoller.deadletterqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
-[2020-01-30T22:29:07,198][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_berni2-lo4j.conf"}
+[2020-01-30T22:29:07,198][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_xxxx2-lo4j.conf"}
 [2020-01-30T22:29:07,292][DEBUG][logstash.plugins.registry] On demand adding plugin to the registry {:name=>"multiline", :type=>"codec", :class=>LogStash::Codecs::Multiline}
 [2020-01-30T22:29:07,308][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@pattern = "^%{TIMESTAMP_ISO8601}"
 [2020-01-30T22:29:07,308][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@negate = true
@@ -1086,19 +1086,21 @@
 [2020-01-30T22:29:09,095][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at kafka.producer.async.DefaultEventHandler.handle(DefaultEventHandler.scala:90)\r"}
 [2020-01-30T22:29:09,095][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at kafka.producer.async.DefaultEventHandler.handle(DefaultEventHandler.scala:90)\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,111][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at kafka.producer.Producer.send(Producer.scala:77)\r"}
-[2020-01-30T22:29:09,111][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.095Z, "message"=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache\r"}}
+[2020-01-30T22:29:09,111][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.095Z, "message"=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache\r"}}
 [2020-01-30T22:29:09,111][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at kafka.producer.Producer.send(Producer.scala:77)\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,111][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at kafka.javaapi.producer.Producer.send(Producer.scala:42)\r"}
 [2020-01-30T22:29:09,111][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at kafka.javaapi.producer.Producer.send(Producer.scala:42)\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,111][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0\r"}
 [2020-01-30T22:29:09,111][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0\r", :match=>true, :negate=>true}
-[2020-01-30T22:29:09,111][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.095Z DESKTOP-GHTTUME 2015-03-23 11:11:50,778 INFO Initializing Systems Cache}
+[2020-01-30T22:29:09,111][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.095Z xxxx 2015-03-23 11:11:50,778 INFO Initializing Systems Cache
+}
 [2020-01-30T22:29:09,111][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1\r"}
-[2020-01-30T22:29:09,127][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.095Z DESKTOP-GHTTUME Initializing Systems Cache}
+[2020-01-30T22:29:09,127][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.095Z xxxx Initializing Systems Cache
+}
 [2020-01-30T22:29:09,127][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1\r", :match=>true, :negate=>true}
 [2020-01-30T22:29:09,127][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2\r"}
 [2020-01-30T22:29:09,127][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2\r", :match=>true, :negate=>true}
-[2020-01-30T22:29:09,127][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:50.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache\r", "timestamp"=>"2015-03-23 11:11:50,778"}}
+[2020-01-30T22:29:09,127][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:50.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache\r", "timestamp"=>"2015-03-23 11:11:50,778"}}
 [2020-01-30T22:29:09,142][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3\r"}
 [2020-01-30T22:29:09,142][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3\r", :match=>true, :negate=>true}
 [2020-01-30T22:29:09,142][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:54,778 INFO Initializing Systems Cache 4\r"}
@@ -1106,22 +1108,23 @@
 [2020-01-30T22:29:09,142][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:54,778 INFO Ex1\r"}
 [2020-01-30T22:29:09,142][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:54,778 INFO Ex1\r", :match=>true, :negate=>true}
 [2020-01-30T22:29:09,158][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"SomeEx\r"}
-[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.111Z, "message"=>"2015-03-23 11:11:58,666 ERROR Processing request failed\r\nkafka.common.FailedToSendMessageException: Failed to send messages after 3 tries.\r\n    at kafka.producer.async.DefaultEventHandler.handle(DefaultEventHandler.scala:90)\r\n    at kafka.producer.Producer.send(Producer.scala:77)\r\n    at kafka.javaapi.producer.Producer.send(Producer.scala:42)\r", "tags"=>["multiline"]}}
+[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.111Z, "message"=>"2015-03-23 11:11:58,666 ERROR Processing request failed\r\nkafka.common.FailedToSendMessageException: Failed to send messages after 3 tries.\r\n    at kafka.producer.async.DefaultEventHandler.handle(DefaultEventHandler.scala:90)\r\n    at kafka.producer.Producer.send(Producer.scala:77)\r\n    at kafka.javaapi.producer.Producer.send(Producer.scala:42)\r", "tags"=>["multiline"]}}
 [2020-01-30T22:29:09,158][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"SomeEx\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.127Z, "message"=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0\r"}}
+[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.127Z, "message"=>"2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0\r"}}
 [2020-01-30T22:29:09,158][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=>9600}
-[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.127Z, "message"=>"2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1\r"}}
-[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2\r"}}
+[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.127Z, "message"=>"2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1\r"}}
+[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2\r"}}
 [2020-01-30T22:29:09,158][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
-[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3\r"}}
-[2020-01-30T22:29:09,173][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:54,778 INFO Initializing Systems Cache 4\r"}}
+[2020-01-30T22:29:09,158][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3\r"}}
+[2020-01-30T22:29:09,173][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.142Z, "message"=>"2015-03-23 11:11:54,778 INFO Initializing Systems Cache 4\r"}}
 [2020-01-30T22:29:09,173][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,173][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
-[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.111Z DESKTOP-GHTTUME 2015-03-23 11:11:58,666 ERROR Pocessing equest failed
+[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.111Z xxxx 2015-03-23 11:11:58,666 ERROR Pocessing equest failed
 kafka.common.FailedToSendMessageException: Failed to send messages afte 3 ties.
     at kafka.poduce.async.DefaultEventHandle.handle(DefaultEventHandle.scala:90)
     at kafka.poduce.Poduce.send(Poduce.scala:77)
-    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)}
+    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)
+}
 [2020-01-30T22:29:09,173][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,173][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,173][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
@@ -1129,52 +1132,63 @@ kafka.common.FailedToSendMessageException: Failed to send messages afte 3 ties.
 [2020-01-30T22:29:09,173][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,173][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,173][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.111Z DESKTOP-GHTTUME Pocessing equest failed
+[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.111Z xxxx Pocessing equest failed
 kafka.common.FailedToSendMessageException: Failed to send messages afte 3 ties.
     at kafka.poduce.async.DefaultEventHandle.handle(DefaultEventHandle.scala:90)
     at kafka.poduce.Poduce.send(Poduce.scala:77)
-    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)}
-[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.127Z DESKTOP-GHTTUME 2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0}
-[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.127Z DESKTOP-GHTTUME Initializing Systems Cache 0}
-[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.127Z DESKTOP-GHTTUME 2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.127Z DESKTOP-GHTTUME Initializing Systems Cache 1}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME 2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME Initializing Systems Cache 2}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME 2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3}
+    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)
+}
+[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.127Z xxxx 2015-03-23 11:11:50,778 INFO Initializing Systems Cache 0
+}
+[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.127Z xxxx Initializing Systems Cache 0
+}
+[2020-01-30T22:29:09,173][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.127Z xxxx 2015-03-23 11:11:51,778 INFO Initializing Systems Cache 1
+}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.127Z xxxx Initializing Systems Cache 1
+}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z xxxx 2015-03-23 11:11:52,778 INFO Initializing Systems Cache 2
+}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z xxxx Initializing Systems Cache 2
+}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z xxxx 2015-03-23 11:11:53,778 INFO Initializing Systems Cache 3
+}
 [2020-01-30T22:29:09,173][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME Initializing Systems Cache 3}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z xxxx Initializing Systems Cache 3
+}
 [2020-01-30T22:29:09,189][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME 2015-03-23 11:11:54,778 INFO Initializing Systems Cache 4}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.142Z xxxx 2015-03-23 11:11:54,778 INFO Initializing Systems Cache 4
+}
 [2020-01-30T22:29:09,189][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,189][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,189][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-23 11:11:54,778 INFO Ex2\r"}
 [2020-01-30T22:29:09,189][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-23 11:11:54,778 INFO Ex2\r", :match=>true, :negate=>true}
 [2020-01-30T22:29:09,189][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"SomeEx\r"}
-[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z DESKTOP-GHTTUME Initializing Systems Cache 4}
+[2020-01-30T22:29:09,189][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.142Z xxxx Initializing Systems Cache 4
+}
 [2020-01-30T22:29:09,189][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"SomeEx\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:2\r"}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"ERROR", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:58.666Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Pocessing equest failed\r\nkafka.common.FailedToSendMessageException: Failed to send messages afte 3 ties.\r\n    at kafka.poduce.async.DefaultEventHandle.handle(DefaultEventHandle.scala:90)\r\n    at kafka.poduce.Poduce.send(Poduce.scala:77)\r\n    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:58,666"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"ERROR", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:58.666Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Pocessing equest failed\r\nkafka.common.FailedToSendMessageException: Failed to send messages afte 3 ties.\r\n    at kafka.poduce.async.DefaultEventHandle.handle(DefaultEventHandle.scala:90)\r\n    at kafka.poduce.Poduce.send(Poduce.scala:77)\r\n    at kafka.javaapi.poduce.Poduce.send(Poduce.scala:42)\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:58,666"}}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:2\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:2\r"}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:2\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:50.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache 0\r", "timestamp"=>"2015-03-23 11:11:50,778"}}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:51.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache 1\r", "timestamp"=>"2015-03-23 11:11:51,778"}}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:52.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache 2\r", "timestamp"=>"2015-03-23 11:11:52,778"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:50.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache 0\r", "timestamp"=>"2015-03-23 11:11:50,778"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:51.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache 1\r", "timestamp"=>"2015-03-23 11:11:51,778"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:52.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache 2\r", "timestamp"=>"2015-03-23 11:11:52,778"}}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:53.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache 3\r", "timestamp"=>"2015-03-23 11:11:53,778"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:53.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache 3\r", "timestamp"=>"2015-03-23 11:11:53,778"}}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Initializing Systems Cache 4\r", "timestamp"=>"2015-03-23 11:11:54,778"}}
+[2020-01-30T22:29:09,205][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Initializing Systems Cache 4\r", "timestamp"=>"2015-03-23 11:11:54,778"}}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,205][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"    at x.y.Z:1\r"}
 [2020-01-30T22:29:09,205][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"    at x.y.Z:1\r", :match=>false, :negate=>true}
-[2020-01-30T22:29:09,220][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.189Z, "message"=>"2015-03-23 11:11:54,778 INFO Ex1\r\nSomeEx\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"]}}
+[2020-01-30T22:29:09,220][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.189Z, "message"=>"2015-03-23 11:11:54,778 INFO Ex1\r\nSomeEx\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"]}}
 [2020-01-30T22:29:09,220][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"2015-03-24 11:12:34,000 ERROR Y\r"}
-[2020-01-30T22:29:09,220][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.189Z DESKTOP-GHTTUME 2015-03-23 11:11:54,778 INFO Ex1
+[2020-01-30T22:29:09,220][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.189Z xxxx 2015-03-23 11:11:54,778 INFO Ex1
 SomeEx
     at x.y.Z:1
     at x.y.Z:1
@@ -1182,9 +1196,10 @@ SomeEx
     at x.y.Z:1
     at x.y.Z:1
     at x.y.Z:1
-    at x.y.Z:1}
+    at x.y.Z:1
+}
 [2020-01-30T22:29:09,220][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"2015-03-24 11:12:34,000 ERROR Y\r", :match=>true, :negate=>true}
-[2020-01-30T22:29:09,220][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.189Z DESKTOP-GHTTUME Ex1
+[2020-01-30T22:29:09,220][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.189Z xxxx Ex1
 SomeEx
     at x.y.Z:1
     at x.y.Z:1
@@ -1192,13 +1207,14 @@ SomeEx
     at x.y.Z:1
     at x.y.Z:1
     at x.y.Z:1
-    at x.y.Z:1}
+    at x.y.Z:1
+}
 [2020-01-30T22:29:09,220][DEBUG][logstash.inputs.file     ] Received line {:path=>"D:/projects/elkstack/logstash-5.6.4/test.log", :text=>"\r"}
-[2020-01-30T22:29:09,236][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Ex1\r\nSomeEx\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:54,778"}}
+[2020-01-30T22:29:09,236][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Ex1\r\nSomeEx\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:54,778"}}
 [2020-01-30T22:29:09,236][DEBUG][logstash.codecs.multiline] Multiline {:pattern=>"^%{TIMESTAMP_ISO8601}", :text=>"\r", :match=>false, :negate=>true}
 [2020-01-30T22:29:09,236][DEBUG][logstash.inputs.file     ] writing sincedb (delta since last write = 1580419749)
-[2020-01-30T22:29:09,252][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.220Z, "message"=>"2015-03-23 11:11:54,778 INFO Ex2\r\nSomeEx\r\n    at x.y.Z:2\r\n    at x.y.Z:2\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"]}}
-[2020-01-30T22:29:09,252][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.220Z DESKTOP-GHTTUME 2015-03-23 11:11:54,778 INFO Ex2
+[2020-01-30T22:29:09,252][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:29:09.220Z, "message"=>"2015-03-23 11:11:54,778 INFO Ex2\r\nSomeEx\r\n    at x.y.Z:2\r\n    at x.y.Z:2\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"]}}
+[2020-01-30T22:29:09,252][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:29:09.220Z xxxx 2015-03-23 11:11:54,778 INFO Ex2
 SomeEx
     at x.y.Z:2
     at x.y.Z:2
@@ -1206,8 +1222,9 @@ SomeEx
     at x.y.Z:1
     at x.y.Z:1
     at x.y.Z:1
-    at x.y.Z:1}
-[2020-01-30T22:29:09,252][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.220Z DESKTOP-GHTTUME Ex2
+    at x.y.Z:1
+}
+[2020-01-30T22:29:09,252][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:29:09.220Z xxxx Ex2
 SomeEx
     at x.y.Z:2
     at x.y.Z:2
@@ -1215,8 +1232,9 @@ SomeEx
     at x.y.Z:1
     at x.y.Z:1
     at x.y.Z:1
-    at x.y.Z:1}
-[2020-01-30T22:29:09,252][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Ex2\r\nSomeEx\r\n    at x.y.Z:2\r\n    at x.y.Z:2\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:54,778"}}
+    at x.y.Z:1
+}
+[2020-01-30T22:29:09,252][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"INFO", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-23T10:11:54.778Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Ex2\r\nSomeEx\r\n    at x.y.Z:2\r\n    at x.y.Z:2\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r\n    at x.y.Z:1\r", "tags"=>["multiline"], "timestamp"=>"2015-03-23 11:11:54,778"}}
 [2020-01-30T22:29:14,017][DEBUG][logstash.pipeline        ] Pushing flush onto pipeline
 [2020-01-30T22:29:19,018][DEBUG][logstash.pipeline        ] Pushing flush onto pipeline
 [2020-01-30T22:29:23,286][DEBUG][logstash.inputs.file     ] _globbed_files: D:/projects/elkstack/logstash-5.6.4/test.log: glob is: ["D:/projects/elkstack/logstash-5.6.4/test.log"]
@@ -1278,12 +1296,14 @@ SomeEx
 [2020-01-30T22:32:22,679][DEBUG][logstash.pipeline        ] Closed inputs
 [2020-01-30T22:32:23,010][DEBUG][logstash.inputs.file     ] closing {:plugin=>"LogStash::Inputs::File"}
 [2020-01-30T22:32:23,010][DEBUG][logstash.pipeline        ] Input plugins stopped! Will shutdown filter/output workers.
-[2020-01-30T22:32:23,026][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"DESKTOP-GHTTUME", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:32:23.010Z, "message"=>"2015-03-24 11:12:34,000 ERROR Y\r\n\r", "tags"=>["multiline"]}}
-[2020-01-30T22:32:23,026][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:32:23.010Z DESKTOP-GHTTUME 2015-03-24 11:12:34,000 ERROR Y
-}
-[2020-01-30T22:32:23,026][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:32:23.010Z DESKTOP-GHTTUME Y
-}
-[2020-01-30T22:32:23,026][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"ERROR", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-24T10:12:34.000Z, "@version"=>"1", "host"=>"DESKTOP-GHTTUME", "message"=>"Y\r\n\r", "tags"=>["multiline"], "timestamp"=>"2015-03-24 11:12:34,000"}}
+[2020-01-30T22:32:23,026][DEBUG][logstash.pipeline        ] filter received {"event"=>{"@version"=>"1", "host"=>"xxxx", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2020-01-30T21:32:23.010Z, "message"=>"2015-03-24 11:12:34,000 ERROR Y\r\n\r", "tags"=>["multiline"]}}
+[2020-01-30T22:32:23,026][DEBUG][logstash.filters.grok    ] Running grok filter {:event=>2020-01-30T21:32:23.010Z xxxx 2015-03-24 11:12:34,000 ERROR Y
+
+}
+[2020-01-30T22:32:23,026][DEBUG][logstash.filters.grok    ] Event now:  {:event=>2020-01-30T21:32:23.010Z xxxx Y
+
+}
+[2020-01-30T22:32:23,026][DEBUG][logstash.pipeline        ] output received {"event"=>{"severity"=>"ERROR", "path"=>"D:/projects/elkstack/logstash-5.6.4/test.log", "@timestamp"=>2015-03-24T10:12:34.000Z, "@version"=>"1", "host"=>"xxxx", "message"=>"Y\r\n\r", "tags"=>["multiline"], "timestamp"=>"2015-03-24 11:12:34,000"}}
 [2020-01-30T22:32:23,119][DEBUG][logstash.pipeline        ] Pushing flush onto pipeline
 [2020-01-30T22:32:23,119][DEBUG][logstash.pipeline        ] Pushing shutdown {:thread=>"#<Thread:0x7f4fe221 run>"}
 [2020-01-30T22:32:23,119][DEBUG][logstash.pipeline        ] Pushing shutdown {:thread=>"#<Thread:0x7103d10 sleep>"}
@@ -1310,8 +1330,8 @@ SomeEx
 [2020-01-30T22:49:48,685][INFO ][logstash.modules.scaffold] Initializing module {:module_name=>"netflow", :directory=>"D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration"}
 [2020-01-30T22:49:48,701][DEBUG][logstash.plugins.registry] Adding plugin to the registry {:name=>"netflow", :type=>:modules, :class=>#<LogStash::Modules::Scaffold:0x71b50a51 @kibana_version_parts=["5", "6", "0"], @module_name="netflow", @directory="D:/projects/elkstack/logstash-5.6.4/modules/netflow/configuration">}
 [2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] -------- Logstash Settings (* means modified) ---------
-[2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] node.name: "DESKTOP-GHTTUME"
-[2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] *path.config: "confs\\_berni2-lo4j.conf"
+[2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] node.name: "xxxx"
+[2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] *path.config: "confs\\_xxxx2-lo4j.conf"
 [2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] path.data: "D:/projects/elkstack/logstash-5.6.4/data"
 [2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] modules.cli: []
 [2020-01-30T22:49:48,716][DEBUG][logstash.runner          ] modules: []
@@ -1361,7 +1381,7 @@ SomeEx
 [2020-01-30T22:49:48,795][DEBUG][logstash.instrument.periodicpoller.jvm] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:49:48,810][DEBUG][logstash.instrument.periodicpoller.persistentqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
 [2020-01-30T22:49:48,810][DEBUG][logstash.instrument.periodicpoller.deadletterqueue] PeriodicPoller: Starting {:polling_interval=>5, :polling_timeout=>120}
-[2020-01-30T22:49:48,826][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_berni2-lo4j.conf"}
+[2020-01-30T22:49:48,826][DEBUG][logstash.agent           ] Reading config file {:config_file=>"D:/projects/elkstack/logstash-5.6.4/confs/_xxxx2-lo4j.conf"}
 [2020-01-30T22:49:48,935][DEBUG][logstash.plugins.registry] On demand adding plugin to the registry {:name=>"multiline", :type=>"codec", :class=>LogStash::Codecs::Multiline}
 [2020-01-30T22:49:48,951][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@pattern = "^%{TIMESTAMP_ISO8601}"
 [2020-01-30T22:49:48,951][DEBUG][logstash.codecs.multiline] config LogStash::Codecs::Multiline/@negate = true

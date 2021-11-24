@@ -9,7 +9,7 @@
 05 Nov 2017 08:24:51,659 INFO  [agent-shutdown-hook] (org.apache.flume.lifecycle.LifecycleSupervisor.stop:78)  - Stopping lifecycle supervisor 12
 05 Nov 2017 08:24:51,659 INFO  [agent-shutdown-hook] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.stop:84)  - Configuration provider stopping
 05 Nov 2017 08:29:49,544 INFO  [lifecycleSupervisor-1-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start:62)  - Configuration provider starting
-05 Nov 2017 08:29:49,544 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-berni1.properties
+05 Nov 2017 08:29:49,544 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-xxxx1.properties
 05 Nov 2017 08:29:49,544 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:loggerSink
 05 Nov 2017 08:29:49,544 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:loggerSink
 05 Nov 2017 08:29:49,544 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: loggerSink Agent: agent
@@ -19,7 +19,7 @@
 05 Nov 2017 08:32:14,622 INFO  [agent-shutdown-hook] (org.apache.flume.lifecycle.LifecycleSupervisor.stop:78)  - Stopping lifecycle supervisor 12
 05 Nov 2017 08:32:14,622 INFO  [agent-shutdown-hook] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.stop:84)  - Configuration provider stopping
 05 Nov 2017 08:32:24,736 INFO  [lifecycleSupervisor-1-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start:62)  - Configuration provider starting
-05 Nov 2017 08:32:24,751 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-berni1.properties
+05 Nov 2017 08:32:24,751 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-xxxx1.properties
 05 Nov 2017 08:32:24,751 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: k1 Agent: a1
 05 Nov 2017 08:32:24,751 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:k1
 05 Nov 2017 08:32:24,751 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:k1
@@ -31,7 +31,7 @@
 05 Nov 2017 08:35:35,502 INFO  [agent-shutdown-hook] (org.apache.flume.lifecycle.LifecycleSupervisor.stop:78)  - Stopping lifecycle supervisor 12
 05 Nov 2017 08:35:35,502 INFO  [agent-shutdown-hook] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.stop:84)  - Configuration provider stopping
 05 Nov 2017 08:37:48,368 INFO  [lifecycleSupervisor-1-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start:62)  - Configuration provider starting
-05 Nov 2017 08:37:48,368 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-berni1.properties
+05 Nov 2017 08:37:48,368 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-xxxx1.properties
 05 Nov 2017 08:37:48,368 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: k1 Agent: a1
 05 Nov 2017 08:37:48,368 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: k2 Agent: a2
 05 Nov 2017 08:37:48,368 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:k1
@@ -77,7 +77,7 @@ org.apache.flume.conf.ConfigurationException: Channel c1 not in active set.
 05 Nov 2017 08:37:48,399 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration.validateConfiguration:140)  - Post-validation flume configuration contains configuration for agents: [a1]
 05 Nov 2017 08:37:48,399 WARN  [conf-file-poller-0] (org.apache.flume.node.AbstractConfigurationProvider.getConfiguration:135)  - No configuration found for this host:a2
 05 Nov 2017 08:37:48,415 INFO  [conf-file-poller-0] (org.apache.flume.node.Application.startAllComponents:137)  - Starting new configuration:{ sourceRunners:{} sinkRunners:{} channels:{} }
-05 Nov 2017 08:38:18,431 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-berni1.properties
+05 Nov 2017 08:38:18,431 INFO  [conf-file-poller-0] (org.apache.flume.node.PollingPropertiesFileConfigurationProvider$FileWatcherRunnable.run:134)  - Reloading configuration file:D:\projects\elkstack\apache-flume-1.8.0-bin\conf\flume-conf-xxxx1.properties
 05 Nov 2017 08:38:18,431 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: k1 Agent: a1
 05 Nov 2017 08:38:18,431 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:930)  - Added sinks: k2 Agent: a2
 05 Nov 2017 08:38:18,431 INFO  [conf-file-poller-0] (org.apache.flume.conf.FlumeConfiguration$AgentConfiguration.addProperty:1016)  - Processing:k1
