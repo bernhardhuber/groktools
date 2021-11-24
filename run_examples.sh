@@ -1,6 +1,14 @@
 #! /bin/sh
 
 #-----------------------------------------------------------------------------
+# Run grok on 
+# * wildfly log
+# * activemq log
+# * logstash log
+#
+#-----------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------
 CMD=./target/groktools-1.0-SNAPSHOT-executable 
 READ_MAX_LINES_COUNT=10
 OUTPUT_MODE=--output-matchresult-as-csv
@@ -13,7 +21,7 @@ ACTIVEMQ_ACTIVEMQLOG_FILE=./activemq.log
 ELKSTACK_LOGSTASHLOG=logstash-plain.log
 
 #-----------------------------------------------------------------------------
-# Wildfly server.log
+# grok wildfly server.log
 function grok_wildfly () {
 cat << -EOF-
 
@@ -29,7 +37,7 @@ $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
 }
 
 #-----------------------------------------------------------------------------
-# Activemq activemq.log
+# grok activemq activemq.log
 function grok_activemq () {
 cat << -EOF-
 
@@ -45,7 +53,7 @@ $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
 }
 
 #-----------------------------------------------------------------------------
-# Logstash logstash-plain.log
+# grok logstash logstash-plain.log
 function grok_elkstack () {
 cat << -EOF-
 
