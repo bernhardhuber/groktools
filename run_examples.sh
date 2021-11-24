@@ -9,14 +9,16 @@
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
-CMD=./target/groktools-1.0-SNAPSHOT-executable 
+BASEDIR=$(dirname $0)
+CMD=${BASEDIR}/target/groktools-1.0-SNAPSHOT-executable 
 READ_MAX_LINES_COUNT=10
 #OUTPUT_MODE=--output-matchresult-as-csv
 OUTPUT_MODE=--output-matchresult-as-json
 
 #-----------------------------------------------------------------------------
 # log-files
-LOG_FILES_BASEDIR=./src/main/resources/examples
+
+LOG_FILES_BASEDIR=${BASEDIR}/src/main/resources/examples
 WILDFLY_SERVERLOG_FILE=${LOG_FILES_BASEDIR}/server.log
 ACTIVEMQ_ACTIVEMQLOG_FILE=${LOG_FILES_BASEDIR}/activemq.log
 ELKSTACK_LOGSTASHLOG=${LOG_FILES_BASEDIR}/logstash-plain.log
@@ -33,6 +35,7 @@ function grok_wildfly () {
 cat << -EOF-
 
 # Wildfly server.log
+# ${WILDFLY_SERVERLOG_FILE}
 
 -EOF-
 $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
@@ -54,6 +57,7 @@ function grok_activemq () {
     cat << -EOF-
 
 # Activemq activemq.log
+# ${ACTIVEMQ_ACTIVEMQLOG_FILE}
 
 -EOF-
 
@@ -77,6 +81,7 @@ function grok_elkstack () {
     cat << -EOF-
 
 # Logstash logstash-plain.log
+# ${ELKSTACK_LOGSTASHLOG}
 
 -EOF-
 
@@ -99,6 +104,7 @@ function grok_flume () {
     cat << -EOF-
 
 # Flume flume.log
+# ${FLUME_FLUMELOG}
 
 -EOF-
 
