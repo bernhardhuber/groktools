@@ -5,6 +5,7 @@
 # * wildfly log
 # * activemq log
 # * logstash log
+# * flume log
 #
 #-----------------------------------------------------------------------------
 
@@ -123,4 +124,3 @@ grok_wildfly
 grok_activemq
 grok_elkstack
 grok_flume
-
