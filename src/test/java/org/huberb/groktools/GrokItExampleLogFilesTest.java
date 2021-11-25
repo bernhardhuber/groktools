@@ -42,7 +42,7 @@ public class GrokItExampleLogFilesTest {
     final String server_log_file = "src/main/resources/examples/server.log";
 
     @Test
-    public void testActiveMqActiveMqlog_2() throws IOException {
+    public void testActiveMqActiveMqlog() throws IOException {
         final File logFile = new File(activmq_log_file);
 
         final GrokBuilder grokBuilder = new GrokBuilder()
@@ -107,7 +107,41 @@ public class GrokItExampleLogFilesTest {
     }
 
     @Test
-    public void testWildflyServerlog_2() throws IOException {
+    public void testFlumeFlumelog() throws IOException {
+        final File logFile = new File(flume_log_file);
+
+        final GrokBuilder grokBuilder = new GrokBuilder()
+                .pattern("%{FLUME_FLUMELOG}")
+                .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
+                .namedOnly(false);
+
+        final Grok grok = grokBuilder.build();
+        final GrokIt grokIt = new GrokIt();
+        final List<String> lines = Files.readAllLines(logFile.toPath(), StandardCharsets.UTF_8);
+        assertFalse(lines.isEmpty());
+        int i = 0;
+        for (String line : lines) {
+            i += 1;
+            final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
+            assertNotNull(grokMatchResult);
+            if (grokMatchResult.start == 0 && grokMatchResult.end == 0) {
+                continue;
+            }
+            final String m = String.format("lineno: %d, grokMatchResult: %s", i, grokMatchResult);
+            assertAll(
+                    () -> assertFalse(grokMatchResult.m.isEmpty(), m),
+                    () -> assertTrue(grokMatchResult.m.size() >= 5, m),
+                    () -> assertTrue(!grokMatchResult.m.get("timestamp").toString().isEmpty(), m),
+                    () -> assertTrue(!grokMatchResult.m.get("level").toString().isEmpty(), m),
+                    () -> assertTrue(!grokMatchResult.m.get("thread").toString().isEmpty(), m),
+                    () -> assertTrue(!grokMatchResult.m.get("category").toString().isEmpty(), m),
+                    () -> assertTrue(!grokMatchResult.m.get("message").toString().isEmpty(), m)
+            );
+        }
+    }
+
+    @Test
+    public void testWildflyServerlog() throws IOException {
         final File logFile = new File(server_log_file);
 
         final GrokBuilder grokBuilder = new GrokBuilder()

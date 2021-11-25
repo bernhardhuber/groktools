@@ -39,7 +39,7 @@ public class GrokItActivemqLogTest {
 
     @ParameterizedTest
     @MethodSource(value = "activmqlog")
-    public void testActiveMqActiveMqlog_2(String line) throws IOException {
+    public void testActiveMqActiveMqlog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{ACTIVEMQ_ACTIVEMQLOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)

@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.TextStyle;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
@@ -42,15 +42,15 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author berni3
  */
-public class GrokItServerLogTest {
+public class GrokItFlumeLogTest {
 
     final String serverlogPatterndefinitions = "/groktoolspatterns/server_log";
 
     @ParameterizedTest
-    @MethodSource(value = "wildflyserverlog")
-    public void testWildflyServerlog(String line) throws IOException {
+    @MethodSource(value = "flumelog")
+    public void testFlumeFlumelog(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
-                .pattern("%{WILDFLY_SERVERLOG}")
+                .pattern("%{FLUME_FLUMELOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
                 .namedOnly(true);
         final Grok grok = grokBuilder.build();
@@ -59,33 +59,22 @@ public class GrokItServerLogTest {
         assertNotNull(grokMatchResult);
         final String m = String.format("grokMatchResult %s", grokMatchResult);
         assertFalse(grokMatchResult.m.isEmpty(), m);
-        assertEquals("2019-03-04 22:30:18,900", grokMatchResult.m.get("timestampIso8601"), m);
+        assertEquals("05 Nov 2017 08:24:47,502", grokMatchResult.m.get("timestamp"), m);
         // TODO parse date+time
 
         assertEquals("INFO", grokMatchResult.m.get("level"), m);
-        assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m);
-        assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m);
-        assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m);
+        assertEquals("org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start:62", grokMatchResult.m.get("category"), m);
+        assertEquals("lifecycleSupervisor-1-0", grokMatchResult.m.get("thread"), m);
+        assertEquals("Configuration provider starting", grokMatchResult.m.get("message"), m);
     }
 
-    static Stream<String> wildflyserverlog() {
+    static Stream<String> flumelog() {
         final List<String> l = Arrays.asList(
                 // example 1
                 // all fields separated by single space
-                "2019-03-04 22:30:18,900 INFO [org.jboss.as.server] (Controller Boot Thread) "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)",
-                // example 2
-                // as-is from a log file 
-                // two spaces after INFO
-                "2019-03-04 22:30:18,900 INFO  [org.jboss.as.server] (Controller Boot Thread) "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)",
-                // example 3
-                // all fields separate by 4 spaces
-                "2019-03-04 22:30:18,900    "
-                + "INFO    "
-                + "[org.jboss.as.server]    "
-                + "(Controller Boot Thread)    "
-                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)"
+                "05 Nov 2017 08:24:47,502 INFO  [lifecycleSupervisor-1-0] "
+                + "(org.apache.flume.node.PollingPropertiesFileConfigurationProvider.start:62)  "
+                + "- Configuration provider starting"
         );
         final Stream<String> result = l.stream();
         return result;
@@ -94,10 +83,14 @@ public class GrokItServerLogTest {
     @Test
     public void testParsingDateAsFromServerLog() {
 
-        final String dateAndTime1 = "2019-03-04 22:30:18,987";
+        final String dateAndTime1 = "05 Nov 2017 08:24:47,502";
         final DateTimeFormatter dtf = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
-                .append(ISO_LOCAL_DATE)
+                .appendValue(java.time.temporal.ChronoField.DAY_OF_MONTH)
+                .appendLiteral(' ')
+                .appendText(java.time.temporal.ChronoField.MONTH_OF_YEAR, TextStyle.SHORT)
+                .appendLiteral(' ')
+                .appendValue(java.time.temporal.ChronoField.YEAR)
                 .appendLiteral(' ')
                 .appendValue(HOUR_OF_DAY, 2)
                 .appendLiteral(':')
@@ -113,28 +106,14 @@ public class GrokItServerLogTest {
 
         final LocalDateTime ldt = LocalDateTime.parse(dateAndTime1, dtf);
         assertAll(
-                () -> assertEquals(2019, ldt.getYear()),
-                () -> assertEquals(Month.MARCH, ldt.getMonth()),
-                () -> assertEquals(4, ldt.getDayOfMonth()),
-                () -> assertEquals(22, ldt.getHour()),
-                () -> assertEquals(30, ldt.getMinute()),
-                () -> assertEquals(18, ldt.getSecond()),
-                () -> assertEquals(987000000, ldt.getNano())
+                () -> assertEquals(2017, ldt.getYear()),
+                () -> assertEquals(Month.NOVEMBER, ldt.getMonth()),
+                () -> assertEquals(5, ldt.getDayOfMonth()),
+                () -> assertEquals(8, ldt.getHour()),
+                () -> assertEquals(24, ldt.getMinute()),
+                () -> assertEquals(47, ldt.getSecond()),
+                () -> assertEquals(502000000, ldt.getNano())
         );
     }
 
-    @Test
-    public void testParsingDateAsSupportedByISO() {
-        final String dateAndTime2 = "2019-03-04T22:30:18";
-        final LocalDateTime ldt = LocalDateTime.parse(dateAndTime2, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        assertAll(
-                () -> assertEquals(2019, ldt.getYear()),
-                () -> assertEquals(Month.MARCH, ldt.getMonth()),
-                () -> assertEquals(4, ldt.getDayOfMonth()),
-                () -> assertEquals(22, ldt.getHour()),
-                () -> assertEquals(30, ldt.getMinute()),
-                () -> assertEquals(18, ldt.getSecond()),
-                () -> assertEquals(0, ldt.getNano())
-        );
-    }
 }
