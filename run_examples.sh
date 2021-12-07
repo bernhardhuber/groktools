@@ -11,8 +11,14 @@
 
 #-----------------------------------------------------------------------------
 BASEDIR=$(dirname $0)
-CMD=${BASEDIR}/target/groktools-1.0-SNAPSHOT-executable 
-READ_MAX_LINES_COUNT=10
+#CMD=${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-executable 
+CMD="$JAVA_HOME/bin/java \
+  -jar ${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-grokmain.jar "
+#CMD="$JAVA_HOME/bin/java \
+#  -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y \
+#  -jar ${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-grokmain.jar "
+
+READ_MAX_LINES_COUNT=600
 #OUTPUT_MODE=--output-matchresult-as-csv
 OUTPUT_MODE=--output-matchresult-as-json
 
@@ -121,6 +127,7 @@ function grok_flume () {
 #-----------------------------------------------------------------------------
 #
 grok_wildfly
-grok_activemq
-grok_elkstack
-grok_flume
+#grok_activemq
+#grok_elkstack
+#grok_flume
+
