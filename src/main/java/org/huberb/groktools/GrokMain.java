@@ -226,7 +226,7 @@ public class GrokMain implements Callable<Integer> {
                     }
                     final GrokMatchResult grokResult = grokIt.match(grok, line);
                     //---
-                    MatchinLineMode mode = MatchinLineMode.multiLineMode;
+                    MatchinLineMode mode = MatchinLineMode.multiLinesMode;
                     if (mode == MatchinLineMode.singleLineMode) {
                         boolean skip = false;
                         skip = skip || grokResult == null;
@@ -237,7 +237,7 @@ public class GrokMain implements Callable<Integer> {
                             continue;
                         }
                         outputGrokResultConverter.output(readLineCount, grokResult);
-                    } else if (mode == MatchinLineMode.multiLineMode) {
+                    } else if (mode == MatchinLineMode.multiLinesMode) {
                         final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
                                 line,
                                 grokResult.start,
@@ -321,6 +321,6 @@ public class GrokMain implements Callable<Integer> {
 
     enum MatchinLineMode {
         singleLineMode,
-        multiLineMode
+        multiLinesMode
     }
 }
