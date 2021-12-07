@@ -49,7 +49,7 @@ public class OutputGrokResultAsIsTest {
                 instance.end();
             }
             final String result = sw.toString().trim();
-            assertEquals("1 GrokResult{subject=subject, start=0, end=5, m={k1=v1, k2=v2}}", result);
+            assertEquals("1 GrokResult { subject: subject, start: 0, end: 5, m: {k1=v1, k2=v2} }", result);
         }
     }
 }

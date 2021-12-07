@@ -51,9 +51,9 @@ import picocli.CommandLine.Spec;
 public class GrokMain implements Callable<Integer> {
 
     @Spec
-    CommandSpec spec;
+    private CommandSpec spec;
 
-    SystemErrOutPrinter systemErrOutPrinter;
+    private SystemErrOutPrinter systemErrOutPrinter;
 
     @Option(names = {"-f", "--file"},
             description = "read from file, if not specified read from stdin")
@@ -81,7 +81,6 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"--pattern-definitions-classpath"},
             description = "read pattern definition from classpath")
     private String patternDefinitionsClasspath;
-    // TODO define a option
 
     @Option(names = {"--pattern-definition"},
             description = "define pattern name pattern and pattern definition")
@@ -135,15 +134,27 @@ public class GrokMain implements Callable<Integer> {
             }
             // register more pattern definitions
             if (patternDefinition != null) {
-                systemErrOutPrinter.printErr(String.format("register pattern name and definition: %s%n", patternDefinition));
+                systemErrOutPrinter.printErr(
+                        String.format(
+                                "register pattern name and definition: %s%n",
+                                patternDefinition)
+                );
                 grokBuilder.patternDefinitionsFromString(patternDefinition);
             }
             if (patternDefinitionsClasspath != null) {
-                systemErrOutPrinter.printErr(String.format("register pattern definitions from classpath: %s%n", patternDefinitionsClasspath));
+                systemErrOutPrinter.printErr(
+                        String.format(
+                                "register pattern definitions from classpath: %s%n",
+                                patternDefinitionsClasspath)
+                );
                 grokBuilder.patternDefinitionsFromClasspath(patternDefinitionsClasspath);
             }
             if (patternDefinitionsFile != null) {
-                systemErrOutPrinter.printErr(String.format("register pattern definitions from file: %s%n", patternDefinitionsFile));
+                systemErrOutPrinter.printErr(
+                        String.format(
+                                "register pattern definitions from file: %s%n",
+                                patternDefinitionsFile)
+                );
                 grokBuilder.patternDefinitionsFromFile(patternDefinitionsFile);
             }
             //---

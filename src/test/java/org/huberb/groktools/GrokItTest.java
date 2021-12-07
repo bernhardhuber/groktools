@@ -51,23 +51,12 @@ public class GrokItTest {
                 + "Configured system properties:";
         final GrokMatchResult grokResult = grokit.match(grok, line);
         assertNotNull(grokResult);
-        assertEquals("GrokResult{"
-                + "subject=2019-03-04 22:30:16,563 DEBUG [org.jboss.as.config] (MSC service thread 1-2) Configured system properties:, "
-                + "start=0, "
-                + "end=106, "
-                + "m={"
-                + "datetime=2019-03-04 22:30:16,563, "
-                + "YEAR=2019, "
-                + "MONTHNUM=03, "
-                + "HOUR=[22, null], "
-                + "level=DEBUG, "
-                + "MINUTE=[30, null], "
-                + "SECOND=16,563, "
-                + "thread=MSC service thread 1-2, "
-                + "category=org.jboss.as.config, "
-                + "message=Configured system properties:, "
-                + "ISO8601_TIMEZONE=null, "
-                + "MONTHDAY=04}}", grokResult.toString());
+        assertEquals("GrokResult { "
+                + "subject: 2019-03-04 22:30:16,563 DEBUG [org.jboss.as.config] (MSC service thread 1-2) Configured system properties:, "
+                + "start: 0, "
+                + "end: 106, "
+                + "m: {datetime=2019-03-04 22:30:16,563, YEAR=2019, MONTHNUM=03, HOUR=[22, null], level=DEBUG, MINUTE=[30, null], SECOND=16,563, thread=MSC service thread 1-2, category=org.jboss.as.config, message=Configured system properties:, ISO8601_TIMEZONE=null, MONTHDAY=04} "
+                + "}", grokResult.toString());
         assertEquals(0, grokResult.start);
         assertEquals(106, grokResult.end);
         assertEquals("2019-03-04 22:30:16,563", grokResult.m.get("datetime"));
@@ -94,20 +83,12 @@ public class GrokItTest {
         final GrokMatchResult grokResult = grokit.match(grok, line);
         assertNotNull(grokResult);
         assertEquals(line, grokResult.subject.toString());
-        assertEquals("GrokResult{"
-                + "subject=2019-03-04 22:30:17,879 INFO  [org.wildfly.security] (ServerService Thread Pool -- 27) ELY00001: WildFly Elytron version 1.8.0.Final, "
-                + "start=0, "
-                + "end=132, "
-                + "m={"
-                + "datetime=2019-03-04 22:30:17,879, "
-                + "YEAR=2019, MONTHNUM=03, HOUR=[22, null], "
-                + "level=INFO, MINUTE=[30, null], "
-                + "SECOND=17,879, "
-                + "thread=ServerService Thread Pool -- 27, "
-                + "category=org.wildfly.security, "
-                + "message=ELY00001: WildFly Elytron version 1.8.0.Final, "
-                + "ISO8601_TIMEZONE=null, "
-                + "MONTHDAY=04}}", grokResult.toString());
+        assertEquals("GrokResult { "
+                + "subject: 2019-03-04 22:30:17,879 INFO  [org.wildfly.security] (ServerService Thread Pool -- 27) ELY00001: WildFly Elytron version 1.8.0.Final, "
+                + "start: 0, "
+                + "end: 132, "
+                + "m: {datetime=2019-03-04 22:30:17,879, YEAR=2019, MONTHNUM=03, HOUR=[22, null], level=INFO, MINUTE=[30, null], SECOND=17,879, thread=ServerService Thread Pool -- 27, category=org.wildfly.security, message=ELY00001: WildFly Elytron version 1.8.0.Final, ISO8601_TIMEZONE=null, MONTHDAY=04} "
+                + "}", grokResult.toString());
         assertEquals(0, grokResult.start);
         assertEquals(132, grokResult.end);
         assertEquals("2019-03-04 22:30:17,879", grokResult.m.get("datetime"));

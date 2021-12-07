@@ -44,7 +44,10 @@ class GrokIt {
         final Match match = grok.match(line);
         final Map<String, Object> mc = match.capture();
         //Map<String, Object> cf = match.captureFlattened();
-        final GrokMatchResult grokResult = new GrokMatchResult(match.getSubject(), match.getStart(), match.getEnd(), mc);
+        final GrokMatchResult grokResult = new GrokMatchResult(
+                match.getSubject(),
+                match.getStart(), match.getEnd(),
+                mc);
         return grokResult;
     }
 
@@ -69,7 +72,20 @@ class GrokIt {
         final int end;
         final Map<String, Object> m;
 
-        public GrokMatchResult(CharSequence subject, int start, int end, Map<String, Object> m) {
+        /**
+         * Store subject line, start-, and end-index of match, and map of
+         * matched sub strings of the subject line.
+         *
+         * @param subject
+         * @param start
+         * @param end
+         * @param m
+         */
+        public GrokMatchResult(
+                CharSequence subject,
+                int start,
+                int end,
+                Map<String, Object> m) {
             this.subject = subject;
             this.start = start;
             this.end = end;
@@ -77,8 +93,50 @@ class GrokIt {
         }
 
         @Override
+        public int hashCode() {
+            int hash = 3;
+            hash = 23 * hash + Objects.hashCode(this.subject);
+            hash = 23 * hash + this.start;
+            hash = 23 * hash + this.end;
+            hash = 23 * hash + Objects.hashCode(this.m);
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final GrokMatchResult other = (GrokMatchResult) obj;
+            if (this.start != other.start) {
+                return false;
+            }
+            if (this.end != other.end) {
+                return false;
+            }
+            if (!Objects.equals(this.subject, other.subject)) {
+                return false;
+            }
+            if (!Objects.equals(this.m, other.m)) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
         public String toString() {
-            return "GrokResult{" + "subject=" + subject + ", start=" + start + ", end=" + end + ", m=" + m + '}';
+            final String toString = String.format("GrokResult { "
+                    + "subject: %s, "
+                    + "start: %s, "
+                    + "end: %s, "
+                    + "m: %s }", subject, start, end, m);
+            return toString;
         }
     }
 
