@@ -222,68 +222,79 @@ public class GrokMain implements Callable<Integer> {
             } else {
                 outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
             }
+            int mode = 1;
+            if (mode == 0) {
+                // context: grokIt, matchingLineMode, outputGrokResultConverter, br
+                try {
+                    final MatchGatherOutput matchGatherOutput = new MatchGatherOutput();
 
-            // context: grokIt, outputGrokResultConverter, br
-            try {
-                final MatchGatherOutput matchGatherOutput = new MatchGatherOutput();
-
-                outputGrokResultConverter.start();
-                //---
-                int readLineCount = 0;
-                for (String line; (line = br.readLine()) != null;) {
-                    readLineCount += 1;
-                    if (readMaxLinesCount >= 0 && readLineCount > readMaxLinesCount) {
-                        break;
-                    }
-                    final GrokMatchResult grokResult = grokIt.match(grok, line);
+                    outputGrokResultConverter.start();
                     //---
-                    if (matchingLineMode == MatchingLineMode.singleLineMode) {
-                        boolean skip = false;
-                        skip = skip || grokResult == null;
-                        skip = skip || (grokResult.start == 0 && grokResult.end == 0);
-                        skip = skip || grokResult.m == null;
-                        skip = skip || grokResult.m.isEmpty();
-                        if (skip) {
-                            continue;
+                    int readLineCount = 0;
+                    for (String line; (line = br.readLine()) != null;) {
+                        readLineCount += 1;
+                        if (this.readMaxLinesCount >= 0 && readLineCount > this.readMaxLinesCount) {
+                            break;
                         }
-                        outputGrokResultConverter.output(readLineCount, grokResult);
-                    } else if (matchingLineMode == MatchingLineMode.multiLinesMode) {
-                        final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
-                                readLineCount,
-                                line,
-                                grokResult.start,
-                                grokResult.end,
-                                grokResult.m);
-                        if (resultOpt.isPresent()) {
-                            Wrapper w = resultOpt.get().wrapperWithExtraToMap();
-                            int readLineCount2 = w.readLineCount;
-                            GrokMatchResult grokResult2 = new GrokMatchResult(
-                                    w.subject,
-                                    w.start,
-                                    w.end,
-                                    w.m
-                            );
-                            outputGrokResultConverter.output(readLineCount2, grokResult2);
+                        final GrokMatchResult grokResult = grokIt.match(grok, line);
+                        //---
+                        if (matchingLineMode == MatchingLineMode.singleLineMode) {
+                            boolean skip = false;
+                            skip = skip || grokResult == null;
+                            skip = skip || (grokResult.start == 0 && grokResult.end == 0);
+                            skip = skip || grokResult.m == null;
+                            skip = skip || grokResult.m.isEmpty();
+                            if (skip) {
+                                continue;
+                            }
+                            outputGrokResultConverter.output(readLineCount, grokResult);
+                        } else if (matchingLineMode == MatchingLineMode.multiLinesMode) {
+                            final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
+                                    readLineCount,
+                                    line,
+                                    grokResult.start,
+                                    grokResult.end,
+                                    grokResult.m);
+                            if (resultOpt.isPresent()) {
+                                Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                                int readLineCount2 = w.readLineCount;
+                                GrokMatchResult grokResult2 = new GrokMatchResult(
+                                        w.subject,
+                                        w.start,
+                                        w.end,
+                                        w.m
+                                );
+                                outputGrokResultConverter.output(readLineCount2, grokResult2);
+                            }
                         }
                     }
-                }
-                // retrieve last Optional<Result> still gathered, but
-                // not yet output
-                final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
-                if (resultOpt.isPresent()) {
-                    Wrapper w = resultOpt.get().wrapperWithExtraToMap();
-                    GrokMatchResult grokResult2 = new GrokMatchResult(
-                            w.subject,
-                            w.start,
-                            w.end,
-                            w.m
-                    );
-                    outputGrokResultConverter.output(readLineCount, grokResult2);
-                }
+                    // retrieve last Optional<Result> still gathered, but
+                    // not yet output
+                    final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
+                    if (resultOpt.isPresent()) {
+                        Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                        GrokMatchResult grokResult2 = new GrokMatchResult(
+                                w.subject,
+                                w.start,
+                                w.end,
+                                w.m
+                        );
+                        outputGrokResultConverter.output(readLineCount, grokResult2);
+                    }
 
-                outputGrokResultConverter.end();
-            } finally {
-                outputGrokResultConverter.close();
+                    outputGrokResultConverter.end();
+                } finally {
+                    outputGrokResultConverter.close();
+                }
+            } else if (mode == 1) {
+                final XXX xxx = new XXX(
+                        grok,
+                        matchingLineMode,
+                        outputGrokResultConverter,
+                        br,
+                        readMaxLinesCount
+                );
+                xxx.xxx();
             }
         }
     }
@@ -346,5 +357,120 @@ public class GrokMain implements Callable<Integer> {
     static enum MatchingLineMode {
         singleLineMode,
         multiLinesMode
+    }
+
+    static class XXX {
+
+        final Grok grok;
+        final MatchingLineMode matchingLineMode;
+        final IOutputGrokResultConverter outputGrokResultConverter;
+        final BufferedReader br;
+        final int readMaxLinesCount;
+
+        public XXX(
+                Grok grok,
+                MatchingLineMode matchingLineMode,
+                IOutputGrokResultConverter outputGrokResultConverter,
+                BufferedReader br,
+                int readMaxLinesCount) {
+            this.grok = grok;
+            this.matchingLineMode = matchingLineMode;
+            this.outputGrokResultConverter = outputGrokResultConverter;
+            this.br = br;
+            this.readMaxLinesCount = readMaxLinesCount;
+        }
+
+        void xxx() throws IOException {
+            final GrokIt grokIt = new GrokIt();
+
+            // context: grokIt, matchingLineMode, outputGrokResultConverter, br
+            try {
+                final MatchGatherOutput matchGatherOutput = new MatchGatherOutput();
+
+                outputGrokResultConverter.start();
+                //---
+                int readLineCount = 0;
+                for (String line; (line = br.readLine()) != null;) {
+                    readLineCount += 1;
+                    if (readMaxLinesCount >= 0 && readLineCount > readMaxLinesCount) {
+                        break;
+                    }
+                    final GrokMatchResult grokResult = grokIt.match(grok, line);
+                    //---
+                    if (matchingLineMode == MatchingLineMode.singleLineMode) {
+                        singleLineMode(readLineCount, grokResult);
+                    } else if (matchingLineMode == MatchingLineMode.multiLinesMode) {
+                        multiLinesMode(line,
+                                readLineCount,
+                                matchGatherOutput,
+                                grokResult
+                        );
+                    }
+                }
+                // retrieve last Optional<Result> still gathered, but
+                // not yet output
+                multiLineModeLast(
+                        readLineCount,
+                        matchGatherOutput);
+                outputGrokResultConverter.end();
+            } finally {
+                outputGrokResultConverter.close();
+            }
+        }
+
+        void singleLineMode(int readLineCount, GrokMatchResult grokResult) {
+            boolean skip = false;
+            skip = skip || grokResult == null;
+            skip = skip || (grokResult.start == 0 && grokResult.end == 0);
+            skip = skip || grokResult.m == null;
+            skip = skip || grokResult.m.isEmpty();
+            if (!skip) {
+                outputGrokResultConverter.output(readLineCount, grokResult);
+            }
+
+        }
+
+        void multiLinesMode(String line,
+                int readLineCount,
+                MatchGatherOutput matchGatherOutput,
+                GrokMatchResult grokResult
+        ) {
+            final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
+                    readLineCount,
+                    line,
+                    grokResult.start,
+                    grokResult.end,
+                    grokResult.m);
+            if (resultOpt.isPresent()) {
+                Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                int readLineCount2 = w.readLineCount;
+                GrokMatchResult grokResult2 = new GrokMatchResult(
+                        w.subject,
+                        w.start,
+                        w.end,
+                        w.m
+                );
+                outputGrokResultConverter.output(readLineCount2, grokResult2);
+            }
+        }
+
+        void multiLineModeLast(
+                int readLineCount,
+                MatchGatherOutput matchGatherOutput
+        ) {
+            // retrieve last Optional<Result> still gathered, but
+            // not yet output
+            final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
+            if (resultOpt.isPresent()) {
+                Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                GrokMatchResult grokResult2 = new GrokMatchResult(
+                        w.subject,
+                        w.start,
+                        w.end,
+                        w.m
+                );
+                outputGrokResultConverter.output(readLineCount, grokResult2);
+            }
+        }
     }
 }
