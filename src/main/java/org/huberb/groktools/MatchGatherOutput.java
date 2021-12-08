@@ -27,14 +27,16 @@ public class MatchGatherOutput {
 
     static class Wrapper {
 
-        String subject;
-        int start;
-        int end;
-        Map<String, Object> m;
+        final int readLineCount;
+        final String subject;
+        final int start;
+        final int end;
+        final Map<String, Object> m;
 
         StringBuilder extra;
 
-        public Wrapper(String subject, int start, int end, Map<String, Object> m) {
+        public Wrapper(int readLineCount, String subject, int start, int end, Map<String, Object> m) {
+            this.readLineCount = readLineCount;
             this.subject = subject;
             this.start = start;
             this.end = end;
@@ -53,7 +55,7 @@ public class MatchGatherOutput {
         }
 
         void appendExtra(String s) {
-            extra.append(s);
+            extra.append(s).append("\n");
         }
 
     }
@@ -66,22 +68,21 @@ public class MatchGatherOutput {
 
     /**
      *
+     * @param readLineCount
      * @param subject
      * @param start
      * @param end
      * @param captureMap
      * @return
      */
-    Optional< Result> gatherMatch(String subject, int start, int end, Map<String, Object> captureMap) {
+    public Optional< Result> gatherMatch(
+            int readLineCount,
+            String subject, int start, int end, Map<String, Object> captureMap) {
         final Optional<Result> resultOptional;
-        final Wrapper w = new Wrapper(subject, start, end, captureMap);
+        final Wrapper w = new Wrapper(readLineCount, subject, start, end, captureMap);
         if (w.isHoldingAMatch()) {
             // output wrapperStored
-            if (this.wrapperStored != null) {
-                resultOptional = Optional.of(new Result(this.wrapperStored));
-            } else {
-                resultOptional = Optional.empty();
-            }
+            resultOptional = createResultOptional();
 
             // store w as new wrapperStored
             this.wrapperStored = w;
@@ -92,6 +93,22 @@ public class MatchGatherOutput {
             resultOptional = Optional.empty();
         }
         return resultOptional;
+    }
+
+    public Optional<Result> retrieveResult() {
+        final Optional<Result> resultOptional = createResultOptional();
+        return resultOptional;
+    }
+
+    Optional<Result> createResultOptional() {
+        final Optional<Result> resultOptional;
+        if (this.wrapperStored != null) {
+            resultOptional = Optional.of(new Result(this.wrapperStored));
+        } else {
+            resultOptional = Optional.empty();
+        }
+        return resultOptional;
+
     }
 
     static class Result {
@@ -107,7 +124,11 @@ public class MatchGatherOutput {
         }
 
         Wrapper wrapperWithExtraToMap() {
-            final Wrapper w = new Wrapper(this.w.subject, this.w.start, this.w.end, extraToMap());
+            final Wrapper w = new Wrapper(
+                    this.w.readLineCount,
+                    this.w.subject,
+                    this.w.start, this.w.end,
+                    extraToMap());
             return w;
         }
 

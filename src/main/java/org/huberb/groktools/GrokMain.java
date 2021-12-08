@@ -239,24 +239,38 @@ public class GrokMain implements Callable<Integer> {
                         outputGrokResultConverter.output(readLineCount, grokResult);
                     } else if (mode == MatchinLineMode.multiLinesMode) {
                         final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
+                                readLineCount,
                                 line,
                                 grokResult.start,
                                 grokResult.end,
                                 grokResult.m);
                         if (resultOpt.isPresent()) {
                             Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                            int readLineCount2 = w.readLineCount;
                             GrokMatchResult grokResult2 = new GrokMatchResult(
                                     w.subject,
                                     w.start,
                                     w.end,
                                     w.m
                             );
-                            outputGrokResultConverter.output(readLineCount, grokResult2);
+                            outputGrokResultConverter.output(readLineCount2, grokResult2);
                         }
                         // TODO fix output last matchGatherOutput value
                         // TODO fix missing new lines in extra
                     }
                 }
+                final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
+                if (resultOpt.isPresent()) {
+                    Wrapper w = resultOpt.get().wrapperWithExtraToMap();
+                    GrokMatchResult grokResult2 = new GrokMatchResult(
+                            w.subject,
+                            w.start,
+                            w.end,
+                            w.m
+                    );
+                    outputGrokResultConverter.output(readLineCount, grokResult2);
+                }
+
                 outputGrokResultConverter.end();
             } finally {
                 outputGrokResultConverter.close();
