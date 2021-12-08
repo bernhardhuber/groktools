@@ -13,7 +13,8 @@ This tool uses the java library GROK.
 ```
 Usage: grokMain [-hV] [--[no-]named-only] [--[no-]register-default-patterns]
                 [--output-matchresult-as-csv] [--output-matchresult-as-json]
-                [--show-pattern-definitions] [-f=<inputFile>] [-p=<pattern>]
+                [--show-pattern-definitions] [-f=<inputFile>]
+                [--matching-line-mode=<matchingLineMode>] [-p=<pattern>]
                 [--pattern-definition=<patternDefinition>]
                 [--pattern-definitions-classpath=<patternDefinitionsClasspath>]
                 [--pattern-definitions-file=<patternDefinitionsFile>]
@@ -21,6 +22,10 @@ Usage: grokMain [-hV] [--[no-]named-only] [--[no-]register-default-patterns]
 parse unstructured  files
   -f, --file=<inputFile>    read from file, if not specified read from stdin
   -h, --help                Show this help message and exit.
+      --matching-line-mode=<matchingLineMode>
+                            match single line or mutli lines; valid values:
+                              "singleLineMode, multiLinesMode"
+                              Default: singleLineMode
       --[no-]named-only     Provide only named matches. True by default.
       --[no-]register-default-patterns
                             Register default patterns. True by default.
@@ -37,6 +42,7 @@ parse unstructured  files
                             read pattern definition from a file
       --read-max-lines-count=<readMaxLinesCount>
                             read maximum number lines
+                              Default: -1
       --show-pattern-definitions
                             show grok pattern definitions
   -V, --version             Print version information and exit.
