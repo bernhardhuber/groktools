@@ -49,6 +49,7 @@ import picocli.CommandLine.Spec;
  */
 @Command(name = "grokMain",
         mixinStandardHelpOptions = true,
+        showDefaultValues = true,
         version = "grokMain 1.0-SNAPSHOT",
         description = "parse unstructured  files")
 public class GrokMain implements Callable<Integer> {
@@ -62,6 +63,7 @@ public class GrokMain implements Callable<Integer> {
             description = "read from file, if not specified read from stdin")
     private File inputFile;
     @Option(names = {"--read-max-lines-count"},
+            defaultValue = "-1",
             description = "read maximum number lines")
     private int readMaxLinesCount = -1;
     @Option(names = {"-p", "--pattern"},
@@ -92,6 +94,12 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"--show-pattern-definitions"},
             description = "show grok pattern definitions")
     private boolean showPatternDefinitions;
+
+    @Option(names = {"--matching-line-mode"},
+            defaultValue = "singleLineMode",
+            description = "match single line or mutli lines; valid values: \"${COMPLETION-CANDIDATES}\""
+    )
+    private MatchingLineMode matchingLineMode;
 
     @Option(names = {"--output-matchresult-as-csv"},
             description = "output match results as csv")
@@ -201,6 +209,8 @@ public class GrokMain implements Callable<Integer> {
      */
     void executeMatching(Grok grok) throws IOException {
         final GrokIt grokIt = new GrokIt();
+        final MatchingLineMode matchingLineMode = this.matchingLineMode;
+
         try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
             //---
@@ -213,6 +223,7 @@ public class GrokMain implements Callable<Integer> {
                 outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
             }
 
+            // context: grokIt, outputGrokResultConverter, br
             try {
                 final MatchGatherOutput matchGatherOutput = new MatchGatherOutput();
 
@@ -226,8 +237,7 @@ public class GrokMain implements Callable<Integer> {
                     }
                     final GrokMatchResult grokResult = grokIt.match(grok, line);
                     //---
-                    MatchinLineMode mode = MatchinLineMode.multiLinesMode;
-                    if (mode == MatchinLineMode.singleLineMode) {
+                    if (matchingLineMode == MatchingLineMode.singleLineMode) {
                         boolean skip = false;
                         skip = skip || grokResult == null;
                         skip = skip || (grokResult.start == 0 && grokResult.end == 0);
@@ -237,7 +247,7 @@ public class GrokMain implements Callable<Integer> {
                             continue;
                         }
                         outputGrokResultConverter.output(readLineCount, grokResult);
-                    } else if (mode == MatchinLineMode.multiLinesMode) {
+                    } else if (matchingLineMode == MatchingLineMode.multiLinesMode) {
                         final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
                                 readLineCount,
                                 line,
@@ -255,10 +265,10 @@ public class GrokMain implements Callable<Integer> {
                             );
                             outputGrokResultConverter.output(readLineCount2, grokResult2);
                         }
-                        // TODO fix output last matchGatherOutput value
-                        // TODO fix missing new lines in extra
                     }
                 }
+                // retrieve last Optional<Result> still gathered, but
+                // not yet output
                 final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
                 if (resultOpt.isPresent()) {
                     Wrapper w = resultOpt.get().wrapperWithExtraToMap();
@@ -333,7 +343,7 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    enum MatchinLineMode {
+    static enum MatchingLineMode {
         singleLineMode,
         multiLinesMode
     }
