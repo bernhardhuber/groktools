@@ -25,41 +25,6 @@ import java.util.Optional;
  */
 public class MatchGatherOutput {
 
-    static class Wrapper {
-
-        final int readLineCount;
-        final String subject;
-        final int start;
-        final int end;
-        final Map<String, Object> m;
-
-        StringBuilder extra;
-
-        public Wrapper(int readLineCount, String subject, int start, int end, Map<String, Object> m) {
-            this.readLineCount = readLineCount;
-            this.subject = subject;
-            this.start = start;
-            this.end = end;
-            this.m = m;
-            this.extra = new StringBuilder();
-        }
-
-        boolean isHoldingAMatch() {
-            boolean isHoldingAMatch = true;
-            isHoldingAMatch = isHoldingAMatch && subject != null;
-            isHoldingAMatch = isHoldingAMatch && !subject.isEmpty();
-            isHoldingAMatch = isHoldingAMatch && (start <= end && end >= 0);
-            isHoldingAMatch = isHoldingAMatch && m != null;
-            isHoldingAMatch = isHoldingAMatch && !m.isEmpty();
-            return isHoldingAMatch;
-        }
-
-        void appendExtra(String s) {
-            extra.append(s).append("\n");
-        }
-
-    }
-
     private Wrapper wrapperStored;
 
     MatchGatherOutput() {
@@ -108,6 +73,41 @@ public class MatchGatherOutput {
             resultOptional = Optional.empty();
         }
         return resultOptional;
+
+    }
+
+    static class Wrapper {
+
+        final int readLineCount;
+        final String subject;
+        final int start;
+        final int end;
+        final Map<String, Object> m;
+
+        StringBuilder extra;
+
+        public Wrapper(int readLineCount, String subject, int start, int end, Map<String, Object> m) {
+            this.readLineCount = readLineCount;
+            this.subject = subject;
+            this.start = start;
+            this.end = end;
+            this.m = m;
+            this.extra = new StringBuilder();
+        }
+
+        boolean isHoldingAMatch() {
+            boolean isHoldingAMatch = true;
+            isHoldingAMatch = isHoldingAMatch && subject != null;
+            isHoldingAMatch = isHoldingAMatch && !subject.isEmpty();
+            isHoldingAMatch = isHoldingAMatch && (start <= end && end >= 0);
+            isHoldingAMatch = isHoldingAMatch && m != null;
+            isHoldingAMatch = isHoldingAMatch && !m.isEmpty();
+            return isHoldingAMatch;
+        }
+
+        void appendExtra(String s) {
+            extra.append(s).append("\n");
+        }
 
     }
 
