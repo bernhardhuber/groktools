@@ -11,13 +11,15 @@
 
 #-----------------------------------------------------------------------------
 BASEDIR=$(dirname $0)
-VERSION=0.2.0
-#CMD=${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-executable 
+VERSION=0.3.0-SNAPSHOT
+
+#-----------------------------------------------------------------------------
+#CMD=${BASEDIR}/target/groktools-${VERSION}-executable 
 CMD="$JAVA_HOME/bin/java \
-  -jar ${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-grokmain.jar "
+  -jar ${BASEDIR}/target/groktools-${VERSION}-grokmain.jar "
 #CMD="$JAVA_HOME/bin/java \
 #  -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y \
-#  -jar ${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-grokmain.jar "
+#  -jar ${BASEDIR}/target/groktools-${VERSION}-grokmain.jar "
 
 #READ_MAX_LINES_COUNT=10
 #READ_MAX_LINES_COUNT=100
