@@ -11,16 +11,24 @@
 
 #-----------------------------------------------------------------------------
 BASEDIR=$(dirname $0)
-#CMD=${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-executable 
+VERSION=0.2.0
+#CMD=${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-executable 
 CMD="$JAVA_HOME/bin/java \
-  -jar ${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-grokmain.jar "
+  -jar ${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-grokmain.jar "
 #CMD="$JAVA_HOME/bin/java \
 #  -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y \
-#  -jar ${BASEDIR}/target/groktools-0.2.0-SNAPSHOT-grokmain.jar "
+#  -jar ${BASEDIR}/target/groktools-${VERSION}-SNAPSHOT-grokmain.jar "
 
+#READ_MAX_LINES_COUNT=10
+#READ_MAX_LINES_COUNT=100
 READ_MAX_LINES_COUNT=600
-#OUTPUT_MODE=--output-matchresult-as-csv
-OUTPUT_MODE=--output-matchresult-as-json
+
+#OUTPUT_MODE=""
+OUTPUT_MODE="--output-matchresult-as-csv"
+#OUTPUT_MODE="--output-matchresult-as-json"
+
+#MATCHING_LINE_MODE="--matching-line-mode=singleLineMode"
+MATCHING_LINE_MODE="--matching-line-mode=multiLinesMode"
 
 #-----------------------------------------------------------------------------
 # log-files
@@ -39,18 +47,21 @@ function grok_wildfly () {
       echo "Missing file: ${WILDFLY_SERVERLOG_FILE}"
     fi
 
-cat << -EOF-
+    cat << -EOF-
 
 # Wildfly server.log
 # ${WILDFLY_SERVERLOG_FILE}
 
 -EOF-
-$CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-  ${OUTPUT_MODE} \
-  --pattern=%{WILDFLY_SERVERLOG} \
-  --file=${WILDFLY_SERVERLOG_FILE} \
-  2>&1 
+    CMD_OPTIONS="\
+ --pattern-definitions-classpath=//groktoolspatterns/server_log \
+ --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+ ${OUTPUT_MODE} \
+ --pattern=%{WILDFLY_SERVERLOG} \
+ --file=${WILDFLY_SERVERLOG_FILE} \
+ ${MATCHING_LINE_MODE} "
+
+    $CMD ${CMD_OPTIONS} 2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -68,12 +79,15 @@ function grok_activemq () {
 
 -EOF-
 
-    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-      ${OUTPUT_MODE} \
-      --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
-      --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
-      2>&1 
+    CMD_OPTIONS="\
+ --pattern-definitions-classpath=//groktoolspatterns/server_log \
+ --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+ ${OUTPUT_MODE} \
+ --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
+ --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
+ ${MATCHING_LINE_MODE} "
+
+     $CMD ${CMD_OPTIONS} 2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -92,12 +106,15 @@ function grok_elkstack () {
 
 -EOF-
 
-    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-      ${OUTPUT_MODE} \
-      --pattern=%{ELKSTACK_LOGSTASHLOG} \
-      --file=${ELKSTACK_LOGSTASHLOG} \
-      2>&1 
+    CMD_OPTIONS="\
+ --pattern-definitions-classpath=//groktoolspatterns/server_log \
+ --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+ ${OUTPUT_MODE} \
+ --pattern=%{ELKSTACK_LOGSTASHLOG} \
+ --file=${ELKSTACK_LOGSTASHLOG} \
+ ${MATCHING_LINE_MODE} "
+
+    $CMD ${CMD_OPTIONS} 2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -115,19 +132,22 @@ function grok_flume () {
 
 -EOF-
 
-    $CMD --pattern-definitions-classpath=//groktoolspatterns/server_log \
-      --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-      ${OUTPUT_MODE} \
-      --pattern=%{FLUME_FLUMELOG} \
-      --file=${FLUME_FLUMELOG} \
-      2>&1 
+    CMD_OPTIONS="\
+ --pattern-definitions-classpath=//groktoolspatterns/server_log \
+ --read-max-lines-count=${READ_MAX_LINES_COUNT} \
+ ${OUTPUT_MODE} \
+ --pattern=%{FLUME_FLUMELOG} \
+ --file=${FLUME_FLUMELOG} \
+ ${MATCHING_LINE_MODE} "
+
+    $CMD ${CMD_OPTIONS} 2>&1 
 }
 
 
 #-----------------------------------------------------------------------------
 #
 grok_wildfly
-#grok_activemq
-#grok_elkstack
-#grok_flume
+grok_activemq
+grok_elkstack
+grok_flume
 
