@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import org.huberb.groktools.GrokMain.InputLineProcessor;
 import org.huberb.groktools.GrokMain.MatchingLineMode;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
@@ -81,9 +82,12 @@ public class InputLineProcessorTest {
             final String s = sw.toString();
             assertNotNull(s);
             assertTrue(s.length() > 0);
-            assertEquals(105862, s.length());
+            assertTrue(Arrays.asList(105862, 105597).contains(s.length()),
+                    "length: " + s.length()
+            );
             // line words chars
-            assertEquals(" 265 10212 105862 ", Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " "));
+            final String wcResult = Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " ");
+            assertEquals(" 265 10212 105862 ", wcResult);
         }
     }
 
@@ -124,9 +128,12 @@ public class InputLineProcessorTest {
             final String s = sw.toString();
             assertNotNull(s);
             assertTrue(s.length() > 0);
-            assertEquals(175290, s.length());
+            assertTrue(Arrays.asList(175290, 175025).contains(s.length()),
+                    "length: " + s.length()
+            );
             // line words chars
-            assertEquals(" 1016 12251 175290 ", Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " "));
+            final String wcResult = Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " ");
+            assertEquals(" 1016 12251 175290 ", wcResult);
         }
     }
 }
