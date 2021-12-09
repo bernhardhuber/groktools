@@ -13,12 +13,12 @@
     </properties>
     <dependencyManagement>
         <dependencies>
-        <!-- GrokTool -->
-        <dependency>
-            <groupId>io.krakens</groupId>
-            <artifactId>java-grok</artifactId>
-            <version>0.1.9</version>
-        </dependency>
+            <!-- GrokTool -->
+            <dependency>
+                <groupId>io.krakens</groupId>
+                <artifactId>java-grok</artifactId>
+                <version>0.1.9</version>
+            </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -55,6 +55,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.unix4j</groupId>
+            <artifactId>unix4j-command</artifactId>
+            <version>0.6</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
