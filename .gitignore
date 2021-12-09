@@ -31,3 +31,4 @@ nb-configuration.xml
 !/src/main/resources/examples/activemq.log
 !/src/main/resources/examples/flume.log
 !/nb-configuration.xml
+/.swp
