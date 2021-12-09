@@ -28,7 +28,6 @@ import org.huberb.groktools.GrokMain.InputLineProcessor;
 import org.huberb.groktools.GrokMain.MatchingLineMode;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
 import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -87,7 +86,11 @@ public class InputLineProcessorTest {
             );
             // line words chars
             final String wcResult = Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " ");
-            assertEquals(" 265 10212 105862 ", wcResult);
+            assertTrue(
+                    Arrays.asList(
+                            " 265 10212 105862 ",
+                            " 265 10212 105597 "
+                    ).contains(wcResult), wcResult);
         }
     }
 
@@ -133,7 +136,12 @@ public class InputLineProcessorTest {
             );
             // line words chars
             final String wcResult = Unix4j.wc(new StringInput(s)).toStringResult().replaceAll("[^0-9]+", " ");
-            assertEquals(" 1016 12251 175290 ", wcResult);
+            assertTrue(
+                    Arrays.asList(
+                            " 1016 12251 175290 ",
+                            " 1016 12251 175025 ").contains(wcResult),
+                    wcResult
+            );
         }
     }
 }
