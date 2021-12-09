@@ -32,3 +32,4 @@ nb-configuration.xml
 !/src/main/resources/examples/flume.log
 !/nb-configuration.xml
 /.swp
+/server_log_1_600_multilines.csv
