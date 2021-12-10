@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
+import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
 import org.huberb.groktools.MatchGatherOutput.Wrapper;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
@@ -221,79 +222,15 @@ public class GrokMain implements Callable<Integer> {
             } else {
                 outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
             }
-            int mode = 1;
-            if (mode == 0) {
-                // context: grokIt, matchingLineMode, outputGrokResultConverter, br
-                try {
-                    final MatchGatherOutput matchGatherOutput = new MatchGatherOutput();
 
-                    outputGrokResultConverter.start();
-                    //---
-                    int readLineCount = 0;
-                    for (String line; (line = br.readLine()) != null;) {
-                        readLineCount += 1;
-                        if (this.readMaxLinesCount >= 0 && readLineCount > this.readMaxLinesCount) {
-                            break;
-                        }
-                        final GrokMatchResult grokResult = grokIt.match(grok, line);
-                        //---
-                        if (matchingLineMode == MatchingLineMode.singleLineMode) {
-                            boolean skip = false;
-                            skip = skip || grokResult == null;
-                            skip = skip || (grokResult.start == 0 && grokResult.end == 0);
-                            skip = skip || grokResult.m == null;
-                            skip = skip || grokResult.m.isEmpty();
-                            if (skip) {
-                                continue;
-                            }
-                            outputGrokResultConverter.output(readLineCount, grokResult);
-                        } else if (matchingLineMode == MatchingLineMode.multiLinesMode) {
-                            final Optional<Result> resultOpt = matchGatherOutput.gatherMatch(
-                                    readLineCount,
-                                    line,
-                                    grokResult.start,
-                                    grokResult.end,
-                                    grokResult.m);
-                            if (resultOpt.isPresent()) {
-                                Wrapper w = resultOpt.get().wrapperWithExtraToMap();
-                                int readLineCount2 = w.readLineCount;
-                                GrokMatchResult grokResult2 = new GrokMatchResult(
-                                        w.subject,
-                                        w.start,
-                                        w.end,
-                                        w.m
-                                );
-                                outputGrokResultConverter.output(readLineCount2, grokResult2);
-                            }
-                        }
-                    }
-                    // retrieve last Optional<Result> still gathered, but
-                    // not yet output
-                    final Optional<Result> resultOpt = matchGatherOutput.retrieveResult();
-                    if (resultOpt.isPresent()) {
-                        Wrapper w = resultOpt.get().wrapperWithExtraToMap();
-                        GrokMatchResult grokResult2 = new GrokMatchResult(
-                                w.subject,
-                                w.start,
-                                w.end,
-                                w.m
-                        );
-                        outputGrokResultConverter.output(readLineCount, grokResult2);
-                    }
+            final InputLineProcessor inputLineProcessor = new InputLineProcessor(
+                    grok,
+                    this.matchingLineMode,
+                    outputGrokResultConverter,
+                    this.readMaxLinesCount
+            );
+            inputLineProcessor.processLines(br);
 
-                    outputGrokResultConverter.end();
-                } finally {
-                    outputGrokResultConverter.close();
-                }
-            } else if (mode == 1) {
-                final InputLineProcessor inputLineProcessor = new InputLineProcessor(
-                        grok,
-                        this.matchingLineMode,
-                        outputGrokResultConverter,
-                        this.readMaxLinesCount
-                );
-                inputLineProcessor.processLines(br);
-            }
         }
     }
 
@@ -352,12 +289,18 @@ public class GrokMain implements Callable<Integer> {
         }
     }
 
-    static enum MatchingLineMode {
-        singleLineMode,
-        multiLinesMode
-    }
-
+    /**
+     * Processor input lines in single-line or multi-lines mode.
+     */
     static class InputLineProcessor {
+
+        /**
+         * Describe processing lines mode.
+         */
+        static enum MatchingLineMode {
+            singleLineMode,
+            multiLinesMode
+        }
 
         final Grok grok;
         final MatchingLineMode matchingLineMode;
@@ -365,6 +308,14 @@ public class GrokMain implements Callable<Integer> {
 
         final int readMaxLinesCount;
 
+        /**
+         * Create an setup.
+         *
+         * @param grok
+         * @param matchingLineMode
+         * @param outputGrokResultConverter
+         * @param readMaxLinesCount
+         */
         public InputLineProcessor(
                 Grok grok,
                 MatchingLineMode matchingLineMode,
@@ -377,9 +328,9 @@ public class GrokMain implements Callable<Integer> {
         }
 
         /**
-         * entry for processing all lines from a {@link BufferedReader}.
+         * Entry point for processing all lines from a {@link BufferedReader}.
          */
-        void processLines(final BufferedReader br) throws IOException {
+        public void processLines(final BufferedReader br) throws IOException {
             final GrokIt grokIt = new GrokIt();
 
             // context: grokIt, matchingLineMode, outputGrokResultConverter, br
@@ -418,7 +369,8 @@ public class GrokMain implements Callable<Integer> {
         }
 
         /**
-         * process only matched lines, ignore non matched lines
+         * process only matched lines, ignore non matched lines (
+         * {@link MatchingLineMode#singleLineMode} ).
          */
         void singleLineMode(int readLineCount, GrokMatchResult grokResult) {
             boolean skip = false;
@@ -434,7 +386,8 @@ public class GrokMain implements Callable<Integer> {
 
         /**
          * process matched lines, append non-matched lines to last matched lines
-         * as map-entry "extra"
+         * as map-entry "extra" {@link MatchingLineMode#multiLinesMode} ).
+         *
          */
         void multiLinesMode(String line,
                 int readLineCount,
@@ -461,7 +414,8 @@ public class GrokMain implements Callable<Integer> {
         }
 
         /**
-         * tail end processing of multilinesMode processing
+         * Tail end processing of {@link MatchingLineMode#multiLinesMode}
+         * processing.
          */
         void multiLineModeLast(
                 int readLineCount,

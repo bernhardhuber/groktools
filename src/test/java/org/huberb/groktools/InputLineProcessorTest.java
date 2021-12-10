@@ -25,7 +25,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import org.huberb.groktools.GrokMain.InputLineProcessor;
-import org.huberb.groktools.GrokMain.MatchingLineMode;
+import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
 import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
