@@ -12,9 +12,9 @@ This tool uses the java library GROK.
 
 ```
 Usage: grokMain [-hV] [--[no-]named-only] [--[no-]register-default-patterns]
-                [--output-matchresult-as-csv] [--output-matchresult-as-json]
                 [--show-pattern-definitions] [-f=<inputFile>]
-                [--matching-line-mode=<matchingLineMode>] [-p=<pattern>]
+                [--matching-line-mode=<matchingLineMode>]
+                [--output-matchresult=<outputMatchResultMode>] [-p=<pattern>]
                 [--pattern-definition=<patternDefinition>]
                 [--pattern-definitions-classpath=<patternDefinitionsClasspath>]
                 [--pattern-definitions-file=<patternDefinitionsFile>]
@@ -29,10 +29,10 @@ parse unstructured  files
       --[no-]named-only     Provide only named matches. True by default.
       --[no-]register-default-patterns
                             Register default patterns. True by default.
-      --output-matchresult-as-csv
-                            output match results as csv
-      --output-matchresult-as-json
-                            output match results as json
+      --output-matchresult=<outputMatchResultMode>
+                            output match results; valid values: "asIs, asCsv,
+                              asJson"
+                              Default: asCsv
   -p, --pattern=<pattern>   grok pattern
       --pattern-definition=<patternDefinition>
                             define pattern name pattern and pattern definition
@@ -66,7 +66,7 @@ Launching grooktools:
 ```
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
-  --output-matchresult-as-csv \
+  --output-matchresult=asCsv \
   --pattern=%{WILDFLY_SERVERLOG} \
   --file=server.log \
 ```
@@ -101,7 +101,7 @@ Launching grooktools:
 ```
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
-  --output-matchresult-as-csv \
+  --output-matchresult=asCsv \
   --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
   --file=activemq.log \
 ```
@@ -136,7 +136,7 @@ Launching grooktools:
 ```
 java --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
-  --output-matchresult-as-csv \
+  --output-matchresult=asCsv \
   --pattern=%{ELKSTACK_LOGSTASHLOG} \
   --file=logstash-plain.log \
 ```

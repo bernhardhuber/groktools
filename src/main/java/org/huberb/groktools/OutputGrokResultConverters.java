@@ -31,7 +31,7 @@ public class OutputGrokResultConverters {
     /**
      * Define implementation template for an output-formatter.
      */
-    static interface IOutputGrokResultConverter extends AutoCloseable {
+    public static interface IOutputGrokResultConverter extends AutoCloseable {
 
         void start();
 
@@ -41,6 +41,35 @@ public class OutputGrokResultConverters {
 
         @Override
         void close() throws IOException;
+    }
+
+    public static enum OutputMatchResultMode {
+        asIs, asCsv, asJson
+    }
+
+    /**
+     * Create an {@link IOutputGrokResultConverter} depending on the given
+     * {@link OutputMatchResultMode}-value.
+     *
+     * @param outputMatchResultMode
+     * @param pw
+     * @return
+     */
+    public static IOutputGrokResultConverter createOutputGrokResultConverter(
+            OutputMatchResultMode outputMatchResultMode,
+            PrintWriter pw
+    ) {
+        final IOutputGrokResultConverter outputGrokResultConverter;
+        if (outputMatchResultMode == OutputMatchResultMode.asIs) {
+            outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+        } else if (outputMatchResultMode == OutputMatchResultMode.asCsv) {
+            outputGrokResultConverter = new OutputGrokResultAsCsv(pw);
+        } else if (outputMatchResultMode == OutputMatchResultMode.asJson) {
+            outputGrokResultConverter = new OutputGrokResultAsJson(pw);
+        } else {
+            outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+        }
+        return outputGrokResultConverter;
     }
 
     /**

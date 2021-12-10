@@ -34,9 +34,7 @@ import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
 import org.huberb.groktools.MatchGatherOutput.Wrapper;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsCsv;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsJson;
+import org.huberb.groktools.OutputGrokResultConverters.OutputMatchResultMode;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -54,6 +52,16 @@ import picocli.CommandLine.Spec;
         version = "grokMain 1.0-SNAPSHOT",
         description = "parse unstructured  files")
 public class GrokMain implements Callable<Integer> {
+
+    /**
+     * Command line entry point.
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new GrokMain()).execute(args);
+        System.exit(exitCode);
+    }
 
     @Spec
     private CommandSpec spec;
@@ -102,22 +110,10 @@ public class GrokMain implements Callable<Integer> {
     )
     private MatchingLineMode matchingLineMode;
 
-    @Option(names = {"--output-matchresult-as-csv"},
-            description = "output match results as csv")
-    private boolean outputMatchResultAsCsv;
-    @Option(names = {"--output-matchresult-as-json"},
-            description = "output match results as json")
-    private boolean outputMatchResultAsJson;
-
-    /**
-     * Command line entry point.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new GrokMain()).execute(args);
-        System.exit(exitCode);
-    }
+    @Option(names = {"--output-matchresult"},
+            defaultValue = "asCsv",
+            description = "output match results; valid values: \"${COMPLETION-CANDIDATES}\"")
+    private OutputMatchResultMode outputMatchResultMode;
 
     /**
      * Picocli entry point.
@@ -214,14 +210,9 @@ public class GrokMain implements Callable<Integer> {
         try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
             //---
-            final IOutputGrokResultConverter outputGrokResultConverter;
-            if (outputMatchResultAsCsv) {
-                outputGrokResultConverter = new OutputGrokResultAsCsv(this.spec.commandLine().getOut());
-            } else if (outputMatchResultAsJson) {
-                outputGrokResultConverter = new OutputGrokResultAsJson(this.spec.commandLine().getOut());
-            } else {
-                outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
-            }
+            final PrintWriter pw = this.spec.commandLine().getOut();
+            final IOutputGrokResultConverter outputGrokResultConverter
+                    = OutputGrokResultConverters.createOutputGrokResultConverter(this.outputMatchResultMode, pw);
 
             final InputLineProcessor inputLineProcessor = new InputLineProcessor(
                     grok,
