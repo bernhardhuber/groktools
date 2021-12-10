@@ -34,9 +34,7 @@ import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
 import org.huberb.groktools.MatchGatherOutput.Wrapper;
 import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsCsv;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsJson;
+import org.huberb.groktools.OutputGrokResultConverters.OutputMatchResultMode;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -212,16 +210,9 @@ public class GrokMain implements Callable<Integer> {
         try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
                 final BufferedReader br = new BufferedReader(logReader)) {
             //---
-            final IOutputGrokResultConverter outputGrokResultConverter;
-            if (this.outputMatchResultMode == outputMatchResultMode.asIs) {
-                outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
-            } else if (this.outputMatchResultMode == outputMatchResultMode.asCsv) {
-                outputGrokResultConverter = new OutputGrokResultAsCsv(this.spec.commandLine().getOut());
-            } else if (this.outputMatchResultMode == outputMatchResultMode.asJson) {
-                outputGrokResultConverter = new OutputGrokResultAsJson(this.spec.commandLine().getOut());
-            } else {
-                outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
-            }
+            final PrintWriter pw = this.spec.commandLine().getOut();
+            final IOutputGrokResultConverter outputGrokResultConverter
+                    = OutputGrokResultConverters.createOutputGrokResultConverter(this.outputMatchResultMode, pw);
 
             final InputLineProcessor inputLineProcessor = new InputLineProcessor(
                     grok,
@@ -232,10 +223,6 @@ public class GrokMain implements Callable<Integer> {
             inputLineProcessor.processLines(br);
 
         }
-    }
-
-    static enum OutputMatchResultMode {
-        asIs, asCsv, asJson
     }
 
     /**
