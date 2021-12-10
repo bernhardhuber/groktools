@@ -25,9 +25,9 @@ CMD="$JAVA_HOME/bin/java \
 #READ_MAX_LINES_COUNT=100
 READ_MAX_LINES_COUNT=600
 
-#OUTPUT_MODE=""
-OUTPUT_MODE="--output-matchresult-as-csv"
-#OUTPUT_MODE="--output-matchresult-as-json"
+#OUTPUT_MODE="--output-matchresult=asIs"
+OUTPUT_MODE="--output-matchresult=asCsv"
+#OUTPUT_MODE="--output-matchresult=asJson"
 
 #MATCHING_LINE_MODE="--matching-line-mode=singleLineMode"
 MATCHING_LINE_MODE="--matching-line-mode=multiLinesMode"

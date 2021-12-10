@@ -55,6 +55,16 @@ import picocli.CommandLine.Spec;
         description = "parse unstructured  files")
 public class GrokMain implements Callable<Integer> {
 
+    /**
+     * Command line entry point.
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new GrokMain()).execute(args);
+        System.exit(exitCode);
+    }
+
     @Spec
     private CommandSpec spec;
 
@@ -102,22 +112,10 @@ public class GrokMain implements Callable<Integer> {
     )
     private MatchingLineMode matchingLineMode;
 
-    @Option(names = {"--output-matchresult-as-csv"},
-            description = "output match results as csv")
-    private boolean outputMatchResultAsCsv;
-    @Option(names = {"--output-matchresult-as-json"},
-            description = "output match results as json")
-    private boolean outputMatchResultAsJson;
-
-    /**
-     * Command line entry point.
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new GrokMain()).execute(args);
-        System.exit(exitCode);
-    }
+    @Option(names = {"--output-matchresult"},
+            defaultValue = "asCsv",
+            description = "output match results; valid values: \"${COMPLETION-CANDIDATES}\"")
+    private OutputMatchResultMode outputMatchResultMode;
 
     /**
      * Picocli entry point.
@@ -215,9 +213,11 @@ public class GrokMain implements Callable<Integer> {
                 final BufferedReader br = new BufferedReader(logReader)) {
             //---
             final IOutputGrokResultConverter outputGrokResultConverter;
-            if (outputMatchResultAsCsv) {
+            if (this.outputMatchResultMode == outputMatchResultMode.asIs) {
+                outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
+            } else if (this.outputMatchResultMode == outputMatchResultMode.asCsv) {
                 outputGrokResultConverter = new OutputGrokResultAsCsv(this.spec.commandLine().getOut());
-            } else if (outputMatchResultAsJson) {
+            } else if (this.outputMatchResultMode == outputMatchResultMode.asJson) {
                 outputGrokResultConverter = new OutputGrokResultAsJson(this.spec.commandLine().getOut());
             } else {
                 outputGrokResultConverter = new OutputGrokResultAsIs(this.spec.commandLine().getOut());
@@ -232,6 +232,10 @@ public class GrokMain implements Callable<Integer> {
             inputLineProcessor.processLines(br);
 
         }
+    }
+
+    static enum OutputMatchResultMode {
+        asIs, asCsv, asJson
     }
 
     /**
