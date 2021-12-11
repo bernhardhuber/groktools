@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsCsv;
+import org.huberb.groktools.OutputGrokResultFormatters.OutputGrokResultFormatterAsCsv;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,7 +35,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author berni3
  */
-public class OutputGrokResultAsCsvTest {
+public class OutputGrokResultFormatterAsCsvTest {
 
     /**
      * Test of outputGrokResultAsCsv method, of class OutputGrokResult.
@@ -50,7 +50,7 @@ public class OutputGrokResultAsCsvTest {
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            try (final OutputGrokResultAsCsv instance = new OutputGrokResultAsCsv(pw)) {
+            try (final OutputGrokResultFormatterAsCsv instance = new OutputGrokResultFormatterAsCsv(pw)) {
                 instance.start();
                 instance.output(readLineCount, grokResult);
                 instance.end();
@@ -81,7 +81,7 @@ public class OutputGrokResultAsCsvTest {
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            try (final OutputGrokResultAsCsv instance = new OutputGrokResultAsCsv(pw)) {
+            try (final OutputGrokResultFormatterAsCsv instance = new OutputGrokResultFormatterAsCsv(pw)) {
                 instance.start();
                 instance.output(readLineCount, grokResult);
                 instance.end();

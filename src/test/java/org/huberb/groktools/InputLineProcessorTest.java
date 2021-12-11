@@ -26,14 +26,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import org.huberb.groktools.GrokMain.InputLineProcessor;
 import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
-import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
+import org.huberb.groktools.OutputGrokResultFormatters.OutputGrokResultFormatterAsIs;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.unix4j.Unix4j;
 import org.unix4j.io.StringInput;
+import org.huberb.groktools.OutputGrokResultFormatters.IOutputGrokResultFormatter;
 
 /**
  *
@@ -61,7 +61,7 @@ public class InputLineProcessorTest {
         final MatchingLineMode matchingLineMode = MatchingLineMode.singleLineMode;
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            final IOutputGrokResultConverter outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+            final IOutputGrokResultFormatter outputGrokResultConverter = new OutputGrokResultFormatterAsIs(pw);
             final int readMaxLinesCount = -1;
             final InputLineProcessor inputLineProcessor = new InputLineProcessor(
                     grok,
@@ -111,7 +111,7 @@ public class InputLineProcessorTest {
         final MatchingLineMode matchingLineMode = MatchingLineMode.multiLinesMode;
         try (final StringWriter sw = new StringWriter();
                 final PrintWriter pw = new PrintWriter(sw)) {
-            final IOutputGrokResultConverter outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+            final IOutputGrokResultFormatter outputGrokResultConverter = new OutputGrokResultFormatterAsIs(pw);
             final int readMaxLinesCount = -1;
             final InputLineProcessor inputLineProcessor = new InputLineProcessor(
                     grok,

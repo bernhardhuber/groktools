@@ -33,13 +33,13 @@ import org.huberb.groktools.GrokIt.GrokMatchResult;
 import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
 import org.huberb.groktools.MatchGatherOutput.Wrapper;
-import org.huberb.groktools.OutputGrokResultConverters.IOutputGrokResultConverter;
-import org.huberb.groktools.OutputGrokResultConverters.OutputMatchResultMode;
+import org.huberb.groktools.OutputGrokResultFormatters.OutputMatchResultMode;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
+import org.huberb.groktools.OutputGrokResultFormatters.IOutputGrokResultFormatter;
 
 /**
  * Simple app for using grok library from the command line.
@@ -211,8 +211,8 @@ public class GrokMain implements Callable<Integer> {
                 final BufferedReader br = new BufferedReader(logReader)) {
             //---
             final PrintWriter pw = this.spec.commandLine().getOut();
-            final IOutputGrokResultConverter outputGrokResultConverter
-                    = OutputGrokResultConverters.createOutputGrokResultConverter(this.outputMatchResultMode, pw);
+            final IOutputGrokResultFormatter outputGrokResultConverter
+                    = OutputGrokResultFormatters.createOutputGrokResultConverter(this.outputMatchResultMode, pw);
 
             final InputLineProcessor inputLineProcessor = new InputLineProcessor(
                     grok,
@@ -295,7 +295,7 @@ public class GrokMain implements Callable<Integer> {
 
         final Grok grok;
         final MatchingLineMode matchingLineMode;
-        final IOutputGrokResultConverter outputGrokResultConverter;
+        final IOutputGrokResultFormatter outputGrokResultConverter;
 
         final int readMaxLinesCount;
 
@@ -310,7 +310,7 @@ public class GrokMain implements Callable<Integer> {
         public InputLineProcessor(
                 Grok grok,
                 MatchingLineMode matchingLineMode,
-                IOutputGrokResultConverter outputGrokResultConverter,
+                IOutputGrokResultFormatter outputGrokResultConverter,
                 int readMaxLinesCount) {
             this.grok = grok;
             this.matchingLineMode = matchingLineMode;

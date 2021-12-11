@@ -21,7 +21,7 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
-import org.huberb.groktools.OutputGrokResultConverters.OutputGrokResultAsIs;
+import org.huberb.groktools.OutputGrokResultFormatters.OutputGrokResultFormatterAsJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -29,27 +29,30 @@ import org.junit.jupiter.api.Test;
  *
  * @author berni3
  */
-public class OutputGrokResultAsIsTest {
+public class OutputGrokResultFormatterAsJsonTest {
 
     /**
-     * Test of outputGrokResultAsIs method, of class OutputGrokResult.
+     * Test of outputGrokResultAsJson method, of class OutputGrokResult.
      */
     @Test
-    public void testOutputGrokResultAsIs() throws IOException {
+    public void testOutputGrokResultAsJson() throws IOException {
         final int readLineCount = 1;
         final Map<String, Object> m = new HashMap<>();
         m.put("k1", "v1");
         m.put("k2", "v2");
         final GrokMatchResult grokResult = new GrokMatchResult("subject", 0, 5, m);
-        try (StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw)) {
-            try (final OutputGrokResultAsIs instance = new OutputGrokResultAsIs(pw)) {
+        try (final StringWriter sw = new StringWriter();
+                final PrintWriter pw = new PrintWriter(sw)) {
+            try (final OutputGrokResultFormatterAsJson instance = new OutputGrokResultFormatterAsJson(pw)) {
                 instance.start();
                 instance.output(readLineCount, grokResult);
                 instance.end();
             }
-            final String result = sw.toString().trim();
-            assertEquals("1 GrokResult { subject: subject, start: 0, end: 5, m: {k1=v1, k2=v2} }", result);
+            final String result = sw.toString().replaceAll("[\\r\\n]", "");
+            assertEquals(
+                    "[\"entry\": {\"lineno\": \"1\",\"k1\": \"v1\",\"k2\": \"v2\"}]", result);
+
         }
     }
+
 }

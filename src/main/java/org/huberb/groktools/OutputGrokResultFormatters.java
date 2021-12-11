@@ -26,12 +26,12 @@ import org.huberb.groktools.GrokIt.GrokMatchResult;
  *
  * @author berni3
  */
-public class OutputGrokResultConverters {
+public class OutputGrokResultFormatters {
 
     /**
      * Define implementation template for an output-formatter.
      */
-    public static interface IOutputGrokResultConverter extends AutoCloseable {
+    public static interface IOutputGrokResultFormatter extends AutoCloseable {
 
         void start();
 
@@ -48,26 +48,25 @@ public class OutputGrokResultConverters {
     }
 
     /**
-     * Create an {@link IOutputGrokResultConverter} depending on the given
+     * Create an {@link IOutputGrokResultFormatter} depending on the given
      * {@link OutputMatchResultMode}-value.
      *
      * @param outputMatchResultMode
      * @param pw
      * @return
      */
-    public static IOutputGrokResultConverter createOutputGrokResultConverter(
+    public static IOutputGrokResultFormatter createOutputGrokResultConverter(
             OutputMatchResultMode outputMatchResultMode,
-            PrintWriter pw
-    ) {
-        final IOutputGrokResultConverter outputGrokResultConverter;
+            PrintWriter pw    ) {
+        final IOutputGrokResultFormatter outputGrokResultConverter;
         if (outputMatchResultMode == OutputMatchResultMode.asIs) {
-            outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+            outputGrokResultConverter = new OutputGrokResultFormatterAsIs(pw);
         } else if (outputMatchResultMode == OutputMatchResultMode.asCsv) {
-            outputGrokResultConverter = new OutputGrokResultAsCsv(pw);
+            outputGrokResultConverter = new OutputGrokResultFormatterAsCsv(pw);
         } else if (outputMatchResultMode == OutputMatchResultMode.asJson) {
-            outputGrokResultConverter = new OutputGrokResultAsJson(pw);
+            outputGrokResultConverter = new OutputGrokResultFormatterAsJson(pw);
         } else {
-            outputGrokResultConverter = new OutputGrokResultAsIs(pw);
+            outputGrokResultConverter = new OutputGrokResultFormatterAsIs(pw);
         }
         return outputGrokResultConverter;
     }
@@ -75,11 +74,11 @@ public class OutputGrokResultConverters {
     /**
      * Output {@link GrokMatchResult} as plain text.
      */
-    static class OutputGrokResultAsIs implements IOutputGrokResultConverter {
+    static class OutputGrokResultFormatterAsIs implements IOutputGrokResultFormatter {
 
         final PrintWriter pwOut;
 
-        public OutputGrokResultAsIs(PrintWriter pwOut) {
+        public OutputGrokResultFormatterAsIs(PrintWriter pwOut) {
             this.pwOut = pwOut;
         }
 
@@ -119,11 +118,11 @@ public class OutputGrokResultConverters {
     /**
      * Output {@link GrokMatchResult} as csv text.
      */
-    static class OutputGrokResultAsCsv implements IOutputGrokResultConverter {
+    static class OutputGrokResultFormatterAsCsv implements IOutputGrokResultFormatter {
 
         final PrintWriter pwOut;
 
-        public OutputGrokResultAsCsv(PrintWriter pwOut) {
+        public OutputGrokResultFormatterAsCsv(PrintWriter pwOut) {
             this.pwOut = pwOut;
         }
 
@@ -195,11 +194,11 @@ public class OutputGrokResultConverters {
     /**
      * Output {@link GrokMatchResult} as json text.
      */
-    static class OutputGrokResultAsJson implements IOutputGrokResultConverter {
+    static class OutputGrokResultFormatterAsJson implements IOutputGrokResultFormatter {
 
         final PrintWriter pwOut;
 
-        public OutputGrokResultAsJson(PrintWriter pwOut) {
+        public OutputGrokResultFormatterAsJson(PrintWriter pwOut) {
             this.pwOut = pwOut;
         }
 
