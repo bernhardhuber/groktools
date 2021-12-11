@@ -40,31 +40,44 @@ public class MatchGatherOutput {
      * @param captureMap
      * @return
      */
-    public Optional< Result> gatherMatch(
+    public Optional<Result> gatherMatch(
             int readLineCount,
             String subject, int start, int end, Map<String, Object> captureMap) {
         final Optional<Result> resultOptional;
         final Wrapper w = new Wrapper(readLineCount, subject, start, end, captureMap);
         if (w.isHoldingAMatch()) {
-            // output wrapperStored
+            // return wrapperStored
             resultOptional = createResultOptional();
 
             // store w as new wrapperStored
             this.wrapperStored = w;
         } else if (wrapperStored != null && wrapperStored.isHoldingAMatch()) {
+            // return wrappedStore + extra
             wrapperStored.appendExtra(subject);
             resultOptional = Optional.empty();
         } else {
+            // uup nothing to return
+            // may happen if singe-line-mode in case of non matching line
             resultOptional = Optional.empty();
         }
         return resultOptional;
     }
 
+    /**
+     * Just return current wrapperStored, if any.
+     *
+     * @return
+     */
     public Optional<Result> retrieveResult() {
         final Optional<Result> resultOptional = createResultOptional();
         return resultOptional;
     }
 
+    /**
+     * Create optional result from current wrapperStored.
+     *
+     * @return
+     */
     Optional<Result> createResultOptional() {
         final Optional<Result> resultOptional;
         if (this.wrapperStored != null) {
@@ -76,6 +89,9 @@ public class MatchGatherOutput {
 
     }
 
+    /**
+     * Wrap up fields of current matched result.
+     */
     static class Wrapper {
 
         final int readLineCount;
@@ -84,7 +100,7 @@ public class MatchGatherOutput {
         final int end;
         final Map<String, Object> m;
 
-        StringBuilder extra;
+        final StringBuilder extra;
 
         public Wrapper(int readLineCount, String subject, int start, int end, Map<String, Object> m) {
             this.readLineCount = readLineCount;
@@ -95,11 +111,22 @@ public class MatchGatherOutput {
             this.extra = new StringBuilder();
         }
 
+        /**
+         * Decide if current fields of a possible match, represent a match.
+         *
+         * @return
+         */
         boolean isHoldingAMatch() {
             boolean isHoldingAMatch = true;
             isHoldingAMatch = isHoldingAMatch && subject != null;
             isHoldingAMatch = isHoldingAMatch && !subject.isEmpty();
-            isHoldingAMatch = isHoldingAMatch && (start <= end && end >= 0);
+            // 0 <= start
+            // start <= end
+            // 0 <= end
+            isHoldingAMatch = isHoldingAMatch && (0 <= start);
+            isHoldingAMatch = isHoldingAMatch && (start <= end);
+            isHoldingAMatch = isHoldingAMatch && (0 <= end);
+            //
             isHoldingAMatch = isHoldingAMatch && m != null;
             isHoldingAMatch = isHoldingAMatch && !m.isEmpty();
             return isHoldingAMatch;
