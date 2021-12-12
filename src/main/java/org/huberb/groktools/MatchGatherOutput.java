@@ -20,6 +20,11 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Implementation for processing multi-line matching.
+ * <p>
+ * This implementation just stores a 1-depth history of matched results.
+ * Depending on the current match either the last matched is returned or the
+ * current match data is appended to the 1-depth history data.
  *
  * @author berni3
  */
@@ -32,6 +37,7 @@ public class MatchGatherOutput {
     }
 
     /**
+     * Process current match.
      *
      * @param readLineCount
      * @param subject
@@ -86,11 +92,12 @@ public class MatchGatherOutput {
             resultOptional = Optional.empty();
         }
         return resultOptional;
-
     }
 
     /**
      * Wrap up fields of current matched result.
+     * <p>
+     * Used for the 1-depth history element.
      */
     static class Wrapper {
 
@@ -138,6 +145,12 @@ public class MatchGatherOutput {
 
     }
 
+    /**
+     * Data value of {@link MatchGatherOutput#gatherMatch(int, java.lang.String, int, int, java.util.Map) ,
+     * and {@link MatchGatherOutput#retrieveResult()}.
+     * <p>
+     * Result "extends" data values already stored in {@link Wrapper}.
+     */
     static class Result {
 
         private final Wrapper w;

@@ -33,13 +33,13 @@ import org.huberb.groktools.GrokIt.GrokMatchResult;
 import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
 import org.huberb.groktools.MatchGatherOutput.Wrapper;
+import org.huberb.groktools.OutputGrokResultFormatters.IOutputGrokResultFormatter;
 import org.huberb.groktools.OutputGrokResultFormatters.OutputMatchResultMode;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Spec;
-import org.huberb.groktools.OutputGrokResultFormatters.IOutputGrokResultFormatter;
 
 /**
  * Simple app for using grok library from the command line.
@@ -408,7 +408,7 @@ public class GrokMain implements Callable<Integer> {
          * Tail end processing of {@link MatchingLineMode#multiLinesMode}
          * processing.
          */
-        void multiLineModeLast(
+        public void multiLineModeLast(
                 int readLineCount,
                 MatchGatherOutput matchGatherOutput
         ) {
