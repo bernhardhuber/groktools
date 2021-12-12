@@ -64,7 +64,8 @@ Content of server.log:
 Launching grooktools:
 
 ```
-java --pattern-definitions-classpath=//groktoolspatterns/server_log \
+java -jar target/groktools-SomeVersion-grokmain.jar \
+  --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
   --pattern=%{WILDFLY_SERVERLOG} \
@@ -99,7 +100,8 @@ Content of activemq.log:
 Launching grooktools:
 
 ```
-java --pattern-definitions-classpath=//groktoolspatterns/server_log \
+java -jar target/groktools-SomeVersion-grokmain.jar \
+  --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
   --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
@@ -134,7 +136,8 @@ Content of logstash-plain.log:
 Launching grooktools:
 
 ```
-java --pattern-definitions-classpath=//groktoolspatterns/server_log \
+java -jar target/groktools-SomeVersion-grokmain.jar \
+  --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
   --pattern=%{ELKSTACK_LOGSTASHLOG} \
@@ -152,7 +155,31 @@ Generated CSV:
 "5","logstash.agent","ERROR","Pipeline aborted due to error {:exception=>#<ArgumentError: File paths must be absolute, relative path specified: test.log>, :backtrace=>[""D:/projects/elkstack/logstash-5.6.4/vendor/bundle/jruby/1.9/gems/logstash-input-file-4.0.3/lib/logstash/inputs/file.rb:187:in `register'"", ""org/jruby/RubyArray.java:1613:in `each'"", ""D:/projects/elkstack/logstash-5.6.4/vendor/bundle/jruby/1.9/gems/logstash-input-file-4.0.3/lib/logstash/inputs/file.rb:185:in `register'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:290:in `register_plugin'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:301:in `register_plugins'"", ""org/jruby/RubyArray.java:1613:in `each'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:301:in `register_plugins'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:456:in `start_inputs'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:348:in `start_workers'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/pipeline.rb:235:in `run'"", ""D:/projects/elkstack/logstash-5.6.4/logstash-core/lib/logstash/agent.rb:408:in `start_pipeline'""]}","2020-01-30T22:27:01,116"
 ```
 
+## Executable Jar
+
+You can launch grooktools instead of using 
+
+```
+java -jar target/groktools-SomeVersion-grokmain.jar \
+...
+```
+
+just 
+
+```
+target/groktools-SomeVersion-executable \
+...
+```
+
+The exeuctable variant works only if:
+* running on unix-like systems
+* java 8 or higher is available via $PATH 
+
+see REALLY-EXECUTABLE-JAR-MAVEN-PLUGIN.
+
 ## References
 
 * GROK : https://github.com/thekrakken/java-grok
 * PICOCLI : https://picocli.info/
+* REALLY-EXECUTABLE-JAR-MAVEN-PLUGIN: https://github.com/brianm/really-executable-jars-maven-plugin
+
