@@ -28,6 +28,7 @@ import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
 import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -47,8 +48,8 @@ public class GrokItServerLogTest {
     final String serverlogPatterndefinitions = "/groktoolspatterns/server_log";
 
     @ParameterizedTest
-    @MethodSource(value = "wildflyserverlog")
-    public void testWildflyServerlog(String line) throws IOException {
+    @MethodSource(value = "wildflyserverlogVarySpaces")
+    public void testWildflyServerlogVarySpaces(String line) throws IOException {
         final GrokBuilder grokBuilder = new GrokBuilder()
                 .pattern("%{WILDFLY_SERVERLOG}")
                 .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
@@ -68,7 +69,7 @@ public class GrokItServerLogTest {
         assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m);
     }
 
-    static Stream<String> wildflyserverlog() {
+    static Stream<String> wildflyserverlogVarySpaces() {
         final List<String> l = Arrays.asList(
                 // example 1
                 // all fields separated by single space
@@ -89,6 +90,53 @@ public class GrokItServerLogTest {
         );
         final Stream<String> result = l.stream();
         return result;
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "wildflyserverlogVaryLevel")
+    public void testWildflyServerlogVaryLevel(String line) throws IOException {
+        final GrokBuilder grokBuilder = new GrokBuilder()
+                .pattern("%{WILDFLY_SERVERLOG}")
+                .patternDefinitionsFromClasspath(serverlogPatterndefinitions)
+                .namedOnly(true);
+        final Grok grok = grokBuilder.build();
+        final GrokIt grokIt = new GrokIt();
+        final GrokMatchResult grokMatchResult = grokIt.match(grok, line);
+        assertNotNull(grokMatchResult);
+        final String m = String.format("grokMatchResult %s", grokMatchResult);
+        assertFalse(grokMatchResult.m.isEmpty(), m);
+        assertEquals("2019-03-04 22:30:18,900", grokMatchResult.m.get("timestampIso8601"), m);
+        // TODO parse date+time
+
+        //assertEquals("INFO", grokMatchResult.m.get("level"), m);
+        assertNotNull(grokMatchResult.m.get("level"), m);
+        assertEquals("org.jboss.as.server", grokMatchResult.m.get("category"), m);
+        assertEquals("Controller Boot Thread", grokMatchResult.m.get("thread"), m);
+        assertEquals("WFLYSRV0039: Creating http management service using socket-binding (management-http)", grokMatchResult.m.get("message"), m);
+    }
+
+    static Stream<String> wildflyserverlogVaryLevel() {
+        final String template
+                = // example 2
+                // as-is from a log file 
+                // two spaces after INFO
+                "2019-03-04 22:30:18,900 %s [org.jboss.as.server] (Controller Boot Thread) "
+                + "WFLYSRV0039: Creating http management service using socket-binding (management-http)";
+        final List<String> levels = Arrays.asList(
+                "WARN", "WARNING",
+                "Warn", "Warning",
+                "warn", "warning",
+                "FATAL", "ERR", "ERROR", "SEVERE",
+                "Fatal", "Err", "Error", "Severe",
+                "fatal", "err", "error", "severe",
+                "DEBUG", "TRACE",
+                "Debug", "Trace",
+                "debug", "trace",
+                "FINE", "FINER", "FINEST");
+        final List<String> l = levels.stream()
+                .map((String aLevel) -> String.format(template, aLevel))
+                .collect(Collectors.toList());
+        return l.stream();
     }
 
     @Test

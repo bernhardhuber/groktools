@@ -3,7 +3,12 @@
 # usage: 
 #   register this file as pattern definitions
 
-_LOGLEVEL %{LOGLEVEL:level}
+#---
+# Log Levels
+# LOGLEVEL2 := LOGLEVEL + FINE + FINER + FINEST
+LOGLEVEL2 ([A|a]lert|ALERT|[T|t]race|TRACE|[D|d]ebug|DEBUG|[N|n]otice|NOTICE|[I|i]nfo|INFO|[W|w]arn?(?:ing)?|WARN?(?:ING)?|[E|e]rr?(?:or)?|ERR?(?:OR)?|[C|c]rit?(?:ical)?|CRIT?(?:ICAL)?|[F|f]atal|FATAL|[S|s]evere|SEVERE|EMERG(?:ENCY)?|[Ee]merg(?:ency)?|FINE|FINER|FINEST)
+
+_LOGLEVEL %{LOGLEVEL2:level}
 _CATEGORY %{DATA:category}
 _THREAD %{DATA:thread}
 _GREEDYDATA_MESSAGE %{GREEDYDATA:message}
