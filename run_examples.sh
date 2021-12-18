@@ -1,5 +1,7 @@
 #! /bin/sh
 
+#set -x
+
 #-----------------------------------------------------------------------------
 # Run grok on 
 # * wildfly log
@@ -14,21 +16,26 @@ BASEDIR=$(dirname $0)
 VERSION=0.3.0-SNAPSHOT
 
 #-----------------------------------------------------------------------------
-#CMD=${BASEDIR}/target/groktools-${VERSION}-executable 
-CMD="$JAVA_HOME/bin/java \
-  -jar ${BASEDIR}/target/groktools-${VERSION}-grokmain.jar "
-#CMD="$JAVA_HOME/bin/java \
-#  -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y \
-#  -jar ${BASEDIR}/target/groktools-${VERSION}-grokmain.jar "
+JAVA_OPTIONS=""
+#JAVA_OPTIONS="-agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=y "
 
-#READ_MAX_LINES_COUNT=10
+#JAVA_COMMAND=${BASEDIR}/target/groktools-${VERSION}-executable 
+JAVA_COMMAND="${JAVA_HOME}/bin/java \
+  ${JAVA_OPTIONS} \
+  -jar ${BASEDIR}/target/groktools-${VERSION}-grokmain.jar \
+  "
+
+#-----------------------------------------------------------------------------
+READ_MAX_LINES_COUNT=10
 #READ_MAX_LINES_COUNT=100
-READ_MAX_LINES_COUNT=600
+#READ_MAX_LINES_COUNT=600
 
-#OUTPUT_MODE="--output-matchresult=asIs"
-OUTPUT_MODE="--output-matchresult=asCsv"
-#OUTPUT_MODE="--output-matchresult=asJson"
+#-----------------------------------------------------------------------------
+#OUTPUT_MATCHRESULT="--output-matchresult=asIs"
+OUTPUT_MATCHRESULT="--output-matchresult=asCsv"
+#OUTPUT_MATCHRESULT="--output-matchresult=asJson"
 
+#-----------------------------------------------------------------------------
 #MATCHING_LINE_MODE="--matching-line-mode=singleLineMode"
 MATCHING_LINE_MODE="--matching-line-mode=multiLinesMode"
 
@@ -55,15 +62,17 @@ function grok_wildfly () {
 # ${WILDFLY_SERVERLOG_FILE}
 
 -EOF-
-    CMD_OPTIONS="\
+
+    GROK_OPTIONS="\
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
- ${OUTPUT_MODE} \
+ ${OUTPUT_MATCHRESULT} \
  --pattern=%{WILDFLY_SERVERLOG} \
  --file=${WILDFLY_SERVERLOG_FILE} \
  ${MATCHING_LINE_MODE} "
 
-    $CMD ${CMD_OPTIONS} 2>&1 
+    $JAVA_COMMAND ${GROK_OPTIONS} \
+      2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -81,15 +90,15 @@ function grok_activemq () {
 
 -EOF-
 
-    CMD_OPTIONS="\
+    GROK_OPTIONS="\
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
- ${OUTPUT_MODE} \
+ ${OUTPUT_MATCHRESULT} \
  --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
  --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
  ${MATCHING_LINE_MODE} "
 
-     $CMD ${CMD_OPTIONS} 2>&1 
+    $JAVA_COMMAND ${GROK_OPTIONS} 2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -108,15 +117,15 @@ function grok_elkstack () {
 
 -EOF-
 
-    CMD_OPTIONS="\
+    GROK_OPTIONS="\
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
- ${OUTPUT_MODE} \
+ ${OUTPUT_MATCHRESULT} \
  --pattern=%{ELKSTACK_LOGSTASHLOG} \
  --file=${ELKSTACK_LOGSTASHLOG} \
  ${MATCHING_LINE_MODE} "
 
-    $CMD ${CMD_OPTIONS} 2>&1 
+    $JAVA_COMMAND ${GROK_OPTIONS} 2>&1 
 }
 
 #-----------------------------------------------------------------------------
@@ -134,15 +143,15 @@ function grok_flume () {
 
 -EOF-
 
-    CMD_OPTIONS="\
+    GROK_OPTIONS="\
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
- ${OUTPUT_MODE} \
+ ${OUTPUT_MATCHRESULT} \
  --pattern=%{FLUME_FLUMELOG} \
  --file=${FLUME_FLUMELOG} \
  ${MATCHING_LINE_MODE} "
 
-    $CMD ${CMD_OPTIONS} 2>&1 
+    $JAVA_COMMAND ${GROK_OPTIONS} 2>&1 
 }
 
 
