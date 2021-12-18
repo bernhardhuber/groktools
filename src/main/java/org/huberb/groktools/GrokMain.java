@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.huberb.groktools.GrokIt.GrokMatchResult;
 import org.huberb.groktools.GrokMain.InputLineProcessor.MatchingLineMode;
 import org.huberb.groktools.MatchGatherOutput.Result;
@@ -75,6 +77,7 @@ public class GrokMain implements Callable<Integer> {
             defaultValue = "-1",
             description = "read maximum number lines")
     private int readMaxLinesCount = -1;
+
     @Option(names = {"-p", "--pattern"},
             description = "grok pattern")
     private String pattern;
@@ -103,6 +106,10 @@ public class GrokMain implements Callable<Integer> {
     @Option(names = {"--show-pattern-definitions"},
             description = "show grok pattern definitions")
     private boolean showPatternDefinitions;
+
+    @Option(names = {"--discover-input-line"},
+            description = "find pattern for discover input line")
+    private String discoverInputLine;
 
     @Option(names = {"--matching-line-mode"},
             defaultValue = "singleLineMode",
@@ -169,9 +176,11 @@ public class GrokMain implements Callable<Integer> {
             // execute commands
             final Grok grok = grokBuilder.build();
             if (showPatternDefinitions) {
-                executeShowPatterndefinitions(grok);
+                new ExecuteShowPatterndefinitions(this).executeShowPatterndefinitions(grok);
+            } else if (this.discoverInputLine != null && this.discoverInputLine.length() > 0) {
+                new ExecuteDiscover(this).executeDiscover(grok);
             } else {
-                executeMatching(grok);
+                new ExecuteMatching(this).executeMatching(grok);
             }
             return 0;
         } finally {
@@ -181,47 +190,115 @@ public class GrokMain implements Callable<Integer> {
     }
 
     /**
-     * Execute command "show pattern definitions".
-     *
-     * @param grok
+     * Execute show pattern definitions.
      */
-    void executeShowPatterndefinitions(Grok grok) {
-        final GrokIt grokIt = new GrokIt();
-        final Map<String, String> defaultPatterns = grokIt.retrievePatterndefinitions(grok);
-        //---
-        systemErrOutPrinter.printOut(
-                String.format("grok pattern definitions:%n"));
-        defaultPatterns.entrySet().stream()
-                .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
-                .forEach((e) -> {
-                    systemErrOutPrinter.printOut(String.format("%s: %s%n", e.getKey(), e.getValue()));
-                });
+    static class ExecuteShowPatterndefinitions {
+
+        private final GrokMain grokMain;
+
+        ExecuteShowPatterndefinitions(GrokMain grokMain) {
+            this.grokMain = grokMain;
+        }
+
+        /**
+         * Execute command "show pattern definitions".
+         *
+         * @param grok
+         */
+        void executeShowPatterndefinitions(Grok grok) {
+            //---
+            final Function<Map<String, String>, String> f = (m) -> m.entrySet()
+                    .stream()
+                    .sorted((e1, e2) -> e1.getKey().compareTo(e2.getKey()))
+                    .map((e) -> String.format("%s: %s%n", e.getKey(), e.getValue()))
+                    .collect(Collectors.toList())
+                    .toString();
+
+            final String namedRegex = grok.getNamedRegex();
+            final Map<String, String> namedRegexCollection = grok.getNamedRegexCollection();
+            final String originalGrokPattern = grok.getOriginalGrokPattern();
+            final Map<String, String> patternsMap = grok.getPatterns();
+            final String savedPattern = grok.getSaved_pattern();
+
+            final String formatted = String.format(""
+                    + "namedRegex: %s%n"
+                    + "namedRegexCollection: %s%n"
+                    + "originalGrokPattern: %s%n"
+                    + "patterns: %s%n"
+                    + "savedPattern: %s%n",
+                    namedRegex,
+                    f.apply(namedRegexCollection),
+                    originalGrokPattern,
+                    f.apply(patternsMap),
+                    savedPattern
+            );
+            grokMain.systemErrOutPrinter.printOut(formatted);
+        }
     }
 
     /**
-     * Execute default command: "match lines".
-     *
-     * @param grok
-     * @throws IOException
+     * Execute matching.
      */
-    void executeMatching(Grok grok) throws IOException {
-        final GrokIt grokIt = new GrokIt();
+    static class ExecuteMatching {
 
-        try (final Reader logReader = new ReaderFactory(inputFile).createUtf8Reader();
-                final BufferedReader br = new BufferedReader(logReader)) {
-            //---
-            final PrintWriter pw = this.spec.commandLine().getOut();
-            final IOutputGrokResultFormatter outputGrokResultConverter
-                    = OutputGrokResultFormatters.createOutputGrokResultConverter(this.outputMatchResultMode, pw);
+        private final GrokMain grokMain;
 
-            final InputLineProcessor inputLineProcessor = new InputLineProcessor(
-                    grok,
-                    this.matchingLineMode,
-                    outputGrokResultConverter,
-                    this.readMaxLinesCount
-            );
-            inputLineProcessor.processLines(br);
+        ExecuteMatching(GrokMain grokMain) {
+            this.grokMain = grokMain;
+        }
 
+        /**
+         * Execute default command: "match lines".
+         *
+         * @param grok
+         * @throws IOException
+         */
+        void executeMatching(Grok grok) throws IOException {
+            final GrokIt grokIt = new GrokIt();
+
+            try (final Reader logReader = new ReaderFactory(grokMain.inputFile).createUtf8Reader();
+                    final BufferedReader br = new BufferedReader(logReader)) {
+                //---
+                final PrintWriter pw = grokMain.spec.commandLine().getOut();
+                final IOutputGrokResultFormatter outputGrokResultConverter
+                        = OutputGrokResultFormatters.createOutputGrokResultConverter(grokMain.outputMatchResultMode, pw);
+
+                final InputLineProcessor inputLineProcessor = new InputLineProcessor(
+                        grok,
+                        grokMain.matchingLineMode,
+                        outputGrokResultConverter,
+                        grokMain.readMaxLinesCount
+                );
+                inputLineProcessor.processLines(br);
+            }
+        }
+    }
+
+    /**
+     * Execute {@link Grok#discover(java.lang.String)
+     */
+    static class ExecuteDiscover {
+
+        private final GrokMain grokMain;
+
+        ExecuteDiscover(GrokMain grokMain) {
+            this.grokMain = grokMain;
+        }
+
+        /**
+         * discover grok pattern from an input line.
+         *
+         * @param grok
+         */
+        void executeDiscover(Grok grok) {
+            final String input = grokMain.discoverInputLine;
+            final String grokPattern = grok.discover(input);
+            final String formatted = String.format("discover%n"
+                    + "input: %s%n"
+                    + "grokPattern: %s%n",
+                    input,
+                    grokPattern);
+            grokMain.systemErrOutPrinter.printOut(formatted);
         }
     }
 
