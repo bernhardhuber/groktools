@@ -20,19 +20,34 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * A builder, and converter mapping a {@link  HashMap} to list of keys, and
+ * values.
  */
 class ListKeysAndValuesBuilder {
 
-    final List<String> keys = new ArrayList<>();
-    final List<String> values = new ArrayList<>();
+    private final List<String> keys = new ArrayList<>();
+    private final List<String> values = new ArrayList<>();
 
+    /**
+     * Add a key, and its value.
+     *
+     * @param k
+     * @param v
+     * @return
+     */
     ListKeysAndValuesBuilder addKeyValue(String k, String v) {
         keys.add(k);
         values.add(v);
         return this;
     }
 
+    /**
+     * Add a list of keys, and its values given in a {@link Map}.
+     *
+     * @param keysAllowed
+     * @param m
+     * @return
+     */
     ListKeysAndValuesBuilder addKeys(List<String> keysAllowed, Map<String, Object> m) {
         keys.addAll(keysAllowed);
         // peek only keys from map m
@@ -73,5 +88,5 @@ class ListKeysAndValuesBuilder {
         }
         return v;
     }
-    
+
 }

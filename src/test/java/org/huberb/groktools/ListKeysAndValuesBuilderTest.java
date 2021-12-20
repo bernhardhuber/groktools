@@ -17,15 +17,18 @@ package org.huberb.groktools;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  *
@@ -43,12 +46,12 @@ public class ListKeysAndValuesBuilderTest {
         final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
         final ListKeysAndValuesBuilder result = instance.addKeyValue(k, v);
         assertAll(
-                () -> assertEquals(1, result.keys.size()),
-                () -> assertEquals("k1", result.keys.get(0))
+                () -> assertEquals(1, result.keys().size()),
+                () -> assertEquals("k1", result.keys().get(0))
         );
         assertAll(
-                () -> assertEquals(1, result.values.size()),
-                () -> assertEquals("v1", result.values.get(0))
+                () -> assertEquals(1, result.values().size()),
+                () -> assertEquals("v1", result.values().get(0))
         );
     }
 
@@ -68,12 +71,12 @@ public class ListKeysAndValuesBuilderTest {
         final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
         final ListKeysAndValuesBuilder result = instance.addKeyValue(k, v);
         assertAll(
-                () -> assertEquals(1, result.keys.size()),
-                () -> assertEquals(k, result.keys.get(0))
+                () -> assertEquals(1, result.keys().size()),
+                () -> assertEquals(k, result.keys().get(0))
         );
         assertAll(
-                () -> assertEquals(1, result.values.size()),
-                () -> assertEquals(v, result.values.get(0))
+                () -> assertEquals(1, result.values().size()),
+                () -> assertEquals(v, result.values().get(0))
         );
     }
 
@@ -92,16 +95,16 @@ public class ListKeysAndValuesBuilderTest {
         final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
         final ListKeysAndValuesBuilder result = instance.addKeys(keysAllowed, m);
         assertAll(
-                () -> assertEquals(3, result.keys.size()),
-                () -> assertEquals("k1", result.keys.get(0)),
-                () -> assertEquals("k2", result.keys.get(1)),
-                () -> assertEquals("k3", result.keys.get(2))
+                () -> assertEquals(3, result.keys().size()),
+                () -> assertEquals("k1", result.keys().get(0)),
+                () -> assertEquals("k2", result.keys().get(1)),
+                () -> assertEquals("k3", result.keys().get(2))
         );
         assertAll(
-                () -> assertEquals(3, result.values.size()),
-                () -> assertEquals("v1", result.values.get(0)),
-                () -> assertEquals("v2", result.values.get(1)),
-                () -> assertEquals("v3", result.values.get(2))
+                () -> assertEquals(3, result.values().size()),
+                () -> assertEquals("v1", result.values().get(0)),
+                () -> assertEquals("v2", result.values().get(1)),
+                () -> assertEquals("v3", result.values().get(2))
         );
     }
 
@@ -128,20 +131,32 @@ public class ListKeysAndValuesBuilderTest {
     /**
      * Test of convertObjectToString method, of class ListKeysAndValuesBuilder.
      */
-    @Test
-    public void testConvertObjectToString() {
+    @ParameterizedTest
+    @MethodSource(value = "convertObjectToStringValues")
+    public void testConvertObjectToString(String expected, Object o) {
         final ListKeysAndValuesBuilder instance = new ListKeysAndValuesBuilder();
-        assertEquals("", instance.convertObjectToString(null));
-        assertEquals("", instance.convertObjectToString(""));
-        //---
-        assertEquals("A", instance.convertObjectToString("A"));
-        final StringBuilder sb = new StringBuilder("A");
-        assertEquals("A", instance.convertObjectToString(sb));
-        //---
-        assertEquals("1", instance.convertObjectToString(new Integer(1)));
-        assertEquals("1", instance.convertObjectToString(new Long(1)));
-        assertEquals("1", instance.convertObjectToString(BigInteger.ONE));
-        assertEquals("1", instance.convertObjectToString(BigDecimal.ONE));
+        final String m = String.format("expected: %s, value %s", expected, o);
+        assertEquals(expected, instance.convertObjectToString(o), m);
     }
 
+    static Stream<Object[]> convertObjectToStringValues() {
+        List<Object[]> l = new ArrayList<>();
+        l.add(new Object[]{"", null});
+        l.add(new Object[]{"", ""});
+        Arrays.asList("A", "ABC", "abcABC", "012345abcDEFghi", "!§$%&/()=")
+                .forEach((String s) -> {
+                    l.add(new Object[]{s, s});
+                    l.add(new Object[]{s, new StringBuilder(s)});
+                    l.add(new Object[]{s, new StringBuffer(s)});
+                });
+        //---
+        for (int i = -10; i <= 10; i++) {
+            l.add(new Object[]{"" + i, Short.valueOf((short) i)});
+            l.add(new Object[]{"" + i, Integer.valueOf(i)});
+            l.add(new Object[]{"" + i, Long.valueOf(i)});
+            l.add(new Object[]{"" + i, BigInteger.valueOf(i)});
+            l.add(new Object[]{"" + i, BigDecimal.valueOf(i)});
+        }
+        return l.stream();
+    }
 }
