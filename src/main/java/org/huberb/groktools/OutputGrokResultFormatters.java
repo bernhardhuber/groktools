@@ -57,7 +57,7 @@ public class OutputGrokResultFormatters {
      */
     public static IOutputGrokResultFormatter createOutputGrokResultConverter(
             OutputMatchResultMode outputMatchResultMode,
-            PrintWriter pw    ) {
+            PrintWriter pw) {
         final IOutputGrokResultFormatter outputGrokResultConverter;
         if (outputMatchResultMode == OutputMatchResultMode.asIs) {
             outputGrokResultConverter = new OutputGrokResultFormatterAsIs(pw);
@@ -76,7 +76,7 @@ public class OutputGrokResultFormatters {
      */
     static class OutputGrokResultFormatterAsIs implements IOutputGrokResultFormatter {
 
-        final PrintWriter pwOut;
+        private final PrintWriter pwOut;
 
         public OutputGrokResultFormatterAsIs(PrintWriter pwOut) {
             this.pwOut = pwOut;
@@ -120,7 +120,7 @@ public class OutputGrokResultFormatters {
      */
     static class OutputGrokResultFormatterAsCsv implements IOutputGrokResultFormatter {
 
-        final PrintWriter pwOut;
+        private final PrintWriter pwOut;
 
         public OutputGrokResultFormatterAsCsv(PrintWriter pwOut) {
             this.pwOut = pwOut;
@@ -141,27 +141,28 @@ public class OutputGrokResultFormatters {
             final List<String> keysSortedList = grokResult.m.keySet().stream()
                     .sorted()
                     .collect(Collectors.toList());
-            final ListKeysAndValuesBuilder grokResultTransformer = new ListKeysAndValuesBuilder()
+
+            final ListKeysAndValuesBuilder listKeysAndValuesBuilder = new ListKeysAndValuesBuilder()
                     .addKeyValue("lineno", String.valueOf(readLineCount))
                     .addKeys(keysSortedList, grokResult.m);
             if (readLineCount == 1) {
                 final StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < grokResultTransformer.keys().size(); i++) {
+                for (int i = 0; i < listKeysAndValuesBuilder.keys().size(); i++) {
                     if (i > 0) {
                         sb.append(",");
                     }
-                    final String k = grokResultTransformer.keys().get(i);
+                    final String k = listKeysAndValuesBuilder.keys().get(i);
                     sb.append(String.format("\"%s\"", escapeCsv(k)));
                 }
                 this.println(sb.toString());
             }
             {
                 final StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < grokResultTransformer.values().size(); i++) {
+                for (int i = 0; i < listKeysAndValuesBuilder.values().size(); i++) {
                     if (i > 0) {
                         sb.append(",");
                     }
-                    final String v = grokResultTransformer.values().get(i);
+                    final String v = listKeysAndValuesBuilder.values().get(i);
                     sb.append(String.format("\"%s\"", escapeCsv(v)));
                 }
                 this.println(sb.toString());
@@ -196,7 +197,7 @@ public class OutputGrokResultFormatters {
      */
     static class OutputGrokResultFormatterAsJson implements IOutputGrokResultFormatter {
 
-        final PrintWriter pwOut;
+        private final PrintWriter pwOut;
 
         public OutputGrokResultFormatterAsJson(PrintWriter pwOut) {
             this.pwOut = pwOut;
@@ -218,7 +219,7 @@ public class OutputGrokResultFormatters {
         @Override
         public void output(int readLineCount, GrokMatchResult grokResult) {
             final List<String> keysSortedList = grokResult.m.keySet().stream().sorted().collect(Collectors.toList());
-            final ListKeysAndValuesBuilder grokResultTransformer = new ListKeysAndValuesBuilder()
+            final ListKeysAndValuesBuilder listKeysAndValuesBuilder = new ListKeysAndValuesBuilder()
                     .addKeyValue("lineno", String.valueOf(readLineCount))
                     .addKeys(keysSortedList, grokResult.m);
 
@@ -227,12 +228,12 @@ public class OutputGrokResultFormatters {
                 sb.append(String.format(",%n"));
             }
             sb.append(String.format("\"entry\": {%n"));
-            for (int i = 0; i < grokResultTransformer.keys().size(); i++) {
+            for (int i = 0; i < listKeysAndValuesBuilder.keys().size(); i++) {
                 if (i > 0) {
                     sb.append(String.format(",%n"));
                 }
-                String k = grokResultTransformer.keys().get(i);
-                String v = grokResultTransformer.values().get(i);
+                final String k = listKeysAndValuesBuilder.keys().get(i);
+                final String v = listKeysAndValuesBuilder.values().get(i);
                 sb.append(String.format("\"%s\": \"%s\"", k, escapeJson(v)));
             }
             sb.append(String.format("%n}"));
