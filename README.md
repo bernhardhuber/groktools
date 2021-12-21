@@ -33,7 +33,7 @@ parse unstructured  files
                             output match results; valid values: "asIs, asCsv,
                               asJson"
                               Default: asCsv
-  -p, --pattern=<pattern>   grok pattern
+  -p, --match-pattern=<pattern>   grok pattern
       --pattern-definition=<patternDefinition>
                             define pattern name pattern and pattern definition
       --pattern-definitions-classpath=<patternDefinitionsClasspath>
@@ -68,7 +68,7 @@ java -jar target/groktools-SomeVersion-grokmain.jar \
   --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
-  --pattern=%{WILDFLY_SERVERLOG} \
+  --match-pattern=%{WILDFLY_SERVERLOG} \
   --file=server.log \
 ```
 
@@ -104,7 +104,7 @@ java -jar target/groktools-SomeVersion-grokmain.jar \
   --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
-  --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
+  --match-pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
   --file=activemq.log \
 ```
 
@@ -140,7 +140,7 @@ java -jar target/groktools-SomeVersion-grokmain.jar \
   --pattern-definitions-classpath=//groktoolspatterns/server_log \
   --read-max-lines-count=5 \
   --output-matchresult=asCsv \
-  --pattern=%{ELKSTACK_LOGSTASHLOG} \
+  --match-pattern=%{ELKSTACK_LOGSTASHLOG} \
   --file=logstash-plain.log \
 ```
 

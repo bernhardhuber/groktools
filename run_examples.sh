@@ -67,7 +67,7 @@ function grok_wildfly () {
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
  ${OUTPUT_MATCHRESULT} \
- --pattern=%{WILDFLY_SERVERLOG} \
+ --match-pattern=%{WILDFLY_SERVERLOG} \
  --file=${WILDFLY_SERVERLOG_FILE} \
  ${MATCHING_LINE_MODE} "
 
@@ -94,7 +94,7 @@ function grok_activemq () {
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
  ${OUTPUT_MATCHRESULT} \
- --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
+ --match-pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
  --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
  ${MATCHING_LINE_MODE} "
 
@@ -121,7 +121,7 @@ function grok_elkstack () {
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
  ${OUTPUT_MATCHRESULT} \
- --pattern=%{ELKSTACK_LOGSTASHLOG} \
+ --match-pattern=%{ELKSTACK_LOGSTASHLOG} \
  --file=${ELKSTACK_LOGSTASHLOG} \
  ${MATCHING_LINE_MODE} "
 
@@ -147,7 +147,7 @@ function grok_flume () {
  --pattern-definitions-classpath=//groktoolspatterns/server_log \
  --read-max-lines-count=${READ_MAX_LINES_COUNT} \
  ${OUTPUT_MATCHRESULT} \
- --pattern=%{FLUME_FLUMELOG} \
+ --match-pattern=%{FLUME_FLUMELOG} \
  --file=${FLUME_FLUMELOG} \
  ${MATCHING_LINE_MODE} "
 

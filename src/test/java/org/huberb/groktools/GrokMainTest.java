@@ -65,7 +65,7 @@ public class GrokMainTest {
                 () -> assertNotEquals(null, swOutAsString, m),
                 () -> assertNotEquals(0, swOutAsString.length(), m),
                 () -> assertTrue(swOutAsString.contains("Usage:"), m),
-                () -> assertTrue(swOutAsString.contains("--pattern"), m),
+                () -> assertTrue(swOutAsString.contains("--match-pattern"), m),
                 () -> assertTrue(swOutAsString.contains("-h"), m),
                 () -> assertTrue(swOutAsString.contains("--help"), m),
                 () -> assertTrue(swOutAsString.contains("-V"), m),
@@ -75,28 +75,12 @@ public class GrokMainTest {
 
     @Test
     public void testLaunch_pattern_ACTIVEMQ_ACTIVEMQLOG() {
-//#OUTPUT_MODE="--output-matchresult=asIs"
-//OUTPUT_MODE="--output-matchresult=asCsv"
-//#OUTPUT_MODE="--output-matchresult=asJson"
-//
-//#MATCHING_LINE_MODE="--matching-line-mode=singleLineMode"
-//MATCHING_LINE_MODE="--matching-line-mode=multiLinesMode"
-
-//ACTIVEMQ_ACTIVEMQLOG_FILE=${LOG_FILES_BASEDIR}/activemq.log
-//
-//    CMD_OPTIONS="\
-// --pattern-definitions-classpath=//groktoolspatterns/server_log \
-// --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-// ${OUTPUT_MODE} \
-// --pattern=%{ACTIVEMQ_ACTIVEMQLOG} \
-// --file=${ACTIVEMQ_ACTIVEMQLOG_FILE} \
-// ${MATCHING_LINE_MODE} "
         final String[] option = new String[]{
             "--output-matchresult=asCsv",
             "--matching-line-mode=singleLineMode",
             "--pattern-definitions-classpath=//groktoolspatterns/server_log",
-            "--read-max-lines-count=3",
-            "--pattern=%{ACTIVEMQ_ACTIVEMQLOG}",
+            "--read-max-lines-count=100",
+            "--match-pattern=%{ACTIVEMQ_ACTIVEMQLOG}",
             "--file=target/classes/examples/activemq.log"};
 
         final int exitCode = cmd.execute(option);
@@ -116,27 +100,12 @@ public class GrokMainTest {
 
     @Test
     public void testLaunch_pattern_WILDFLY_SERVERLOG_FILE() {
-//#OUTPUT_MODE="--output-matchresult=asIs"
-//OUTPUT_MODE="--output-matchresult=asCsv"
-//#OUTPUT_MODE="--output-matchresult=asJson"
-//
-//WILDFLY_SERVERLOG_FILE=${LOG_FILES_BASEDIR}/server.log
-//
-//#MATCHING_LINE_MODE="--matching-line-mode=singleLineMode"
-//MATCHING_LINE_MODE="--matching-line-mode=multiLinesMode"
-//    CMD_OPTIONS="\
-// --pattern-definitions-classpath=//groktoolspatterns/server_log \
-// --read-max-lines-count=${READ_MAX_LINES_COUNT} \
-// ${OUTPUT_MODE} \
-// --pattern=%{WILDFLY_SERVERLOG} \
-// --file=${WILDFLY_SERVERLOG_FILE} \
-// ${MATCHING_LINE_MODE} "
         final String[] option = new String[]{
             "--output-matchresult=asCsv",
             "--matching-line-mode=singleLineMode",
             "--pattern-definitions-classpath=//groktoolspatterns/server_log",
-            "--read-max-lines-count=3",
-            "--pattern=%{WILDFLY_SERVERLOG}",
+            "--read-max-lines-count=100",
+            "--match-pattern=%{WILDFLY_SERVERLOG}",
             "--file=target/classes/examples/server.log"};
 
         final int exitCode = cmd.execute(option);
@@ -156,16 +125,38 @@ public class GrokMainTest {
 
     @ParameterizedTest
     @CsvSource(value = {
-        "%{ELKSTACK_LOGSTASHLOG}, target/classes/examples/logstash-plain.log",
-        "%{FLUME_FLUMELOG}, target/classes/examples/flume.log",}
+        //---
+        "%{ACTIVEMQ_ACTIVEMQLOG}, target/classes/examples/activemq.log,       asIs, singleLineMode, 100",
+        "%{WILDFLY_SERVERLOG},    target/classes/examples/server.log,         asIs, singleLineMode, 100",
+        "%{ELKSTACK_LOGSTASHLOG}, target/classes/examples/logstash-plain.log, asIs, singleLineMode, 100",
+        "%{FLUME_FLUMELOG},       target/classes/examples/flume.log,          asIs, singleLineMode, 100",
+        //---
+        "%{ACTIVEMQ_ACTIVEMQLOG}, target/classes/examples/activemq.log,       asCsv, singleLineMode, 100",
+        "%{WILDFLY_SERVERLOG},    target/classes/examples/server.log,         asCsv, singleLineMode, 100",
+        "%{ELKSTACK_LOGSTASHLOG}, target/classes/examples/logstash-plain.log, asCsv, singleLineMode, 100",
+        "%{FLUME_FLUMELOG},       target/classes/examples/flume.log,          asCsv, singleLineMode, 100",
+        //---
+        "%{ACTIVEMQ_ACTIVEMQLOG}, target/classes/examples/activemq.log,       asJson, singleLineMode, 100",
+        "%{WILDFLY_SERVERLOG},    target/classes/examples/server.log,         asJson, singleLineMode, 100",
+        "%{ELKSTACK_LOGSTASHLOG}, target/classes/examples/logstash-plain.log, asJson, singleLineMode, 100",
+        "%{FLUME_FLUMELOG},       target/classes/examples/flume.log,          asJson, singleLineMode, 100",
+        //---
+        "%{ACTIVEMQ_ACTIVEMQLOG}, target/classes/examples/activemq.log,       asCsv, multiLinesMode, 100",
+        "%{WILDFLY_SERVERLOG},    target/classes/examples/server.log,         asCsv, multiLinesMode, 100",
+        "%{ELKSTACK_LOGSTASHLOG}, target/classes/examples/logstash-plain.log, asCsv, multiLinesMode, 100",
+        "%{FLUME_FLUMELOG},       target/classes/examples/flume.log,          asCsv, multiLinesMode, 100",}
     )
-    public void testCommandLine_pattern_filename(String pattern, String filename) {
+    public void testCommandLine_pattern_filename(String pattern,
+            String filename,
+            String outputMatchResult,
+            String matchingLineMode,
+            String readMaxLinesCount) {
         final String[] option = new String[]{
-            "--output-matchresult=asCsv",
-            "--matching-line-mode=singleLineMode",
+            "--output-matchresult=" + outputMatchResult,
+            "--matching-line-mode=" + matchingLineMode,
             "--pattern-definitions-classpath=//groktoolspatterns/server_log",
-            "--read-max-lines-count=3",
-            "--pattern=" + pattern,
+            "--read-max-lines-count=" + readMaxLinesCount,
+            "--match-pattern=" + pattern,
             "--file=" + filename};
 
         final int exitCode = cmd.execute(option);
